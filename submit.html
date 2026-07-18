@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit — Co-creating a Trauma-Informed Accessibility Research Practice (ASSETS 2026)</title>
+<meta name="description" content="Submission form for the ASSETS 2026 workshop on trauma-informed accessibility research: position papers, multimodal short stories, and visual or creative submissions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Palette — UCL brand colours (dark purple lead, bright purple + dark green accents). */
+    --ink:        #2b2433;
+    --ink-soft:   #524b5c;
+    --paper:      #f5f1f7;
+    --paper-2:    #ece4f1;
+    --purple:     #2c0442;
+    --purple-2:   #3d1857;
+    --bright:     #500778;
+    --green:      #113b3a;
+    --line:       #ddd2e4;
+    --focus:      #500778;
+    --on-purple:  #f3ecf7;
+    --on-purple-soft:#cdbcd9;
+    --white:      #ffffff;
+    --error:      #8a1b1b;   /* accessible error red (7.8:1 on paper) */
+
+    --measure: 60ch;
+    --radius: 10px;
+    --space: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}
+  }
+
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+
+  .skip{
+    position:absolute;left:0;top:-3rem;background:var(--purple);color:var(--white);
+    padding:.75rem 1.25rem;z-index:100;border-radius:0 0 var(--radius) 0;
+    text-decoration:none;font-weight:600;transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;border-radius:3px;
+  }
+  a{color:var(--purple);text-underline-offset:.18em;text-decoration-thickness:.08em;}
+  a:hover{color:var(--bright);}
+
+  .wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--space);}
+
+  /* ---- Header ---- */
+  header.site{background:var(--purple);color:var(--paper);border-bottom:4px solid var(--green);}
+  header.site .wrap{padding-block:clamp(2rem,5vw,3.25rem);}
+  .eyebrow{
+    font-family:"Inter";font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    font-size:.78rem;color:var(--on-purple-soft);margin:0 0 .85rem;
+  }
+  .eyebrow a{color:var(--on-purple-soft);}
+  .eyebrow a:hover{color:var(--white);}
+  h1{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-size:clamp(1.85rem,4.4vw,2.9rem);line-height:1.14;letter-spacing:-.01em;
+    margin:0 0 1rem;max-width:24ch;color:var(--white);
+  }
+  header .lede{font-size:clamp(1rem,1.8vw,1.15rem);max-width:60ch;margin:0;color:var(--on-purple);}
+
+  main{padding-block:clamp(2.25rem,5vw,3.5rem);}
+  main .wrap > *{max-width:var(--measure);}
+
+  h2{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.2;letter-spacing:-.01em;
+    margin:2.5rem 0 .4rem;color:var(--ink);
+  }
+  h2:first-of-type{margin-top:0;}
+  p{margin:0 0 1.1rem;}
+
+  /* ---- Deadline banner ---- */
+  .banner{
+    background:var(--paper-2);border-left:4px solid var(--bright);
+    border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.35rem;margin:0 0 2rem;
+    font-size:1rem;
+  }
+  .banner strong{color:var(--purple);}
+  .banner .tbc{
+    display:inline-block;font-size:.72rem;font-weight:600;background:var(--green);
+    color:var(--white);padding:.1rem .5rem;border-radius:999px;margin-left:.35rem;
+    letter-spacing:.04em;text-transform:uppercase;vertical-align:middle;
+  }
+
+  /* ---- Form ---- */
+  form{margin-top:1.5rem;}
+  fieldset{border:1px solid var(--line);border-radius:var(--radius);padding:1.25rem 1.35rem 1.5rem;margin:0 0 1.75rem;}
+  legend{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.1rem;
+    color:var(--purple);padding:0 .5rem;
+  }
+  .field{margin:0 0 1.35rem;}
+  .field:last-child{margin-bottom:0;}
+  label.q{display:block;font-weight:600;color:var(--ink);margin:0 0 .35rem;}
+  .req{color:var(--error);font-weight:700;margin-left:.15rem;}
+  .opt{color:var(--ink-soft);font-weight:400;font-size:.9rem;margin-left:.35rem;}
+  .hint{display:block;color:var(--ink-soft);font-size:.92rem;margin:0 0 .5rem;}
+
+  input[type="text"], input[type="email"], input[type="url"],
+  select, textarea{
+    width:100%;font-family:inherit;font-size:1rem;color:var(--ink);
+    background:var(--white);border:1.5px solid #7d6494;border-radius:8px;
+    padding:.6rem .7rem;
+  }
+  input:hover, select:hover, textarea:hover{border-color:var(--bright);}
+  textarea{min-height:7rem;resize:vertical;line-height:1.55;}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23500778' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;background-size:.75rem;padding-right:2.2rem;}
+
+  /* Radio / checkbox groups */
+  .choices{border:0;padding:0;margin:0;}
+  .choice{display:flex;align-items:flex-start;gap:.6rem;margin:.45rem 0;padding:.15rem 0;}
+  .choice input{margin-top:.28rem;width:1.05rem;height:1.05rem;accent-color:var(--bright);flex:0 0 auto;}
+  .choice label{font-weight:400;color:var(--ink);}
+  .choice .sub{display:block;color:var(--ink-soft);font-size:.9rem;}
+
+  .checkbox-single{display:flex;align-items:flex-start;gap:.6rem;}
+  .checkbox-single input{margin-top:.28rem;width:1.05rem;height:1.05rem;accent-color:var(--bright);flex:0 0 auto;}
+
+  .actions{display:flex;flex-wrap:wrap;gap:.85rem;align-items:center;margin-top:1.5rem;}
+  button.submit{
+    background:var(--bright);color:var(--white);border:0;border-radius:var(--radius);
+    padding:.85rem 1.75rem;font-family:inherit;font-size:1.02rem;font-weight:600;cursor:pointer;
+  }
+  button.submit:hover{background:var(--purple);}
+  .actions .note{color:var(--ink-soft);font-size:.92rem;margin:0;}
+
+  .access-callout{
+    background:var(--paper-2);border-radius:var(--radius);padding:1.1rem 1.35rem;margin:1.75rem 0 0;font-size:1rem;
+  }
+  .access-callout strong{color:var(--purple);}
+
+  /* ---- Footer ---- */
+  footer.site{background:var(--purple);color:var(--paper);padding-block:clamp(2rem,4vw,3rem);margin-top:3rem;}
+  footer.site .wrap > *{max-width:none;}
+  footer.site a{color:var(--on-purple);}
+  footer.site a:hover{color:var(--white);}
+  footer .meta{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.2);font-size:.88rem;color:var(--on-purple-soft);}
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap">
+    <p class="eyebrow"><a href="index.html">← Workshop home</a> · ASSETS 2026</p>
+    <h1>Submit to the workshop</h1>
+    <p class="lede">Co-creating a Trauma-Informed Accessibility Research Practice. Submit a position paper, a multimodal short story, or a visual or creative contribution.</p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="banner">
+      <strong>Submission deadline:</strong> 7 August 2026, Anywhere on Earth (AoE). <strong>Notification:</strong> 28 August 2026. Workshop day and format <span class="tbc">To be confirmed</span>.
+    </div>
+
+    <p>Please complete the form below and upload your submission. All submissions must comply with the <a href="https://www.sigaccess.org/welcome-to-sigaccess/resources/accessible-writing-guide/">SIGACCESS accessibility guidelines</a>; we will work with you to make your submission fully accessible before it is shared with participants. At least one author of each accepted submission must attend the workshop in person and be registered for the ASSETS 2026 conference by the early registration deadline. Fields marked with an asterisk (<span class="req" aria-hidden="true">*</span><span class="visually-hidden"> required</span>) are required.</p>
+
+    <!--
+      ============================================================
+      WIRING THE FORM (do this before publishing)
+      ------------------------------------------------------------
+      This form is not yet connected to a backend. Choose ONE:
+
+      A) Formspree / Basin / similar:
+         set  action="https://formspree.io/f/XXXXXXX"  method="POST"
+         (enctype below already supports file uploads).
+
+      B) Google Form:
+         Easiest is to link out instead of self-hosting fields —
+         replace this <form> with a button to your Google Form URL.
+         (Google Forms cannot be POSTed to reliably from a custom form.)
+
+      C) Email fallback (no third party):
+         set  action="mailto:m.bandukda@ucl.ac.uk"  method="POST"
+              enctype="text/plain"
+         Note: mailto cannot attach files — ask authors to attach
+         manually in the email that opens, or use A/B for uploads.
+
+      Until wired, submitting shows the message in the #form-status
+      region (see script at the bottom) instead of sending anything.
+      ============================================================
+    -->
+    <form id="submission-form"
+          action="#"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate
+          aria-describedby="form-status">
+
+      <fieldset>
+        <legend>Your submission</legend>
+
+        <div class="field">
+          <label class="q" for="title">Submission title <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="title" name="title" required autocomplete="off">
+        </div>
+
+        <div class="field">
+          <span class="q" id="type-label">Submission type <span class="req" aria-hidden="true">*</span></span>
+          <span class="hint" id="type-hint">Choose the format that best fits your contribution.</span>
+          <div class="choices" role="radiogroup" aria-labelledby="type-label" aria-describedby="type-hint">
+            <div class="choice">
+              <input type="radio" id="type-position" name="submission_type" value="Position paper" required>
+              <label for="type-position">Position paper
+                <span class="sub">2–4 pages, ACM format. Your research, practice, or perspective.</span></label>
+            </div>
+            <div class="choice">
+              <input type="radio" id="type-story" name="submission_type" value="Multimodal short story">
+              <label for="type-story">Multimodal short story
+                <span class="sub">Up to 4 pages. Narrative, image, or other format, with a brief reflexive statement.</span></label>
+            </div>
+            <div class="choice">
+              <input type="radio" id="type-visual" name="submission_type" value="Visual or creative submission">
+              <label for="type-visual">Visual or creative submission
+                <span class="sub">Poster, diagram, or illustrated narrative, plus a one-page description.</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="q" for="file">Upload your submission <span class="req" aria-hidden="true">*</span></label>
+          <span class="hint" id="file-hint">PDF preferred. Maximum 20&nbsp;MB. If your format needs another file type or is larger, note it below and we will arrange an alternative.</span>
+          <input type="file" id="file" name="submission_file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" aria-describedby="file-hint" required>
+        </div>
+
+        <div class="field">
+          <label class="q" for="abstract">Short description <span class="opt">(optional)</span></label>
+          <span class="hint" id="abstract-hint">Up to 150 words summarising your submission and its relevance to the workshop themes.</span>
+          <textarea id="abstract" name="abstract" aria-describedby="abstract-hint"></textarea>
+        </div>
+
+        <div class="field">
+          <span class="q" id="topics-label">Related themes <span class="opt">(optional)</span></span>
+          <span class="hint" id="topics-hint">Select any that apply.</span>
+          <div class="choices" role="group" aria-labelledby="topics-label" aria-describedby="topics-hint">
+            <div class="choice"><input type="checkbox" id="t1" name="themes" value="Research with trauma-affected communities"><label for="t1">Research with trauma-affected communities</label></div>
+            <div class="choice"><input type="checkbox" id="t2" name="themes" value="Methodological challenges and lessons learned"><label for="t2">Methodological challenges and lessons learned</label></div>
+            <div class="choice"><input type="checkbox" id="t3" name="themes" value="Ethical dilemmas in research"><label for="t3">Ethical dilemmas in research design, data collection, or dissemination</label></div>
+            <div class="choice"><input type="checkbox" id="t4" name="themes" value="Trauma-informed design approaches"><label for="t4">Design approaches that centre trauma-informed principles</label></div>
+            <div class="choice"><input type="checkbox" id="t5" name="themes" value="Lived experience of research participation"><label for="t5">Lived experience of research participation</label></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Contact author</legend>
+        <p class="hint" style="margin-top:0">This is the person we will contact about the submission. Please list all authors in your uploaded file.</p>
+
+        <div class="field">
+          <label class="q" for="name">Full name <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="name" name="contact_name" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label class="q" for="email">Email address <span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="contact_email" required autocomplete="email" inputmode="email">
+        </div>
+
+        <div class="field">
+          <label class="q" for="affiliation">Affiliation <span class="opt">(optional)</span></label>
+          <input type="text" id="affiliation" name="affiliation" autocomplete="organization">
+        </div>
+
+        <div class="field">
+          <label class="q" for="career">Career stage or role <span class="opt">(optional)</span></label>
+          <span class="hint" id="career-hint">We use this only to support a mix of career stages and perspectives.</span>
+          <select id="career" name="career_stage" aria-describedby="career-hint">
+            <option value="">Prefer not to say</option>
+            <option value="Student">Student</option>
+            <option value="Early-career researcher">Early-career researcher</option>
+            <option value="Established academic">Established academic</option>
+            <option value="Practitioner or designer">Practitioner or designer</option>
+            <option value="Community member">Community member</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Access and participation</legend>
+
+        <div class="field">
+          <label class="q" for="access">Access requirements <span class="opt">(optional)</span></label>
+          <span class="hint" id="access-hint">Tell us anything that would help you take part fully — in the submission process now, or at the workshop. We would rather know early. You will also be asked again if your submission is accepted.</span>
+          <textarea id="access" name="access_requirements" aria-describedby="access-hint"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="checkbox-single">
+            <input type="checkbox" id="attend" name="attend_in_person" value="yes" required>
+            <label for="attend">I understand that at least one author must attend the workshop in person and register for the ASSETS 2026 conference. <span class="req" aria-hidden="true">*</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="checkbox-single">
+            <input type="checkbox" id="a11y-agree" name="accessibility_agree" value="yes" required>
+            <label for="a11y-agree">I will work with the organisers to make my submission comply with the SIGACCESS accessibility guidelines. <span class="req" aria-hidden="true">*</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="submit">Submit to the workshop</button>
+        <p class="note">Trouble with this form? Email <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a>.</p>
+      </div>
+
+      <p id="form-status" role="status" aria-live="polite" style="margin-top:1rem;font-weight:600;"></p>
+    </form>
+
+    <div class="access-callout">
+      <p><strong>Need another way to submit?</strong> If this form is not accessible to you, or your submission format does not fit these fields, email your submission and any access requirements to <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a> and we will handle it directly.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><a href="index.html">← Back to the workshop home page</a></p>
+    <p>Questions about submissions or access: <strong>Maryam Bandukda</strong> — <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a></p>
+    <div class="meta">
+      <p>Co-creating a Trauma-Informed Accessibility Research Practice — a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto, Portugal, 25–28 October 2026. Workshop date and format to be confirmed.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Placeholder handler until a backend is wired (see comment in the form).
+     Prevents a dead POST to "#" and gives the user accessible feedback. */
+  (function(){
+    var form = document.getElementById('submission-form');
+    var status = document.getElementById('form-status');
+    if(!form) return;
+    form.addEventListener('submit', function(e){
+      // If a real action URL has been set, let the browser handle it normally.
+      var action = form.getAttribute('action');
+      if(action && action !== '#'){ return; }
+      e.preventDefault();
+      // Native validation first.
+      if(!form.checkValidity()){
+        form.reportValidity();
+        return;
+      }
+      status.style.color = '#113b3a';
+      status.textContent = 'This form is not yet connected to a submission system. Please email your submission to m.bandukda@ucl.ac.uk, or check back once the submission system is live.';
+    });
+  })();
+</script>
+</body>
+</html>

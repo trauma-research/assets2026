@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-creating a Trauma-Informed Accessibility Research Practice — ASSETS 2026 Workshop</title>
+<meta name="description" content="A half-day workshop at ASSETS 2026 in Porto, Portugal, convening researchers, practitioners, and community members to build shared guidelines for trauma-informed accessibility research.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Palette — UCL brand colours (dark purple lead, bright purple + dark green accents). */
+    --ink:        #2b2433;   /* warm near-black purple-grey for body text */
+    --ink-soft:   #524b5c;   /* secondary text */
+    --paper:      #f5f1f7;   /* pale purple ground (tint of UCL light purple) */
+    --paper-2:    #ece4f1;   /* deeper pale-purple panel */
+    --purple:     #2c0442;   /* UCL dark purple — header/footer, lead colour */
+    --purple-2:   #3d1857;   /* slightly lifted dark purple for hover fills */
+    --bright:     #500778;   /* UCL bright purple — primary accent (AA on white/pale) */
+    --green:      #113b3a;   /* UCL dark green — secondary accent */
+    --line:       #ddd2e4;   /* hairline dividers on pale-purple ground */
+    --focus:      #500778;   /* bright purple focus ring (6.9:1 on paper) */
+    --on-purple:  #f3ecf7;   /* light text on dark purple */
+    --on-purple-soft:#cdbcd9;/* muted light text on dark purple (AA) */
+    --white:      #ffffff;
+
+    --measure: 68ch;
+    --radius: 10px;
+    --space: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    font-size:1.0625rem;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- Skip link ---- */
+  .skip{
+    position:absolute;left:0;top:-3rem;
+    background:var(--purple);color:var(--white);
+    padding:.75rem 1.25rem;z-index:100;
+    border-radius:0 0 var(--radius) 0;
+    text-decoration:none;font-weight:600;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* ---- Focus visibility (keyboard) ---- */
+  a:focus-visible, button:focus-visible, summary:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+    border-radius:3px;
+  }
+
+  a{color:var(--purple);text-underline-offset:.18em;text-decoration-thickness:.08em;}
+  a:hover{color:var(--focus);}
+
+  .wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--space);}
+
+  /* ---- Header / hero ---- */
+  header.site{
+    background:var(--purple);
+    color:var(--paper);
+    border-bottom:4px solid var(--green);
+  }
+  header.site .wrap{padding-block:clamp(2.5rem,6vw,4.5rem);}
+  .eyebrow{
+    font-family:"Inter";font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.78rem;
+    color:var(--on-purple-soft);margin:0 0 1rem;
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:500;
+    font-size:clamp(2rem,4.8vw,3.25rem);
+    line-height:1.12;letter-spacing:-.01em;
+    margin:0 0 1.25rem;max-width:22ch;
+    color:var(--white);
+  }
+  .lede{
+    font-size:clamp(1.05rem,2vw,1.2rem);
+    max-width:60ch;margin:0 0 2rem;color:var(--on-purple);
+  }
+  .facts{
+    display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;
+    padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.22);
+  }
+  .fact{min-width:9rem;}
+  .fact dt{
+    font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--on-purple-soft);font-weight:600;margin:0 0 .35rem;
+  }
+  .fact dd{margin:0;font-size:1.05rem;font-weight:500;color:var(--white);}
+  .fact .tbc{
+    display:inline-block;font-size:.72rem;font-weight:600;
+    background:var(--green);color:var(--white);
+    padding:.12rem .5rem;border-radius:999px;margin-left:.4rem;
+    letter-spacing:.04em;text-transform:uppercase;vertical-align:middle;
+  }
+
+  /* ---- In-page nav ---- */
+  nav.toc{
+    position:sticky;top:0;z-index:20;
+    background:var(--paper-2);
+    border-bottom:1px solid var(--line);
+  }
+  nav.toc ul{
+    list-style:none;margin:0;padding:.6rem var(--space);
+    display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;
+    max-width:74rem;margin-inline:auto;
+    font-size:.92rem;
+  }
+  nav.toc a{
+    color:var(--ink-soft);text-decoration:none;font-weight:500;
+    padding:.3rem .1rem;display:inline-block;
+  }
+  nav.toc a:hover{color:var(--focus);text-decoration:underline;}
+
+  /* ---- Sections ---- */
+  main{padding-block:clamp(2.5rem,5vw,4rem);}
+  section{margin-bottom:clamp(2.75rem,6vw,4.5rem);scroll-margin-top:4rem;}
+  section > .wrap > *{max-width:var(--measure);}
+  section > .wrap > .full{max-width:none;}
+
+  h2{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.2;
+    letter-spacing:-.01em;margin:0 0 .4rem;color:var(--ink);
+  }
+  h2 + .section-note{color:var(--ink-soft);margin:0 0 1.5rem;font-size:1rem;}
+  h3{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;
+    font-size:1.2rem;margin:2rem 0 .5rem;color:var(--purple);
+  }
+  p{margin:0 0 1.1rem;}
+  ul.body, ol.body{margin:0 0 1.2rem;padding-left:1.3rem;}
+  ul.body li, ol.body li{margin-bottom:.55rem;}
+
+  .rule{height:1px;background:var(--line);border:0;margin:0 0 2.5rem;}
+
+  /* ---- Callout ---- */
+  .callout{
+    background:var(--paper-2);
+    border-left:4px solid var(--bright);
+    border-radius:0 var(--radius) var(--radius) 0;
+    padding:1.25rem 1.5rem;margin:0 0 1.5rem;
+  }
+  .callout p:last-child{margin-bottom:0;}
+  .callout strong{color:var(--purple);}
+
+  /* ---- Dates table ---- */
+  .dates{width:100%;border-collapse:collapse;margin:0 0 1rem;font-size:1rem;}
+  .dates caption{text-align:left;color:var(--ink-soft);margin-bottom:.75rem;}
+  .dates th, .dates td{
+    text-align:left;padding:.85rem 1rem;
+    border-bottom:1px solid var(--line);vertical-align:top;
+  }
+  .dates thead th{
+    font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;
+  }
+  .dates tbody th{font-weight:600;color:var(--ink);white-space:nowrap;}
+  .dates .date-val{font-weight:500;}
+  .dates .tbc-row td, .dates .tbc-row th{background:rgba(80,7,120,.06);}
+  .pill-tbc{
+    display:inline-block;font-size:.7rem;font-weight:600;
+    background:var(--green);color:var(--white);
+    padding:.1rem .5rem;border-radius:999px;margin-left:.5rem;
+    letter-spacing:.04em;text-transform:uppercase;
+  }
+
+  /* ---- Schedule ---- */
+  .schedule{width:100%;border-collapse:collapse;font-size:1rem;}
+  .schedule th, .schedule td{
+    text-align:left;padding:.8rem 1rem;border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .schedule thead th{
+    font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;
+  }
+  .schedule td.time{white-space:nowrap;font-weight:600;color:var(--purple);width:9rem;}
+  .schedule tr.break td{color:var(--ink-soft);font-style:italic;}
+
+  /* ---- Submission cards ---- */
+  .cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+    gap:1rem;margin:1.5rem 0;max-width:none;
+  }
+  .card{
+    background:var(--white);border:1px solid var(--line);
+    border-radius:var(--radius);padding:1.25rem 1.35rem;
+  }
+  .card h3{margin-top:0;color:var(--purple);font-size:1.08rem;}
+  .card .len{
+    font-size:.8rem;color:var(--green);font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;margin-bottom:.5rem;
+  }
+  .card p{font-size:.96rem;margin-bottom:0;}
+
+  /* ---- Organisers ---- */
+  .people{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
+    gap:1.5rem 2rem;max-width:none;margin-top:1.5rem;
+  }
+  .person h3{margin:0 0 .15rem;font-size:1.1rem;color:var(--ink);}
+  .person .role{color:var(--green);font-size:.9rem;font-weight:600;margin:0 0 .5rem;}
+  .person p{font-size:.95rem;margin-bottom:0;color:var(--ink-soft);}
+
+  /* ---- Contact / footer ---- */
+  footer.site{
+    background:var(--purple);color:var(--paper);
+    padding-block:clamp(2.5rem,5vw,3.5rem);margin-top:2rem;
+  }
+  footer.site h2{color:var(--white);}
+  footer.site a{color:var(--on-purple);}
+  footer.site a:hover{color:var(--white);}
+  footer .meta{
+    margin-top:2rem;padding-top:1.5rem;
+    border-top:1px solid rgba(255,255,255,.2);
+    font-size:.88rem;color:var(--on-purple-soft);
+  }
+
+  .btn{
+    display:inline-block;background:var(--bright);color:var(--white);
+    padding:.8rem 1.5rem;border-radius:var(--radius);
+    text-decoration:none;font-weight:600;margin-top:.5rem;
+  }
+  .btn:hover{background:var(--purple);color:var(--white);}
+
+  @media (max-width:40rem){
+    .facts{gap:1.25rem;}
+    nav.toc ul{gap:.25rem .9rem;font-size:.86rem;}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap">
+    <p class="eyebrow">ASSETS 2026 · Half-Day Workshop</p>
+    <h1>Co-creating a Trauma-Informed Accessibility Research Practice</h1>
+    <p class="lede">The inaugural workshop dedicated to trauma-informed accessibility research — convening the ASSETS community to build shared guidelines that safeguard the well-being of both researchers and participants.</p>
+    <dl class="facts">
+      <div class="fact">
+        <dt>Conference</dt>
+        <dd>ASSETS 2026, Porto, Portugal</dd>
+      </div>
+      <div class="fact">
+        <dt>Workshop date</dt>
+        <dd>25 October 2026 <span class="tbc">To be confirmed</span></dd>
+      </div>
+      <div class="fact">
+        <dt>Format</dt>
+        <dd>On-site <span class="tbc">To be confirmed</span></dd>
+      </div>
+      <div class="fact">
+        <dt>Location</dt>
+        <dd>Porto, Portugal <span class="tbc">To be confirmed</span></dd>
+      </div>
+      <div class="fact">
+        <dt>Submission deadline</dt>
+        <dd>7 August 2026 (AoE)</dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<nav class="toc" aria-label="On this page">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#participants">Who should attend</a></li>
+    <li><a href="#cfp">Call for participation</a></li>
+    <li><a href="#dates">Important dates</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#access">Participation &amp; access</a></li>
+    <li><a href="#organisers">Organisers</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <div class="wrap">
+
+  <section id="about">
+    <h2>About the workshop</h2>
+    <p>Trauma-informed care is gaining momentum across sectors that work with potentially vulnerable groups, including education, healthcare, social work, and criminal justice. In parallel, trauma-informed research and design have emerged as a growing area of interest in computing, with a marked increase in publications since 2020 addressing technology-mediated psychological trauma, technologies that support trauma survivors, and design with and for those communities.</p>
+    <p>This trend is visible across SIGACCESS, SIGCHI, and the wider ACM computing research landscape. Given the strong, bidirectional association between disability and psychological trauma, the need for shared trauma-informed practices is especially acute in accessibility research. This workshop brings together researchers, practitioners, and community members to examine what trauma-informed research looks like in our field, and to begin building shared resources and best practices.</p>
+    <div class="callout">
+      <p><strong>A note on care.</strong> Discussions may touch on personal and professional experiences of trauma. The workshop is designed around grounding exercises, a collaboratively agreed code of conduct, quiet-room access, and on-site mental health first aid. Full details are in the <a href="#access">participation and accessibility</a> section.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="goals">
+    <h2>Goals</h2>
+    <p>The workshop aims to:</p>
+    <ol class="body">
+      <li>Surface and synthesise existing practices and challenges around trauma-informed research in accessibility and HCI.</li>
+      <li>Develop a shared vocabulary and set of principles for trauma-informed research in computing contexts.</li>
+      <li>Identify concrete next steps for the community, including research agendas, design guidelines, and community resources.</li>
+    </ol>
+    <p>Following the workshop, the organising team will synthesise the outputs into a structured document of draft principles and heuristics, shared with all participants for review within four weeks. We also intend to pursue a submission to the <abbr title="ACM Transactions on Accessible Computing">TACCESS</abbr> journal, co-authored with interested participants.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="participants">
+    <h2>Who should attend</h2>
+    <p>We invite researchers, practitioners, designers, and community members working at the intersections of accessibility, computing, physical and mental health, disability and social justice, and related fields. We especially welcome those with:</p>
+    <ul class="body">
+      <li>Personal or professional experience of conducting research with trauma-affected communities, including people with disabilities and survivors of domestic and intimate partner violence, gender-based and sexual violence, medical trauma, and psychological trauma.</li>
+      <li>Insight into methodological challenges and lessons learned.</li>
+      <li>Experience of ethical dilemmas encountered in research design, data collection, or dissemination.</li>
+      <li>Design approaches that centre trauma-informed principles.</li>
+      <li>Lived experience of being a research participant or community member in such studies.</li>
+    </ul>
+    <p>We particularly encourage early-career researchers, practitioners, and community members to apply alongside established academics, and we actively seek participation from the Global South and from groups historically underrepresented in computing.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="cfp">
+    <h2>Call for participation</h2>
+    <p class="section-note">All submissions must comply with the <a href="https://www.sigaccess.org/welcome-to-sigaccess/resources/accessible-writing-guide/">SIGACCESS accessibility guidelines</a>. We will work with authors to ensure submissions are fully accessible before they are shared with participants. At least one author of each accepted submission must attend the workshop in person and be registered for the ASSETS 2026 conference.</p>
+
+    <h3>What you can submit</h3>
+    <div class="cards full">
+      <div class="card">
+        <h3>Position paper</h3>
+        <p class="len">2–4 pages · ACM format</p>
+        <p>Describe your research, practice, or perspective related to trauma-informed research in accessibility or HCI.</p>
+      </div>
+      <div class="card">
+        <h3>Multimodal short story</h3>
+        <p class="len">Up to 4 pages</p>
+        <p>Illustrate, through narrative, image, or other format, a lived experience of trauma as it relates to research participation or conduct. Include a brief reflexive statement.</p>
+      </div>
+      <div class="card">
+        <h3>Visual or creative submission</h3>
+        <p class="len">Poster / diagram + 1-page description</p>
+        <p>A poster, diagram, or illustrated narrative accompanied by a one-page description explaining the work and its relevance to the workshop themes.</p>
+      </div>
+    </div>
+
+    <h3>Topics we welcome</h3>
+    <p>Contributions may reflect on any of the following, among others:</p>
+    <ul class="body">
+      <li>Personal or professional experience of research with trauma-affected communities.</li>
+      <li>Methodological challenges and lessons learned.</li>
+      <li>Ethical dilemmas in research design, data collection, or dissemination.</li>
+      <li>Design approaches that centre trauma-informed principles.</li>
+      <li>Lived experience of research participation.</li>
+    </ul>
+
+    <h3>How to submit</h3>
+    <p>Submissions are made through the <a href="https://sites.google.com/view/trauma-workshop/home">workshop website</a>. All accepted submissions will be shared with participants ahead of the workshop and made available on the website. If you have access requirements for the submission process itself, please <a href="#contact">contact the organisers</a> and we will accommodate them.</p>
+    <p><a class="btn" href="https://sites.google.com/view/trauma-workshop/home">Go to the submission page</a></p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="dates">
+    <h2>Important dates</h2>
+    <table class="dates full">
+      <caption>All deadlines are Anywhere on Earth (AoE) unless noted. Dates marked provisional will be confirmed on this page.</caption>
+      <thead>
+        <tr><th scope="col">Milestone</th><th scope="col">Date</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Submission deadline</th>
+          <td class="date-val">7 August 2026</td>
+        </tr>
+        <tr>
+          <th scope="row">Notification of acceptance</th>
+          <td class="date-val">28 August 2026</td>
+        </tr>
+        <tr>
+          <th scope="row">Early registration deadline</th>
+          <td class="date-val">Per ASSETS 2026 — <a href="https://assets26.sigaccess.org/">confirm on the main site</a></td>
+        </tr>
+        <tr class="tbc-row">
+          <th scope="row">Workshop day</th>
+          <td class="date-val">25 October 2026 <span class="pill-tbc">To be confirmed</span></td>
+        </tr>
+        <tr class="tbc-row">
+          <th scope="row">Workshop location</th>
+          <td class="date-val">Porto, Portugal (venue) <span class="pill-tbc">To be confirmed</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <p><strong>Registration matters.</strong> To attend a workshop, participants must be registered for the full ASSETS 2026 conference by the early registration deadline. Our notification date is set to fall before that deadline so accepted authors can register in time. Please check the <a href="https://assets26.sigaccess.org/">ASSETS 2026 site</a> for the confirmed registration dates.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="schedule">
+    <h2>Planned activities and schedule</h2>
+    <p class="section-note">A half-day (four-hour) workshop structured around a divergent and convergent thinking framework. Timings are indicative and may be adjusted once the final format is confirmed.</p>
+    <table class="schedule full">
+      <thead>
+        <tr><th scope="col">Duration</th><th scope="col">Activity</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="time">30 min</td><td><strong>Opening.</strong> Welcome, grounding exercise, introductions, and collaborative code of conduct.</td></tr>
+        <tr><td class="time">30 min</td><td><strong>Keynote.</strong> An invited speaker with direct experience in trauma-informed approaches, disability justice, or ethical research with marginalised communities.</td></tr>
+        <tr><td class="time">60 min</td><td><strong>Activity 1 — Diverging.</strong> Small-group work surfacing existing experiences, challenges, and practices, guided by role personas.</td></tr>
+        <tr class="break"><td class="time">10 min</td><td>Comfort break</td></tr>
+        <tr><td class="time">60 min</td><td><strong>Activity 2 — Converging.</strong> Cross-group work developing concrete, actionable principles, closing with a gallery walk and dot-voting.</td></tr>
+        <tr><td class="time">20 min</td><td><strong>Closing reflections.</strong> Open space to share reflections and ask remaining questions.</td></tr>
+        <tr class="break"><td class="time">Optional</td><td>Group photo and short workshop highlights (with consent)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="rule">
+
+  <section id="access">
+    <h2>Participation and accessibility</h2>
+
+    <h3>Format and remote participation</h3>
+    <p>The workshop format — on-site or virtual — is <strong>to be confirmed</strong>, and this page will be updated once it is finalised. If the workshop proceeds on-site, this is to support participant safety and equitable engagement in what may be sensitive discussion; in that case remote participation may not be available, but all findings will be published openly and disseminated to community mailing lists, and a reflective highlights video will be shared on the workshop website with participants' consent.</p>
+
+    <h3>Access requirements</h3>
+    <p>Participants will be asked to share access requirements upon acceptance, and again in a short pre-workshop survey. We offer participation support including quiet-space access and flexibility around session format. If there is anything that would help you take part fully, tell us — we would rather know early.</p>
+
+    <h3>Well-being and safeguarding</h3>
+    <p>Because the theme is sensitive, the workshop is designed to reduce the risk of re-traumatisation and emotional dysregulation. Measures include structured grounding exercises at the opening and closing, led by the workshop's lead facilitator and safeguarding officer; a collaboratively developed code of conduct; and access throughout to the conference's quiet rooms and to an Emergency and Mental Health First Aider for private support.</p>
+
+    <h3>This website</h3>
+    <p>This page is built to meet WCAG 2.2 AA: semantic headings and landmarks, a skip link, full keyboard navigation with visible focus, sufficient colour contrast, and reduced-motion support. The call for participation is provided as HTML text rather than a PDF. If you encounter any barrier using this site, please <a href="#contact">let us know</a> and we will fix it.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section id="organisers">
+    <h2>Organisers</h2>
+    <p class="section-note">The organising team brings more than 50 years of combined experience working with disability, marginalised, and minority communities across accessible computing, healthcare, disability and social justice, education, and mental health. All are based at University College London (UCL), United Kingdom.</p>
+    <div class="people full">
+      <div class="person">
+        <h3>Maryam Bandukda</h3>
+        <p class="role">Senior Research Fellow, Global Disability Innovation Hub, UCL · Lead facilitator &amp; safeguarding officer</p>
+        <p>Establishes equitable, respectful, and trauma-informed research practices in accessibility research and public engagement, grounded in disability and social justice, participatory research, and decoloniality. MHFA England Mental Health First Aider and UCL Safeguarding Officer.</p>
+      </div>
+      <div class="person">
+        <h3>Xandra Miguel-Lorenzo</h3>
+        <p class="role">Anthropologist (PhD, LSE), UCL</p>
+        <p>Specialises in gender-based violence and trauma recovery, with fieldwork in Spain, the Solomon Islands, Bolivia, and the UK. Accredited IDVA and Recovery College Tutor; recent NIHR-funded work on intersectional, trauma-informed, co-produced methods.</p>
+      </div>
+      <div class="person">
+        <h3>Tigmanshu Bhatnagar</h3>
+        <p class="role">Lecturer &amp; Research Fellow in Computer Science, Global Disability Innovation Hub, UCL</p>
+        <p>Works at the intersection of disability justice and participatory design, focusing on how marginalised communities in low- and middle-income contexts create and adapt assistive technologies, and on ethical, non-extractive research methods.</p>
+      </div>
+      <div class="person">
+        <h3>Victoria Austin</h3>
+        <p class="role">Pro Vice-Provost (Inequalities), UCL</p>
+        <p>Co-directs the WHO Global Collaborating Centre on Access to AT for UCL Engineering. Research at the intersection of technology, society, and justice; co-founder of the Global Disability Innovation Hub.</p>
+      </div>
+      <div class="person">
+        <h3>Catherine Holloway</h3>
+        <p class="role">Professor of Interaction Design, UCLIC · Co-founder &amp; Director, Global Disability Innovation Hub, UCL</p>
+        <p>Co-led GDI Hub to become the first WHO Collaborating Centre on Assistive Technology. Leads the GDI Hub research programme on Trauma, Mental Health, and Social Justice, and has published widely on assistive technology and accessibility.</p>
+      </div>
+      <div class="person">
+        <h3>Monica Lakhanpaul</h3>
+        <p class="role">Professor of Integrated Community Child Health, UCL Great Ormond Street Institute of Child Health</p>
+        <p>Uses collaborative, participatory methods with marginalised and underserved communities, working across health, education, and the environment to co-develop solutions that improve health and well-being.</p>
+      </div>
+    </div>
+  </section>
+
+  </div>
+</main>
+
+<footer class="site" id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p>For questions about the workshop, submissions, or access requirements, contact the lead organiser:</p>
+    <p><strong>Maryam Bandukda</strong> — <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a></p>
+    <p>General workshop information and submissions: <a href="https://sites.google.com/view/trauma-workshop/home">workshop website</a>.</p>
+    <div class="meta">
+      <p>Co-creating a Trauma-Informed Accessibility Research Practice — a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto, Portugal, 25–28 October 2026. Workshop date and format to be confirmed.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
