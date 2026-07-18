@@ -214,8 +214,26 @@
   /* ---- Organisers ---- */
   .people{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
-    gap:1.5rem 2rem;max-width:none;margin-top:1.5rem;
+    gap:1.75rem 2rem;max-width:none;margin-top:1.5rem;
   }
+  .person{text-align:center;}
+  .person .photo{
+    width:8.5rem;height:8.5rem;margin:0 auto .9rem;
+    border-radius:50%;overflow:hidden;
+    background:var(--paper-2);border:3px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .person .photo img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  /* Initials placeholder shows through until/unless a real photo covers it. */
+  .person .photo .initials{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:2rem;
+    color:var(--bright);letter-spacing:.02em;
+  }
+  .person .photo img{position:relative;z-index:1;}
   .person h3{margin:0 0 .15rem;font-size:1.1rem;color:var(--ink);}
   .person .role{color:var(--green);font-size:.9rem;font-weight:600;margin:0 0 .5rem;}
   .person p{font-size:.95rem;margin-bottom:0;color:var(--ink-soft);}
@@ -457,31 +475,61 @@
     <p class="section-note">The organising team brings more than 50 years of combined experience working with disability, marginalised, and minority communities across accessible computing, healthcare, disability and social justice, education, and mental health. All are based at University College London (UCL), United Kingdom.</p>
     <div class="people full">
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">MB</span>
+          <img src="images/maryam-bandukda.jpg" alt="Portrait of Maryam Bandukda" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Maryam Bandukda</h3>
         <p class="role">Senior Research Fellow, Global Disability Innovation Hub, UCL · Lead facilitator &amp; safeguarding officer</p>
         <p>Establishes equitable, respectful, and trauma-informed research practices in accessibility research and public engagement, grounded in disability and social justice, participatory research, and decoloniality. MHFA England Mental Health First Aider and UCL Safeguarding Officer.</p>
       </div>
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">XM</span>
+          <img src="images/xandra-miguel-lorenzo.jpg" alt="Portrait of Xandra Miguel-Lorenzo" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Xandra Miguel-Lorenzo</h3>
         <p class="role">Anthropologist (PhD, LSE), UCL</p>
         <p>Specialises in gender-based violence and trauma recovery, with fieldwork in Spain, the Solomon Islands, Bolivia, and the UK. Accredited IDVA and Recovery College Tutor; recent NIHR-funded work on intersectional, trauma-informed, co-produced methods.</p>
       </div>
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">TB</span>
+          <img src="images/tigmanshu-bhatnagar.jpg" alt="Portrait of Tigmanshu Bhatnagar" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Tigmanshu Bhatnagar</h3>
         <p class="role">Lecturer &amp; Research Fellow in Computer Science, Global Disability Innovation Hub, UCL</p>
         <p>Works at the intersection of disability justice and participatory design, focusing on how marginalised communities in low- and middle-income contexts create and adapt assistive technologies, and on ethical, non-extractive research methods.</p>
       </div>
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">VA</span>
+          <img src="images/victoria-austin.jpg" alt="Portrait of Victoria Austin" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Victoria Austin</h3>
         <p class="role">Pro Vice-Provost (Inequalities), UCL</p>
         <p>Co-directs the WHO Global Collaborating Centre on Access to AT for UCL Engineering. Research at the intersection of technology, society, and justice; co-founder of the Global Disability Innovation Hub.</p>
       </div>
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">CH</span>
+          <img src="images/catherine-holloway.jpg" alt="Portrait of Catherine Holloway" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Catherine Holloway</h3>
         <p class="role">Professor of Interaction Design, UCLIC · Co-founder &amp; Director, Global Disability Innovation Hub, UCL</p>
         <p>Co-led GDI Hub to become the first WHO Collaborating Centre on Assistive Technology. Leads the GDI Hub research programme on Trauma, Mental Health, and Social Justice, and has published widely on assistive technology and accessibility.</p>
       </div>
       <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">ML</span>
+          <img src="images/monica-lakhanpaul.jpg" alt="Portrait of Monica Lakhanpaul" loading="lazy"
+               onerror="this.style.display='none'">
+        </div>
         <h3>Monica Lakhanpaul</h3>
         <p class="role">Professor of Integrated Community Child Health, UCL Great Ormond Street Institute of Child Health</p>
         <p>Uses collaborative, participatory methods with marginalised and underserved communities, working across health, education, and the environment to co-develop solutions that improve health and well-being.</p>
