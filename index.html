@@ -5,6 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Co-creating a Trauma-Informed Accessibility Research Practice — ASSETS 2026 Workshop</title>
 <meta name="description" content="A half-day workshop at ASSETS 2026 in Porto, Portugal, convening researchers, practitioners, and community members to build shared guidelines for trauma-informed accessibility research.">
+
+<!-- TODO: replace with the real published URL before launch. -->
+<link rel="canonical" href="https://example.github.io/tiar-workshop/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Co-creating a Trauma-Informed Accessibility Research Practice">
+<meta property="og:description" content="A half-day workshop at ACM ASSETS 2026, Porto. Call for participation open — submissions due 7 August 2026 (AoE).">
+<meta property="og:url" content="https://example.github.io/tiar-workshop/">
+<!-- TODO: add a 1200x630 share card at images/share-card.png -->
+<meta property="og:image" content="images/share-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2c0442">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<!--
+  FONTS — currently loaded from the Google Fonts CDN, which transmits visitor IP
+  addresses to Google. For a UCL-hosted site serving an EU conference audience,
+  self-hosting is the safer choice under UK/EU GDPR. To self-host:
+    1. Download Fraunces and Inter from https://fonts.google.com (both OFL).
+    2. Place the woff2 files in fonts/ and replace the <link> below with
+       @font-face rules using font-display:swap.
+    3. Delete the two preconnect lines.
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +34,7 @@
   :root{
     /* Palette — UCL brand colours (dark purple lead, bright purple + dark green accents). */
     --ink:        #2b2433;   /* warm near-black purple-grey for body text */
-    --ink-soft:   #524b5c;   /* secondary text */
+    --ink-soft:   #524b5c;   /* secondary text — 6.7:1 on --paper-2 */
     --paper:      #f5f1f7;   /* pale purple ground (tint of UCL light purple) */
     --paper-2:    #ece4f1;   /* deeper pale-purple panel */
     --purple:     #2c0442;   /* UCL dark purple — header/footer, lead colour */
@@ -20,7 +42,8 @@
     --bright:     #500778;   /* UCL bright purple — primary accent (AA on white/pale) */
     --green:      #113b3a;   /* UCL dark green — secondary accent */
     --line:       #ddd2e4;   /* hairline dividers on pale-purple ground */
-    --focus:      #500778;   /* bright purple focus ring (6.9:1 on paper) */
+    --focus:      #500778;   /* focus ring on light grounds (6.9:1 on --paper) */
+    --focus-dark: #ffffff;   /* focus ring on dark purple grounds (SC 1.4.11: 3:1 min) */
     --on-purple:  #f3ecf7;   /* light text on dark purple */
     --on-purple-soft:#cdbcd9;/* muted light text on dark purple (AA) */
     --white:      #ffffff;
@@ -28,10 +51,15 @@
     --measure: 68ch;
     --radius: 10px;
     --space: clamp(1rem, 2.5vw, 1.75rem);
+    --toc-h: 4.5rem;         /* approx. sticky nav height — drives scroll-padding */
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{
+    scroll-behavior:smooth;
+    /* SC 2.4.11 Focus Not Obscured: keep anchor targets clear of the sticky nav. */
+    scroll-padding-top:calc(var(--toc-h) + 1rem);
+  }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     *,*::before,*::after{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}
@@ -49,7 +77,7 @@
 
   /* ---- Skip link ---- */
   .skip{
-    position:absolute;left:0;top:-3rem;
+    position:absolute;left:0;top:-4rem;
     background:var(--purple);color:var(--white);
     padding:.75rem 1.25rem;z-index:100;
     border-radius:0 0 var(--radius) 0;
@@ -57,6 +85,7 @@
     transition:top .15s ease;
   }
   .skip:focus{top:0;}
+  .skip:focus-visible{outline:3px solid var(--focus-dark);outline-offset:-6px;}
 
   /* ---- Focus visibility (keyboard) ---- */
   a:focus-visible, button:focus-visible, summary:focus-visible{
@@ -64,9 +93,16 @@
     outline-offset:2px;
     border-radius:3px;
   }
+  /* Bright purple is ~1.4:1 on the dark purple ground — switch to white there. */
+  header.site a:focus-visible,
+  footer.site a:focus-visible{
+    outline-color:var(--focus-dark);
+  }
+  /* main is focused by the skip link but is not natively focusable. */
+  main:focus{outline:none;}
 
   a{color:var(--purple);text-underline-offset:.18em;text-decoration-thickness:.08em;}
-  a:hover{color:var(--focus);}
+  a:hover{color:var(--bright);}
 
   .wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--space);}
 
@@ -78,7 +114,7 @@
   }
   header.site .wrap{padding-block:clamp(2.5rem,6vw,4.5rem);}
   .eyebrow{
-    font-family:"Inter";font-weight:600;letter-spacing:.14em;
+    font-family:"Inter",system-ui,sans-serif;font-weight:600;letter-spacing:.14em;
     text-transform:uppercase;font-size:.78rem;
     color:var(--on-purple-soft);margin:0 0 1rem;
   }
@@ -118,20 +154,21 @@
     border-bottom:1px solid var(--line);
   }
   nav.toc ul{
-    list-style:none;margin:0;padding:.6rem var(--space);
-    display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;
-    max-width:74rem;margin-inline:auto;
+    list-style:none;margin:0 auto;padding:.5rem var(--space);
+    display:flex;flex-wrap:wrap;gap:.15rem 1rem;
+    max-width:74rem;
     font-size:.92rem;
   }
   nav.toc a{
     color:var(--ink-soft);text-decoration:none;font-weight:500;
-    padding:.3rem .1rem;display:inline-block;
+    /* SC 2.5.8 Target Size: keeps the tap target at or above 24px. */
+    padding:.45rem .35rem;display:inline-block;min-height:1.5rem;
   }
-  nav.toc a:hover{color:var(--focus);text-decoration:underline;}
+  nav.toc a:hover{color:var(--bright);text-decoration:underline;}
 
   /* ---- Sections ---- */
   main{padding-block:clamp(2.5rem,5vw,4rem);}
-  section{margin-bottom:clamp(2.75rem,6vw,4.5rem);scroll-margin-top:4rem;}
+  section{margin-bottom:clamp(2.75rem,6vw,4.5rem);}
   section > .wrap > *{max-width:var(--measure);}
   section > .wrap > .full{max-width:none;}
 
@@ -144,6 +181,10 @@
   h3{
     font-family:"Fraunces",Georgia,serif;font-weight:600;
     font-size:1.2rem;margin:2rem 0 .5rem;color:var(--purple);
+  }
+  h4{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;
+    font-size:1.08rem;margin:1.5rem 0 .4rem;color:var(--purple);
   }
   p{margin:0 0 1.1rem;}
   ul.body, ol.body{margin:0 0 1.2rem;padding-left:1.3rem;}
@@ -172,7 +213,7 @@
     font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--ink-soft);font-weight:600;
   }
-  .dates tbody th{font-weight:600;color:var(--ink);white-space:nowrap;}
+  .dates tbody th{font-weight:600;color:var(--ink);}
   .dates .date-val{font-weight:500;}
   .dates .tbc-row td, .dates .tbc-row th{background:rgba(80,7,120,.06);}
   .pill-tbc{
@@ -192,19 +233,19 @@
     font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--ink-soft);font-weight:600;
   }
-  .schedule td.time{white-space:nowrap;font-weight:600;color:var(--purple);width:9rem;}
-  .schedule tr.break td{color:var(--ink-soft);font-style:italic;}
+  .schedule th.time{white-space:nowrap;font-weight:600;color:var(--purple);width:9rem;}
+  .schedule tr.break td, .schedule tr.break th{color:var(--ink-soft);font-style:italic;}
 
   /* ---- Submission cards ---- */
   .cards{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
-    gap:1rem;margin:1.5rem 0;max-width:none;
+    gap:1rem;margin:1.5rem 0;
   }
   .card{
     background:var(--white);border:1px solid var(--line);
     border-radius:var(--radius);padding:1.25rem 1.35rem;
   }
-  .card h3{margin-top:0;color:var(--purple);font-size:1.08rem;}
+  .card h4{margin-top:0;}
   .card .len{
     font-size:.8rem;color:var(--green);font-weight:600;
     letter-spacing:.04em;text-transform:uppercase;margin-bottom:.5rem;
@@ -214,7 +255,7 @@
   /* ---- Organisers ---- */
   .people{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
-    gap:1.75rem 2rem;max-width:none;margin-top:1.5rem;
+    gap:1.75rem 2rem;margin-top:1.5rem;
   }
   .person{text-align:center;}
   .person .photo{
@@ -226,14 +267,15 @@
   }
   .person .photo img{
     width:100%;height:100%;object-fit:cover;display:block;
+    position:relative;z-index:1;background:var(--paper-2);
   }
-  /* Initials placeholder shows through until/unless a real photo covers it. */
+  /* Initials show until a photo loads; hidden after, so transparent PNGs stay clean. */
   .person .photo .initials{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:2rem;
     color:var(--bright);letter-spacing:.02em;
   }
-  .person .photo img{position:relative;z-index:1;}
+  .person .photo.loaded .initials{display:none;}
   .person h3{margin:0 0 .15rem;font-size:1.1rem;color:var(--ink);}
   .person .role{color:var(--green);font-size:.9rem;font-weight:600;margin:0 0 .5rem;}
   .person p{font-size:.95rem;margin-bottom:0;color:var(--ink-soft);}
@@ -260,8 +302,21 @@
   .btn:hover{background:var(--purple);color:var(--white);}
 
   @media (max-width:40rem){
+    :root{--toc-h:0rem;}
     .facts{gap:1.25rem;}
-    nav.toc ul{gap:.25rem .9rem;font-size:.86rem;}
+    /* Wrapped sticky nav swallows the viewport and hides anchor targets on phones. */
+    nav.toc{position:static;}
+    nav.toc ul{gap:.15rem .75rem;font-size:.86rem;}
+  }
+
+  @media print{
+    nav.toc, .skip, .btn{display:none;}
+    header.site, footer.site{background:none;color:#000;border:0;}
+    header.site h1, .fact dd, footer.site h2{color:#000;}
+    .eyebrow, .fact dt, footer .meta{color:#333;}
+    body{background:#fff;font-size:11pt;}
+    a{color:#000;}
+    a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;word-break:break-all;}
   }
 </style>
 </head>
@@ -272,7 +327,7 @@
   <div class="wrap">
     <p class="eyebrow">ASSETS 2026 · Half-Day Workshop</p>
     <h1>Co-creating a Trauma-Informed Accessibility Research Practice</h1>
-    <p class="lede">The inaugural workshop dedicated to trauma-informed accessibility research — convening the ASSETS community to build shared guidelines that safeguard the well-being of both researchers and participants.</p>
+    <p class="lede">A workshop convening the ASSETS community to build shared guidelines for trauma-informed accessibility research — guidelines that safeguard the well-being of participants and researchers alike.</p>
     <dl class="facts">
       <div class="fact">
         <dt>Conference</dt>
@@ -280,11 +335,11 @@
       </div>
       <div class="fact">
         <dt>Workshop date</dt>
-        <dd><span class="tbc">To be confirmed</span></dd>
+        <dd>25 October 2026 <span class="tbc">Provisional</span></dd>
       </div>
       <div class="fact">
         <dt>Format</dt>
-        <dd>On-site</dd>
+        <dd>In person</dd>
       </div>
       <div class="fact">
         <dt>Location</dt>
@@ -292,7 +347,7 @@
       </div>
       <div class="fact">
         <dt>Submission deadline</dt>
-        <dd>7 August 2026 (AoE)</dd>
+        <dd>20 August 2026 (AoE)</dd>
       </div>
     </dl>
   </div>
@@ -312,7 +367,7 @@
   </ul>
 </nav>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <div class="wrap">
 
   <section id="about">
@@ -334,7 +389,7 @@
       <li>Develop a shared vocabulary and set of principles for trauma-informed research in computing contexts.</li>
       <li>Identify concrete next steps for the community, including research agendas, design guidelines, and community resources.</li>
     </ol>
-    <p>Following the workshop, the organising team will synthesise the outputs into a structured document of draft principles and heuristics, shared with all participants for review within four weeks. We also intend to pursue a submission to the <abbr title="ACM Transactions on Accessible Computing">TACCESS</abbr> journal, co-authored with interested participants.</p>
+    <p>Following the workshop, the organising team will synthesise the outputs into a structured document of draft principles and heuristics, shared with all participants for review within four weeks. We also intend to pursue a submission to ACM Transactions on Accessible Computing (TACCESS), co-authored with interested participants.</p>
   </section>
 
   <hr class="rule">
@@ -359,36 +414,40 @@
     <p class="section-note">All submissions must comply with the <a href="https://www.sigaccess.org/welcome-to-sigaccess/resources/accessible-writing-guide/">SIGACCESS accessibility guidelines</a>. We will work with authors to ensure submissions are fully accessible before they are shared with participants. At least one author of each accepted submission must attend the workshop in person and be registered for the ASSETS 2026 conference.</p>
 
     <h3>What you can submit</h3>
+    <p>Contributions may reflect on any of the themes listed under <a href="#participants">who should attend</a>. Choose whichever format best suits what you want to bring.</p>
     <div class="cards full">
       <div class="card">
-        <h3>Position paper</h3>
+        <h4>Position paper</h4>
         <p class="len">2–4 pages · ACM format</p>
         <p>Describe your research, practice, or perspective related to trauma-informed research in accessibility or HCI.</p>
       </div>
       <div class="card">
-        <h3>Multimodal short story</h3>
+        <h4>Multimodal short story</h4>
         <p class="len">Up to 4 pages</p>
         <p>Illustrate, through narrative, image, or other format, a lived experience of trauma as it relates to research participation or conduct. Include a brief reflexive statement.</p>
       </div>
       <div class="card">
-        <h3>Visual or creative submission</h3>
+        <h4>Visual or creative submission</h4>
         <p class="len">Poster / diagram + 1-page description</p>
         <p>A poster, diagram, or illustrated narrative accompanied by a one-page description explaining the work and its relevance to the workshop themes.</p>
       </div>
     </div>
 
-    <h3>Topics we welcome</h3>
-    <p>Contributions may reflect on any of the following, among others:</p>
+    <h3>How submissions are handled</h3>
+    <!-- TODO: confirm the participant cap and add it to the first sentence below. -->
+    <p>Places are limited; we will confirm the final number of participants on this page. Submissions are reviewed by the organising committee for relevance and fit rather than through anonymous peer review, so please include author names and affiliations.</p>
+
+    <h4>Your control over what is shared</h4>
+    <p>We recognise that some submissions will draw on personal experience of trauma. You decide how far your submission travels, and you can change your mind:</p>
     <ul class="body">
-      <li>Personal or professional experience of research with trauma-affected communities.</li>
-      <li>Methodological challenges and lessons learned.</li>
-      <li>Ethical dilemmas in research design, data collection, or dissemination.</li>
-      <li>Design approaches that centre trauma-informed principles.</li>
-      <li>Lived experience of research participation.</li>
+      <li><strong>Circulated to participants only</strong> — the default. Accepted submissions are shared with the workshop group ahead of the day, and not published.</li>
+      <li><strong>Published on this website</strong> — only if you opt in on the submission form.</li>
+      <li><strong>Withdrawn</strong> — you may withdraw your submission, or ask us to remove it from the website, at any point and without giving a reason. Email the <a href="#contact">lead organiser</a> and we will act on it.</li>
     </ul>
+    <p>Submissions are held on UCL systems, accessible only to the organising team, and are deleted twelve months after the workshop unless you have opted into publication.</p>
 
     <h3>How to submit</h3>
-    <p>Submissions are made through the <a href="submit.html">online submission form</a>. All accepted submissions will be shared with participants ahead of the workshop and made available on the website. If you have access requirements for the submission process itself, please <a href="#contact">contact the organisers</a> and we will accommodate them.</p>
+    <p>Submit through the <a href="submit.html">online submission form</a>. If the form does not work for you for any reason, email your submission to <a href="mailto:m.bandukda@ucl.ac.uk?subject=ASSETS%202026%20workshop%20submission">m.bandukda@ucl.ac.uk</a> with &ldquo;ASSETS 2026 workshop submission&rdquo; in the subject line — this route is equally valid and we will confirm receipt within two working days. If you have access requirements for the submission process itself, please <a href="#contact">contact us</a> and we will accommodate them.</p>
     <p><a class="btn" href="submit.html">Go to the submission form</a></p>
   </section>
 
@@ -404,28 +463,28 @@
       <tbody>
         <tr>
           <th scope="row">Submission deadline</th>
-          <td class="date-val">7 August 2026</td>
+          <td class="date-val">20 August 2026</td>
         </tr>
         <tr>
           <th scope="row">Notification of acceptance</th>
-          <td class="date-val">28 August 2026</td>
+          <td class="date-val">24 August 2026</td>
         </tr>
         <tr>
-          <th scope="row">Early registration deadline</th>
-          <td class="date-val">Per ASSETS 2026 — <a href="https://assets26.sigaccess.org/">confirm on the main site</a></td>
+          <th scope="row">ASSETS 2026 early-bird registration closes</th>
+          <td class="date-val">27 August 2026 — <a href="https://assets26.sigaccess.org/">register on the main site</a></td>
         </tr>
         <tr class="tbc-row">
           <th scope="row">Workshop day</th>
-          <td class="date-val">25 October 2026 <span class="pill-tbc">To be confirmed</span></td>
+          <td class="date-val">25 October 2026 <span class="pill-tbc">Provisional</span></td>
         </tr>
-        <tr class="tbc-row">
-          <th scope="row">Workshop location</th>
-          <td class="date-val">Porto, Portugal (ASSETS 2026 venue)</td>
+        <tr>
+          <th scope="row">ASSETS 2026 conference</th>
+          <td class="date-val">25–28 October 2026, Porto (Vila Nova de Gaia), Portugal</td>
         </tr>
       </tbody>
     </table>
     <div class="callout">
-      <p><strong>Registration matters.</strong> To attend a workshop, participants must be registered for the full ASSETS 2026 conference by the early registration deadline. Our notification date is set to fall before that deadline so accepted authors can register in time. Please check the <a href="https://assets26.sigaccess.org/">ASSETS 2026 site</a> for the confirmed registration dates.</p>
+      <p><strong>Registration matters.</strong> To attend a workshop you must be registered for the ASSETS 2026 conference. We notify authors on 24 August, three days before early-bird registration closes on 27 August, so accepted authors can register at the lower rate. Please confirm current rates and deadlines on the <a href="https://assets26.sigaccess.org/">ASSETS 2026 site</a>, as they take precedence over this page.</p>
     </div>
   </section>
 
@@ -439,13 +498,13 @@
         <tr><th scope="col">Duration</th><th scope="col">Activity</th></tr>
       </thead>
       <tbody>
-        <tr><td class="time">30 min</td><td><strong>Opening.</strong> Welcome, grounding exercise, introductions, and collaborative code of conduct.</td></tr>
-        <tr><td class="time">30 min</td><td><strong>Keynote.</strong> An invited speaker with direct experience in trauma-informed approaches, disability justice, or ethical research with marginalised communities.</td></tr>
-        <tr><td class="time">60 min</td><td><strong>Activity 1 — Diverging.</strong> Small-group work surfacing existing experiences, challenges, and practices, guided by role personas.</td></tr>
-        <tr class="break"><td class="time">10 min</td><td>Comfort break</td></tr>
-        <tr><td class="time">60 min</td><td><strong>Activity 2 — Converging.</strong> Cross-group work developing concrete, actionable principles, closing with a gallery walk and dot-voting.</td></tr>
-        <tr><td class="time">20 min</td><td><strong>Closing reflections.</strong> Open space to share reflections and ask remaining questions.</td></tr>
-        <tr class="break"><td class="time">Optional</td><td>Group photo and short workshop highlights (with consent)</td></tr>
+        <tr><th scope="row" class="time">30 min</th><td><strong>Opening.</strong> Welcome, grounding exercise, introductions, and collaborative code of conduct.</td></tr>
+        <tr><th scope="row" class="time">30 min</th><td><strong>Keynote.</strong> An invited speaker with direct experience in trauma-informed approaches, disability justice, or ethical research with marginalised communities.</td></tr>
+        <tr><th scope="row" class="time">60 min</th><td><strong>Activity 1 — Diverging.</strong> Small-group work surfacing existing experiences, challenges, and practices, guided by role personas.</td></tr>
+        <tr class="break"><th scope="row" class="time">10 min</th><td>Comfort break</td></tr>
+        <tr><th scope="row" class="time">60 min</th><td><strong>Activity 2 — Converging.</strong> Cross-group work developing concrete, actionable principles, closing with a gallery walk and dot-voting.</td></tr>
+        <tr><th scope="row" class="time">20 min</th><td><strong>Closing reflections.</strong> Open space to share reflections and ask remaining questions.</td></tr>
+        <tr class="break"><th scope="row" class="time">Optional</th><td>Group photo and short workshop highlights (with consent)</td></tr>
       </tbody>
     </table>
   </section>
@@ -456,7 +515,8 @@
     <h2>Participation and accessibility</h2>
 
     <h3>Format and participation</h3>
-    <p>The workshop will be held on-site at ASSETS in Porto; remote participation will not be available as there is no hybrid participation option. However, all findings will be published openly and disseminated to community mailing lists, and a reflective highlights video will be shared on the workshop website with participants' consent.</p>
+    <p>We have chosen to run this workshop in person only. The activities depend on small-group work, shared physical artefacts, and the ability to read the room and respond to distress as it arises — none of which we can facilitate safely across a hybrid split. The ASSETS 2026 conference itself offers a virtual attendance option; that option does not extend to this workshop.</p>
+    <p>To make the work available beyond the room, all findings will be published openly and disseminated to community mailing lists, and a reflective highlights video will be shared on this website with participants' consent. If in-person attendance is a barrier for you and you would still like to contribute, please <a href="#contact">get in touch</a> — we would rather find a way than lose the contribution.</p>
 
     <h3>Access requirements</h3>
     <p>Participants will be asked to share access requirements upon acceptance by completing a short pre-workshop survey. We will work with the ASSETS conference accessibility team to ensure access to a quiet desensitisation space, an accessible workshop format, and a wheelchair accessible workshop space. If there is anything that would help you take part fully, please let us know as soon as possible.</p>
@@ -465,7 +525,7 @@
     <p>The workshop is designed to reduce the risk of re-traumatisation and emotional dysregulation by including structured grounding exercises led by the workshop facilitators; a collaboratively developed code of conduct; and access throughout the conference to the quiet rooms and to an Emergency and Mental Health First Aider for private support.</p>
 
     <h3>This website</h3>
-    <p>This page is built to meet WCAG 2.2 AA: semantic headings and landmarks, a skip link, full keyboard navigation with visible focus, sufficient colour contrast, and reduced-motion support. The call for participation is provided as HTML text rather than a PDF. If you encounter any barrier using this site, please <a href="#contact">let us know</a> and we will fix it.</p>
+    <p>This page is built to meet WCAG 2.2 AA: semantic headings and landmarks, a skip link, full keyboard navigation with visible focus on both light and dark backgrounds, sufficient colour contrast, target sizes of at least 24&nbsp;by&nbsp;24 pixels, and reduced-motion support. The call for participation is provided as HTML text rather than a PDF. If you encounter any barrier using this site, please <a href="#contact">let us know</a> and we will fix it.</p>
   </section>
 
   <hr class="rule">
@@ -477,7 +537,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">MB</span>
-          <img src="images/maryam-bandukda.jpeg" alt="Portrait of Maryam Bandukda" loading="lazy"
+          <img src="images/maryam-bandukda.jpeg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Maryam Bandukda</h3>
@@ -486,7 +547,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">XM</span>
-          <img src="images/xandra-miguel-lorenzo.jpeg" alt="Portrait of Xandra Miguel-Lorenzo" loading="lazy"
+          <img src="images/xandra-miguel-lorenzo.jpeg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Xandra Miguel-Lorenzo</h3>
@@ -495,7 +557,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">TB</span>
-          <img src="images/tigi-bhatnagar.jpeg" alt="Portrait of Tigmanshu Bhatnagar" loading="lazy"
+          <img src="images/tigi-bhatnagar.jpeg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Tigmanshu Bhatnagar</h3>
@@ -504,7 +567,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">VA</span>
-          <img src="images/victoria-austin.jpeg" alt="Portrait of Victoria Austin" loading="lazy"
+          <img src="images/victoria-austin.jpeg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Victoria Austin</h3>
@@ -514,7 +578,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">CH</span>
-          <img src="images/cathy-holloway.jpeg" alt="Portrait of Catherine Holloway" loading="lazy"
+          <img src="images/cathy-holloway.jpeg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Catherine Holloway</h3>
@@ -524,7 +589,8 @@
       <div class="person">
         <div class="photo">
           <span class="initials" aria-hidden="true">ML</span>
-          <img src="images/monica-lakhanpaul.png" alt="Portrait of Monica Lakhanpaul" loading="lazy"
+          <img src="images/monica-lakhanpaul.png" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
                onerror="this.style.display='none'">
         </div>
         <h3>Monica Lakhanpaul</h3>
@@ -541,9 +607,9 @@
     <h2>Contact</h2>
     <p>For questions about the workshop, submissions, or access requirements, contact the lead organiser:</p>
     <p><strong>Maryam Bandukda</strong> — <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a></p>
-    <p>General workshop information: <a href="index.html">this site</a>. Submissions: <a href="submit.html">submission form</a>.</p>
+    <p>Submissions: <a href="submit.html">submission form</a>.</p>
     <div class="meta">
-      <p>Co-creating a Trauma-Informed Accessibility Research Practice — a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto, Portugal, 25–28 October 2026. Workshop date and time to be confirmed.</p>
+      <p>Co-creating a Trauma-Informed Accessibility Research Practice — a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto (Vila Nova de Gaia), Portugal, 25–28 October 2026. Workshop day provisionally 25 October 2026; time to be confirmed.</p>
     </div>
   </div>
 </footer>
