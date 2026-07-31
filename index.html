@@ -233,8 +233,10 @@
     font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--ink-soft);font-weight:600;
   }
-  .schedule th.time{white-space:nowrap;font-weight:600;color:var(--purple);width:9rem;}
-  .schedule tr.break td, .schedule tr.break th{color:var(--ink-soft);font-style:italic;}
+  .schedule caption{text-align:left;color:var(--ink-soft);margin-bottom:.75rem;}
+  .schedule .time{white-space:nowrap;font-weight:600;color:var(--purple);width:9rem;}
+  .schedule tr.break td{color:var(--ink-soft);font-style:italic;}
+  .schedule tr.break td.time{color:var(--purple);font-style:normal;}
 
   /* ---- Submission cards ---- */
   .cards{
@@ -347,7 +349,7 @@
       </div>
       <div class="fact">
         <dt>Submission deadline</dt>
-        <dd>20 August 2026 (AoE)</dd>
+        <dd>7 August 2026 (AoE)</dd>
       </div>
     </dl>
   </div>
@@ -463,7 +465,7 @@
       <tbody>
         <tr>
           <th scope="row">Submission deadline</th>
-          <td class="date-val">20 August 2026</td>
+          <td class="date-val">7 August 2026</td>
         </tr>
         <tr>
           <th scope="row">Notification of acceptance</th>
@@ -492,19 +494,22 @@
 
   <section id="schedule">
     <h2>Planned activities and schedule</h2>
-    <p class="section-note">A half-day (four-hour) workshop structured around a divergent and convergent thinking framework. Timings are indicative and may be adjusted once the final format is confirmed.</p>
+    <p class="section-note">A half-day workshop structured around a divergent and convergent thinking framework.</p>
     <table class="schedule full">
+      <caption>The half-day (four-hour) workshop structure. Timings are indicative and may be adjusted once the final format is confirmed.</caption>
       <thead>
         <tr><th scope="col">Duration</th><th scope="col">Activity</th></tr>
       </thead>
       <tbody>
-        <tr><th scope="row" class="time">30 min</th><td><strong>Opening.</strong> Welcome, grounding exercise, introductions, and collaborative code of conduct.</td></tr>
-        <tr><th scope="row" class="time">30 min</th><td><strong>Keynote.</strong> An invited speaker with direct experience in trauma-informed approaches, disability justice, or ethical research with marginalised communities.</td></tr>
-        <tr><th scope="row" class="time">60 min</th><td><strong>Activity 1 — Diverging.</strong> Small-group work surfacing existing experiences, challenges, and practices, guided by role personas.</td></tr>
-        <tr class="break"><th scope="row" class="time">10 min</th><td>Comfort break</td></tr>
-        <tr><th scope="row" class="time">60 min</th><td><strong>Activity 2 — Converging.</strong> Cross-group work developing concrete, actionable principles, closing with a gallery walk and dot-voting.</td></tr>
-        <tr><th scope="row" class="time">20 min</th><td><strong>Closing reflections.</strong> Open space to share reflections and ask remaining questions.</td></tr>
-        <tr class="break"><th scope="row" class="time">Optional</th><td>Group photo and short workshop highlights (with consent)</td></tr>
+        <tr><td class="time">10 min</td><td><strong>Opening and organiser introductions.</strong> Welcome, grounding exercise, and collaborative code of conduct.</td></tr>
+        <tr><td class="time">30 min</td><td><strong>Keynote talk and Q&amp;A.</strong> An invited speaker with direct experience in trauma-informed approaches, disability justice, or ethical research with marginalised communities.</td></tr>
+        <tr><td class="time">50 min</td><td><strong>Participant lightning talks.</strong> Short presentations from accepted submissions.</td></tr>
+        <tr class="break"><td class="time">10 min</td><td>Comfort break</td></tr>
+        <tr><td class="time">50 min</td><td><strong>Activity 1 — Diverging.</strong> Small-group work surfacing existing experiences, challenges, and practices, guided by role personas.</td></tr>
+        <tr class="break"><td class="time">10 min</td><td>Comfort break</td></tr>
+        <tr><td class="time">50 min</td><td><strong>Activity 2 — Converging.</strong> Cross-group work developing concrete, actionable principles, closing with a gallery walk and dot-voting.</td></tr>
+        <tr><td class="time">20 min</td><td><strong>Closing reflections.</strong> Open space to share reflections and ask remaining questions.</td></tr>
+        <tr class="break"><td class="time">10 min</td><td>Optional group photo and workshop highlights video (with consent)</td></tr>
       </tbody>
     </table>
   </section>
