@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal and Decide — Activity 1 card deck — ASSETS 2026 Workshop</title>
+<meta name="description" content="The Activity 1 card deck for the trauma-informed accessibility research workshop at ASSETS 2026: deals a scenario and a complication, with facilitation prompts and timers.">
+
+<!-- TODO: replace with the real published URL before launch. -->
+<link rel="canonical" href="https://example.github.io/tiar-workshop/cards.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Deal and Decide — Activity 1 card deck">
+<meta property="og:description" content="Scenario and complication cards for surfacing harms in trauma-informed accessibility research.">
+<meta name="theme-color" content="#2c0442">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<!--
+  FONTS — see the note in index.html. Self-hosting is the safer choice under
+  UK/EU GDPR for a UCL-hosted site; both families are OFL.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Palette — UCL brand colours, identical to index.html. */
+    --ink:        #2b2433;
+    --ink-soft:   #524b5c;
+    --paper:      #f5f1f7;
+    --paper-2:    #ece4f1;
+    --purple:     #2c0442;
+    --bright:     #500778;
+    --green:      #113b3a;
+    --line:       #ddd2e4;
+    --focus:      #500778;
+    --focus-dark: #ffffff;
+    --on-purple:  #f3ecf7;
+    --on-purple-soft:#cdbcd9;
+    --white:      #ffffff;
+
+    --measure: 68ch;
+    --radius: 10px;
+    --space: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}
+  }
+
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+
+  .skip{
+    position:absolute;left:0;top:-4rem;
+    background:var(--purple);color:var(--white);
+    padding:.75rem 1.25rem;z-index:100;
+    border-radius:0 0 var(--radius) 0;
+    text-decoration:none;font-weight:600;transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  .skip:focus-visible{outline:3px solid var(--focus-dark);outline-offset:-6px;}
+
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;border-radius:3px;
+  }
+  header.site a:focus-visible, footer.site a:focus-visible{outline-color:var(--focus-dark);}
+  main:focus{outline:none;}
+
+  a{color:var(--purple);text-underline-offset:.18em;text-decoration-thickness:.08em;}
+  a:hover{color:var(--bright);}
+
+  .wrap{max-width:74rem;margin-inline:auto;padding-inline:var(--space);}
+
+  header.site{background:var(--purple);color:var(--paper);border-bottom:4px solid var(--green);}
+  header.site .wrap{padding-block:clamp(2rem,5vw,3.25rem);}
+  .eyebrow{
+    font-family:"Inter",system-ui,sans-serif;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.78rem;color:var(--on-purple-soft);margin:0 0 1rem;
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.12;letter-spacing:-.01em;
+    margin:0 0 1rem;max-width:22ch;color:var(--white);
+  }
+  .lede{font-size:clamp(1.02rem,2vw,1.15rem);max-width:60ch;margin:0;color:var(--on-purple);}
+  header.site .back{display:inline-block;margin-top:1.5rem;color:var(--on-purple);font-weight:500;}
+
+  main{padding-block:clamp(2rem,4vw,3rem);}
+  section{margin-bottom:clamp(2.25rem,5vw,3.5rem);}
+  h2{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-size:clamp(1.4rem,2.8vw,1.95rem);line-height:1.2;
+    letter-spacing:-.01em;margin:0 0 .4rem;color:var(--ink);
+  }
+  h2 + .section-note{color:var(--ink-soft);margin:0 0 1.5rem;font-size:1rem;max-width:var(--measure);}
+  h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.15rem;margin:0 0 .5rem;color:var(--purple);}
+  p{margin:0 0 1.1rem;}
+  section > .wrap > p, section > .wrap > ul{max-width:var(--measure);}
+  ul.body{margin:0 0 1.2rem;padding-left:1.3rem;}
+  ul.body li{margin-bottom:.55rem;}
+  .rule{height:1px;background:var(--line);border:0;margin:0 0 2.25rem;}
+
+  /* ---- dealt hand ---- */
+  .hand{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0 0 1.25rem;}
+  @media (max-width:46rem){.hand{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.3rem 1.4rem;min-width:0;
+  }
+  .card.scen{border-top:3px solid var(--bright);}
+  .card.comp{border-top:3px solid var(--green);}
+  .card.pers{border-top:3px solid var(--purple);}
+  .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.9rem;}
+  .kind{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;}
+  .scen .kind{color:var(--bright);} .comp .kind{color:var(--green);} .pers .kind{color:var(--purple);}
+  .num{font-size:.8rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .card h3{margin:.3rem 0 .4rem;font-size:1.3rem;color:var(--purple);}
+  .card .text{margin:0;font-size:1.05rem;}
+  .card .big{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;line-height:1.35;color:var(--purple);}
+  .phase{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin:0;}
+  .icon{width:54px;height:54px;display:block;color:var(--bright);margin:0 0 .3rem;}
+  .empty{
+    border:1px dashed var(--line);border-radius:var(--radius);
+    padding:2.25rem 1.25rem;color:var(--ink-soft);text-align:center;grid-column:1/-1;margin:0;
+  }
+
+  .prompts{
+    background:var(--paper-2);border-left:4px solid var(--bright);
+    border-radius:0 var(--radius) var(--radius) 0;padding:1.2rem 1.45rem;margin:0 0 1.25rem;
+  }
+  .prompts h3{margin:0 0 .6rem;font-size:1rem;}
+  .prompts ol{margin:0;padding-left:1.3rem;}
+  .prompts ol li{margin-bottom:.35rem;}
+  .prompts .stall{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:600;margin:1rem 0 .4rem;}
+  .prompts ul{margin:0;padding-left:1.1rem;list-style:none;}
+  .prompts ul li{margin-bottom:.35rem;text-indent:-1.1rem;}
+  .prompts ul li::before{content:"\2014\00a0";color:var(--ink-soft);}
+  .prompts p:last-child{margin-bottom:0;}
+
+  /* ---- controls ---- */
+  .controls{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 1.75rem;}
+  button.act{
+    font:inherit;font-weight:600;cursor:pointer;min-height:44px;
+    border-radius:var(--radius);padding:.6rem 1.2rem;
+    background:var(--bright);color:var(--white);border:1px solid var(--bright);
+  }
+  button.act.ghost{background:var(--white);color:var(--purple);border-color:var(--line);}
+  button.act:disabled{opacity:.45;cursor:not-allowed;}
+  button.act:hover:not(:disabled){background:var(--purple);border-color:var(--purple);color:var(--white);}
+
+  /* ---- timer ---- */
+  .timer{
+    display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.1rem 1.3rem;margin:0 0 1.75rem;background:var(--white);
+  }
+  .clock{
+    font-family:"Fraunces",Georgia,serif;font-size:2.3rem;font-weight:600;
+    font-variant-numeric:tabular-nums;line-height:1;min-width:4.5ch;color:var(--purple);
+  }
+  .clock.done{color:var(--bright);}
+  .timer-label{color:var(--ink-soft);font-size:.92rem;flex:1 1 11rem;min-width:0;}
+  .bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;flex-basis:100%;}
+  .bar span{display:block;height:100%;background:var(--bright);width:0%;}
+  @media (prefers-reduced-motion: no-preference){.bar span{transition:width .95s linear;}}
+
+  /* ---- coverage ---- */
+  .cover{margin:0 0 1.75rem;}
+  .cover h3{
+    font-family:"Inter",system-ui,sans-serif;font-size:.78rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin:0 0 .6rem;
+  }
+  .phases{display:flex;gap:.45rem;flex-wrap:wrap;list-style:none;margin:0;padding:0;}
+  .phases li{
+    font-size:.82rem;padding:.35rem .75rem;border-radius:999px;
+    border:1px solid var(--line);color:var(--ink-soft);background:var(--white);
+  }
+  .phases li[data-hit="yes"]{border-color:var(--bright);color:var(--bright);font-weight:600;}
+  .phases li[data-hit="yes"]::before{content:"\2713\00a0";}
+
+  /* ---- browse ---- */
+  .deckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:1rem;}
+  .deckgrid .card .text{font-size:.98rem;}
+  .group-title{font-family:"Fraunces",Georgia,serif;font-size:1.3rem;margin:2rem 0 .9rem;color:var(--ink);}
+  .hold{margin:.6rem 0 0;padding-left:1.1rem;list-style:none;font-size:.92rem;color:var(--ink-soft);}
+  .hold li{text-indent:-1.1rem;margin-bottom:.25rem;}
+  .hold li::before{content:"\2014\00a0";}
+
+  footer.site{background:var(--purple);color:var(--paper);padding-block:clamp(2.25rem,4vw,3rem);margin-top:2rem;}
+  footer.site h2{color:var(--white);}
+  footer.site a{color:var(--on-purple);}
+  footer.site a:hover{color:var(--white);}
+  footer .meta{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.2);font-size:.88rem;color:var(--on-purple-soft);}
+
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+  @media print{
+    .skip, .controls, .timer, .cover{display:none;}
+    header.site, footer.site{background:none;color:#000;border:0;}
+    header.site h1, footer.site h2{color:#000;}
+    .eyebrow, .lede, footer .meta{color:#333;}
+    body{background:#fff;font-size:11pt;}
+    a{color:#000;}
+    .card{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap">
+    <p class="eyebrow">Activity 1 &middot; Diverging</p>
+    <h1>Deal and Decide</h1>
+    <p class="lede">A scenario and a complication, dealt together. Write first, reveal together, then talk about where the answers differed. Roughly seven minutes a hand.</p>
+    <a class="back" href="index.html">&larr; Back to the workshop page</a>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+
+  <section id="deal">
+    <h2>Deal a hand</h2>
+    <p class="section-note">Deal one scenario and one complication, and read both aloud. Everyone then writes, silently, for two minutes: what would you actually do, and what goes wrong here, and for whom. Reveal all cards at the same moment, so nobody sets the frame, then spend three minutes on where the answers differed.</p>
+
+    <div class="hand" id="hand">
+      <p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>
+    </div>
+
+    <div id="promptsWrap" hidden></div>
+
+    <div class="controls">
+      <button class="act" id="dealBtn" type="button">Deal a hand</button>
+      <button class="act ghost" id="promptBtn" type="button" disabled aria-expanded="false">Show the prompts</button>
+      <button class="act ghost" id="resetBtn" type="button">Reshuffle</button>
+    </div>
+
+    <div class="timer">
+      <span class="clock" id="clock">0:00</span>
+      <span class="timer-label" id="timerLabel">Two minutes silent writing, then three minutes of discussion.</span>
+      <button class="act ghost" id="t2" type="button">2 min write</button>
+      <button class="act ghost" id="t3" type="button">3 min discuss</button>
+      <button class="act ghost" id="tStop" type="button" disabled>Stop</button>
+      <div class="bar"><span id="bar"></span></div>
+    </div>
+    <p class="vh" aria-live="polite" id="announce"></p>
+
+    <div class="cover">
+      <h3>Lifecycle covered so far &mdash; <span id="dealtCount">0 of 12</span> scenarios dealt</h3>
+      <ul class="phases" id="phases"></ul>
+    </div>
+
+    <div class="cover">
+      <h3>Whose view is missing? &mdash; lay these out at the end</h3>
+      <ul class="phases" id="personaChips"></ul>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="deck">
+    <h2>The whole deck</h2>
+    <p class="section-note">Twelve scenarios, eight complications and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
+    <div id="browse"></div>
+  </section>
+
+  </div>
+</main>
+
+<footer class="site" id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <p>For questions about the workshop or this material, contact the lead organiser:</p>
+    <p><strong>Maryam Bandukda</strong> &mdash; <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a></p>
+    <p><a href="index.html">Back to the workshop page</a></p>
+    <div class="meta">
+      <p>The scenarios and complications are composed for this workshop and do not describe specific studies or people. Co-creating a Trauma-Informed Accessibility Research Practice &mdash; a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto (Vila Nova de Gaia), Portugal.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+var PHASES=["Recruitment","Consent","Data collection","Analysis","Dissemination","Aftercare"];
+
+var ICONS={
+ recorder:'<rect x="22" y="12" width="12" height="22" rx="6"/><path d="M15 27a13 13 0 0 0 26 0"/><path d="M28 40v7"/><path d="M45 21v14M49 24v8M53 19v18"/>',
+ ticks:'<rect x="9" y="11" width="10" height="10" rx="2"/><path d="M11 16l2.5 2.5L18 13"/><rect x="9" y="25" width="10" height="10" rx="2"/><path d="M11 30l2.5 2.5L18 27"/><rect x="9" y="39" width="10" height="10" rx="2"/><path d="M11 44l2.5 2.5L18 41"/><path d="M25 16h22M25 30h15M25 44h8"/>',
+ door:'<rect x="10" y="8" width="22" height="44"/><circle cx="27" cy="31" r="1.8"/><path d="M39 8v44M46 8v44M53 8v44"/>',
+ pages:'<rect x="8" y="18" width="24" height="30"/><rect x="18" y="12" width="24" height="30"/><rect x="28" y="6" width="24" height="30"/><path d="M33 16h14M33 22h14M33 28h9"/>',
+ quote:'<path d="M14 34c0-10 6-16 12-17"/><path d="M26 34c0-10 6-16 12-17"/><path d="M12 44h26" stroke-width="6"/>',
+ threshold:'<path d="M30 6v48" stroke-dasharray="4 4"/><circle cx="16" cy="24" r="4"/><circle cx="46" cy="36" r="4" fill="currentColor"/><path d="M22 27l18 7"/>',
+ withdraw:'<rect x="8" y="20" width="6" height="28"/><rect x="18" y="20" width="6" height="28"/><rect x="28" y="20" width="6" height="28"/><g transform="rotate(14 46 30)"><rect x="43" y="16" width="6" height="28"/></g><path d="M34 10h14M44 6l4 4-4 4"/>',
+ diverge:'<path d="M6 40h22"/><path d="M28 40h24" stroke-dasharray="4 4"/><path d="M28 40c10 0 14-14 24-20"/><path d="M52 20l-7 1M52 20l1 7"/>',
+ envelope:'<rect x="8" y="14" width="44" height="28"/><path d="M8 14l22 16 22-16"/><path d="M18 50a14 14 0 0 1 24-4"/><path d="M18 50l-1-6M18 50l6-1"/>',
+ squeeze:'<path d="M12 10h36M30 10l-5 6M30 10l5 6"/><path d="M12 50h36M30 50l-5-6M30 50l5-6"/><path d="M16 22h28M16 38h28"/><path d="M24 24v12M32 24v12M40 24v12"/>',
+ bubble:'<rect x="6" y="12" width="48" height="28" rx="5"/><path d="M20 40l-4 10 12-10"/><path d="M22 20l16 14M38 20L22 34" stroke-width="3.5"/>',
+ mic:'<rect x="23" y="8" width="12" height="22" rx="6"/><path d="M16 26a13 13 0 0 0 26 0"/><path d="M29 39v10"/><path d="M46 18a18 18 0 0 1 0 22M52 12a26 26 0 0 1 0 34"/>'
+};
+
+var SCENARIOS=[
+ {t:"The disclosure",x:"A participant in a study about navigation aids begins describing an assault that happened while using one. It is not what you are studying. The recorder is running.",p:"Data collection",i:"recorder",
+  q:["Do you stop the recording, and who decides?","What happens to the account if it stays in the data?","What does this person need in the next ten minutes, and in the next week?"]},
+ {t:"The enthusiastic yes",x:"A participant with an intellectual disability agrees to everything you propose, warmly, including things you can tell they have not understood.",p:"Consent",i:"ticks",
+  q:["What would show you the consent is real rather than agreeable?","Who else could help establish it, and what does involving them cost?","At what point does proceeding become your decision rather than theirs?"]},
+ {t:"The gatekeeper",x:"A disability charity will give you access to participants, but wants to review your findings before publication and to sit in on interviews.",p:"Recruitment",i:"door",
+  q:["Which of the two requests is negotiable, and which is not?","What do participants lose if the organisation is in the room?","What do you lose if you walk away from the access?"]},
+ {t:"The third transcript",x:"Your research assistant has transcribed three interviews about domestic abuse this week and has gone quiet in supervision.",p:"Analysis",i:"pages",
+  q:["Whose job is it to notice, and what should have been in place in week one?","What can you change this week without making it about them?","What would you have wanted, in that post?"]},
+ {t:"The identifying quote",x:"Your most powerful quote is also the most identifying. Removing the detail removes the point.",p:"Dissemination",i:"quote",
+  q:["Who gets to make this call, and did they agree to make it?","What would you ask the participant now, and is asking itself a burden?","What is actually lost if the quote simply goes?"]},
+ {t:"The threshold",x:"A participant describes a current situation that may meet your institution's safeguarding threshold. They told you in confidence and asked you explicitly not to act.",p:"Data collection",i:"threshold",
+  q:["What did your consent form actually promise about the limits of confidentiality?","Who do you speak to first, and what do you tell the participant?","What should have been said at the start so this was not a surprise?"]},
+ {t:"The late withdrawal",x:"A participant withdraws after analysis is complete and the paper is under review. Their data shaped the themes.",p:"Analysis",i:"withdraw",
+  q:["What did you promise about withdrawal, and by when?","Can a theme be unmade? What do you tell your co-authors?","What would an honest footnote say?"]},
+ {t:"The session that becomes something else",x:"Your co-design workshop turns into a support group. The participants want that. Your funder wants design outputs.",p:"Data collection",i:"diverge",
+  q:["Which do you serve, and who decides?","Is the shift a failure of the method or a finding in itself?","What goes in the report?"]},
+ {t:"The returning participant",x:"Someone who took part two years ago emails asking what happened to the study, and whether anything actually changed.",p:"Aftercare",i:"envelope",
+  q:["What is the honest answer, and can you give it?","What would have made this email unnecessary?","Who owns contact with participants after a project closes?"]},
+ {t:"The squeezed timeline",x:"Ethics took four months. The funded period did not move. Recruitment now has to happen in three weeks.",p:"Recruitment",i:"squeeze",
+  q:["What gets cut first under this pressure, and what should?","Which corners are recoverable later, and which are not?","Who absorbs the shortfall: you, the assistant, or the participants?"]},
+ {t:"Reviewer 2",x:"A reviewer says your trauma-informed protocol made the study methodologically weak, because you did not probe.",p:"Dissemination",i:"bubble",
+  q:["Is the reviewer partly right?","How do you evidence that restraint was a method and not an omission?","What would the field need so this is not a reviewable weakness?"]},
+ {t:"The journalist",x:"A reporter wants to cover your findings and to interview a participant directly.",p:"Dissemination",i:"mic",
+  q:["Do you pass the request on, and does passing it on count as pressure?","What does the participant need to know in order to answer freely?","What is your obligation after the piece runs?"]}
+];
+
+var COMPLICATIONS=[
+ "The participant is a child, and a parent is in the room.",
+ "You are the only person on the team with lived experience of this, and nobody knows.",
+ "It is happening through an interpreter, in a language you do not speak.",
+ "Funding ends in six weeks.",
+ "Your ethics approval does not cover this.",
+ "The participant is also a colleague.",
+ "It is a video call and you cannot see the room.",
+ "No aftercare was budgeted, and never was."
+];
+
+var PERSONAS=[
+ {r:"Primary researcher",o:"Holds the relationship with participants and makes the decisions in the room.",
+  h:["Controls what is asked, when, and whether to stop.","Sees the room, the pauses, and everything the recorder misses.","Cannot see what the institution will defend, or what happens once the study closes."]},
+ {r:"Research supervisor",o:"Accountable for the study and for the people running it.",
+  h:["Controls workload, what counts as enough data, and whose career is exposed.","Sees the pattern across projects and students.","Cannot see what actually happened in the interview room."]},
+ {r:"Ethics and data protection",o:"Approves the protocol and sets the conditions it runs under.",
+  h:["Controls approval, conditions, and what may be stored and for how long.","Sees the written protocol.","Cannot see the gap between the protocol and the practice."]},
+ {r:"Safeguarding lead",o:"Acts when a threshold is met, whatever the research needs.",
+  h:["Controls escalation, and where the threshold sits.","Sees the risk, once somebody reports it.","Cannot see what the participant wanted to happen."]},
+ {r:"Research participant",o:"Gives the account, and lives with having given it.",
+  h:["Controls what to say, what to withhold, and whether to come back.","Sees exactly how they were treated.","Cannot see what happens to their words after they leave the room."]},
+ {r:"Parent or carer",o:"Often the route in, and sometimes the voice over the top.",
+  h:["Controls access, frequently consent, sometimes the account itself.","Sees the aftermath at home.","Cannot see what was said when they were not there, or talks across it."]}
+];
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function svg(k){return '<svg class="icon" viewBox="0 0 60 60" fill="none" stroke="currentColor" '+
+  'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+ICONS[k]+'</svg>';}
+function pad(n){return String(n).padStart(2,'0');}
+function $(id){return document.getElementById(id);}
+
+var pool=[], current=null, dealt=[], promptsOpen=false;
+
+function loadState(){
+  try{
+    var raw=localStorage.getItem('dd-dealt');
+    if(raw){var v=JSON.parse(raw); if(Object.prototype.toString.call(v)==='[object Array]'){dealt=v;}}
+  }catch(e){dealt=[];}
+  rebuildPool();
+}
+function saveState(){try{localStorage.setItem('dd-dealt',JSON.stringify(dealt));}catch(e){}}
+function rebuildPool(){
+  pool=[];
+  for(var i=0;i<SCENARIOS.length;i++){if(dealt.indexOf(i)===-1){pool.push(i);}}
+  for(var j=pool.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=pool[j];pool[j]=pool[k];pool[k]=t;}
+}
+
+function renderHand(){
+  if(!current){return;}
+  var s=SCENARIOS[current.s], c=COMPLICATIONS[current.c];
+  $('hand').innerHTML=
+    '<article class="card scen"><div class="card-head"><span class="kind">Scenario</span>'+
+      '<span class="num">'+pad(current.s+1)+'/12</span></div>'+
+      svg(s.i)+'<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3>'+
+      '<p class="text">'+esc(s.x)+'</p></article>'+
+    '<article class="card comp"><div class="card-head"><span class="kind">Complication</span>'+
+      '<span class="num">'+pad(current.c+1)+'/8</span></div>'+
+      '<p class="text big">'+esc(c)+'</p></article>';
+}
+
+function renderPrompts(){
+  var w=$('promptsWrap');
+  if(!current||!promptsOpen){w.hidden=true;w.innerHTML='';return;}
+  var s=SCENARIOS[current.s];
+  w.innerHTML='<div class="prompts"><h3>Two minutes, silent, on your own cards</h3>'+
+    '<ol><li>What would you actually do?</li><li>What goes wrong here, and for whom?</li></ol>'+
+    '<p class="stall">If the room stalls</p><ul>'+
+    s.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></div>';
+  w.hidden=false;
+}
+
+function renderCoverage(){
+  var hit={};
+  dealt.forEach(function(i){hit[SCENARIOS[i].p]=true;});
+  $('phases').innerHTML=PHASES.map(function(p){
+    return '<li data-hit="'+(hit[p]?'yes':'no')+'">'+esc(p)+'</li>';}).join('');
+  $('dealtCount').textContent=dealt.length+' of 12';
+  $('personaChips').innerHTML=PERSONAS.map(function(p){return '<li>'+esc(p.r)+'</li>';}).join('');
+}
+
+function renderBrowse(){
+  $('browse').innerHTML=
+    '<h3 class="group-title">Scenarios</h3><div class="deckgrid">'+
+    SCENARIOS.map(function(s,i){return '<article class="card scen"><div class="card-head">'+
+      '<span class="kind">Scenario</span><span class="num">'+pad(i+1)+'</span></div>'+svg(s.i)+
+      '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p></article>';}).join('')+
+    '</div><h3 class="group-title">Complications</h3><div class="deckgrid">'+
+    COMPLICATIONS.map(function(c,i){return '<article class="card comp"><div class="card-head">'+
+      '<span class="kind">Complication</span><span class="num">'+pad(i+1)+'</span></div>'+
+      '<p class="text">'+esc(c)+'</p></article>';}).join('')+
+    '</div><h3 class="group-title">Whose view?</h3><div class="deckgrid">'+
+    PERSONAS.map(function(p,i){return '<article class="card pers"><div class="card-head">'+
+      '<span class="kind">Persona</span><span class="num">'+pad(i+1)+'</span></div>'+
+      '<h3>'+esc(p.r)+'</h3><p class="text">'+esc(p.o)+'</p><ul class="hold">'+
+      p.h.map(function(h){return '<li>'+esc(h)+'</li>';}).join('')+'</ul></article>';}).join('')+
+    '</div><p>Lay the six persona cards out at the end of Activity 1 and ask whose view is missing '+
+    'from the wall. Capture the gaps as open questions. These are a gap-check, not roles to play.</p>';
+}
+
+function deal(){
+  if(pool.length===0){
+    $('announce').textContent='All twelve scenarios have been dealt. Reshuffle to go again.';
+    $('dealBtn').disabled=true;
+    return;
+  }
+  var s=pool.pop();
+  current={s:s,c:Math.floor(Math.random()*COMPLICATIONS.length)};
+  dealt.push(s); saveState();
+  promptsOpen=false;
+  $('promptBtn').disabled=false;
+  $('promptBtn').setAttribute('aria-expanded','false');
+  $('promptBtn').textContent='Show the prompts';
+  renderHand(); renderPrompts(); renderCoverage();
+  $('dealBtn').textContent='Deal the next hand';
+  $('dealBtn').disabled=(pool.length===0);
+  $('announce').textContent='Dealt: '+SCENARIOS[s].t+'. Complication: '+COMPLICATIONS[current.c];
+}
+
+function reset(){
+  dealt=[];current=null;promptsOpen=false;saveState();rebuildPool();
+  $('hand').innerHTML='<p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>';
+  $('promptsWrap').hidden=true;
+  $('promptBtn').disabled=true;
+  $('dealBtn').disabled=false;
+  $('dealBtn').textContent='Deal a hand';
+  renderCoverage();
+  $('announce').textContent='Deck reshuffled. Twelve scenarios back in play.';
+}
+
+var tid=null,left=0,total=0;
+function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function paint(){
+  $('clock').textContent=fmt(left);
+  $('bar').style.width=(total?100*(total-left)/total:0)+'%';
+}
+function stopTimer(){if(tid){clearInterval(tid);tid=null;} $('tStop').disabled=true;}
+function startTimer(secs,label){
+  stopTimer();
+  left=secs; total=secs;
+  $('timerLabel').textContent=label;
+  $('clock').classList.remove('done');
+  $('tStop').disabled=false;
+  paint();
+  $('announce').textContent=label+' started.';
+  tid=setInterval(function(){
+    left--; paint();
+    if(left===60||left===30){$('announce').textContent=fmt(left)+' remaining.';}
+    if(left<=0){
+      stopTimer();
+      $('clock').classList.add('done');
+      $('timerLabel').textContent=label+' — time.';
+      $('announce').textContent=label+' finished.';
+    }
+  },1000);
+}
+
+$('dealBtn').addEventListener('click',deal);
+$('resetBtn').addEventListener('click',reset);
+$('promptBtn').addEventListener('click',function(e){
+  promptsOpen=!promptsOpen;
+  e.currentTarget.setAttribute('aria-expanded',String(promptsOpen));
+  e.currentTarget.textContent=promptsOpen?'Hide the prompts':'Show the prompts';
+  renderPrompts();
+});
+$('t2').addEventListener('click',function(){startTimer(120,'Two minutes silent writing');});
+$('t3').addEventListener('click',function(){startTimer(180,'Three minutes of discussion');});
+$('tStop').addEventListener('click',function(){
+  stopTimer();
+  $('timerLabel').textContent='Timer stopped.';
+  $('announce').textContent='Timer stopped.';
+});
+
+loadState();
+renderCoverage();
+renderBrowse();
+if(dealt.length>0){
+  $('announce').textContent=dealt.length+' scenarios already dealt in this browser. Reshuffle to start over.';
+}
+</script>
+</body>
+</html>
