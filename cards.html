@@ -117,7 +117,16 @@
   .card.scen{border-top:3px solid var(--bright);}
   .card.comp{border-top:3px solid var(--green);}
   .card.pers{border-top:3px solid var(--purple);}
-  .card-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.9rem;}
+  .card-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.9rem;}
+  .head-right{display:flex;align-items:center;gap:.6rem;}
+  .swap{
+    background:var(--white);border:1px solid var(--line);border-radius:999px;
+    width:44px;height:44px;min-width:44px;padding:0;cursor:pointer;color:var(--purple);
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .swap:hover:not(:disabled){background:var(--purple);border-color:var(--purple);color:var(--white);}
+  .swap:disabled{opacity:.4;cursor:not-allowed;}
+  .swap svg{width:20px;height:20px;display:block;}
   .kind{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;}
   .scen .kind{color:var(--bright);} .comp .kind{color:var(--green);} .pers .kind{color:var(--purple);}
   .num{font-size:.8rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
@@ -229,7 +238,7 @@
 
   <section id="deal">
     <h2>Deal a hand</h2>
-    <p class="section-note">Deal one scenario and one complication, and read both aloud. Everyone then writes, silently, for two minutes: what would you actually do, and what goes wrong here, and for whom. Reveal all cards at the same moment, so nobody sets the frame, then spend three minutes on where the answers differed.</p>
+    <p class="section-note">Deal one scenario and one complication, and read both aloud. Everyone then writes, silently, for two minutes: what would you actually do, and what goes wrong here, and for whom. Reveal all cards at the same moment, so nobody sets the frame, then spend three minutes on where the answers differed. Either card can be swapped on its own using the button in its corner, if a hand lands somewhere the room has already been.</p>
 
     <div class="hand" id="hand">
       <p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>
@@ -362,6 +371,11 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function svg(k){return '<svg class="icon" viewBox="0 0 60 60" fill="none" stroke="currentColor" '+
   'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+ICONS[k]+'</svg>';}
+var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '+
+  'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+
+  '<path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"/><path d="M21 3v5h-5"/>'+
+  '<path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"/><path d="M3 21v-5h5"/></svg>';
+
 function pad(n){return String(n).padStart(2,'0');}
 function $(id){return document.getElementById(id);}
 
@@ -384,13 +398,20 @@ function rebuildPool(){
 function renderHand(){
   if(!current){return;}
   var s=SCENARIOS[current.s], c=COMPLICATIONS[current.c];
+  var noMore=(pool.length===0);
   $('hand').innerHTML=
     '<article class="card scen"><div class="card-head"><span class="kind">Scenario</span>'+
-      '<span class="num">'+pad(current.s+1)+'/12</span></div>'+
+      '<span class="head-right"><span class="num">'+pad(current.s+1)+'/12</span>'+
+      '<button type="button" class="swap" data-swap="scenario"'+(noMore?' disabled':'')+
+      ' aria-label="Swap this scenario for another'+(noMore?' (none left)':'')+'" title="Swap this scenario">'+
+      SWAP_ICON+'</button></span></div>'+
       svg(s.i)+'<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3>'+
       '<p class="text">'+esc(s.x)+'</p></article>'+
     '<article class="card comp"><div class="card-head"><span class="kind">Complication</span>'+
-      '<span class="num">'+pad(current.c+1)+'/8</span></div>'+
+      '<span class="head-right"><span class="num">'+pad(current.c+1)+'/8</span>'+
+      '<button type="button" class="swap" data-swap="complication"'+
+      ' aria-label="Swap this complication for another" title="Swap this complication">'+
+      SWAP_ICON+'</button></span></div>'+
       '<p class="text big">'+esc(c)+'</p></article>';
 }
 
@@ -452,6 +473,41 @@ function deal(){
   $('announce').textContent='Dealt: '+SCENARIOS[s].t+'. Complication: '+COMPLICATIONS[current.c];
 }
 
+function swapScenario(){
+  if(!current||pool.length===0){return;}
+  var old=current.s;
+  var next=pool.pop();
+  // the discarded scenario goes back in the pile at a random depth
+  pool.splice(Math.floor(Math.random()*(pool.length+1)),0,old);
+  var at=dealt.indexOf(old);
+  if(at!==-1){dealt.splice(at,1);}
+  dealt.push(next);
+  current.s=next;
+  saveState();
+  promptsOpen=false;                       // prompts belong to the old scenario
+  $('promptBtn').setAttribute('aria-expanded','false');
+  $('promptBtn').textContent='Show the prompts';
+  renderHand(); renderPrompts(); renderCoverage();
+  $('announce').textContent='Scenario swapped. Now: '+SCENARIOS[next].t+'.';
+  focusSwap('scenario');
+}
+
+function swapComplication(){
+  if(!current||COMPLICATIONS.length<2){return;}
+  var next=current.c;
+  while(next===current.c){next=Math.floor(Math.random()*COMPLICATIONS.length);}
+  current.c=next;
+  renderHand();
+  $('announce').textContent='Complication swapped. Now: '+COMPLICATIONS[next];
+  focusSwap('complication');
+}
+
+function focusSwap(which){
+  // the card was re-rendered, so put focus back on the button just pressed
+  var b=document.querySelector('[data-swap="'+which+'"]');
+  if(b && !b.disabled){b.focus();}
+}
+
 function reset(){
   dealt=[];current=null;promptsOpen=false;saveState();rebuildPool();
   $('hand').innerHTML='<p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>';
@@ -489,6 +545,12 @@ function startTimer(secs,label){
     }
   },1000);
 }
+
+$('hand').addEventListener('click',function(e){
+  var b=e.target.closest ? e.target.closest('[data-swap]') : null;
+  if(!b||b.disabled){return;}
+  if(b.getAttribute('data-swap')==='scenario'){swapScenario();}else{swapComplication();}
+});
 
 $('dealBtn').addEventListener('click',deal);
 $('resetBtn').addEventListener('click',reset);
