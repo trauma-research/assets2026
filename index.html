@@ -262,6 +262,19 @@
   }
   .papers .pfile{font-size:.92rem;margin:.5rem 0 0;}
 
+  /* ---- Pre-recorded videos ---- */
+  .videos{list-style:none;margin:1.5rem 0 0;padding:0;}
+  .videos > li{
+    background:var(--white);border:1px solid var(--line);
+    border-radius:var(--radius);padding:1.1rem 1.35rem;margin-bottom:.85rem;
+  }
+  .videos .vtitle{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;
+    font-size:1.08rem;color:var(--purple);margin:0 0 .3rem;
+  }
+  .videos .vmeta{font-size:.95rem;color:var(--ink);margin:0 0 .45rem;}
+  .videos .vnote{font-size:.92rem;color:var(--ink-soft);margin:0;}
+
   /* ---- Resources ---- */
   .reslist{list-style:none;margin:0 0 1.5rem;padding:0;}
   .reslist li{
@@ -309,6 +322,7 @@
   .person h3{margin:0 0 .15rem;font-size:1.1rem;color:var(--ink);}
   .person .role{color:var(--green);font-size:.9rem;font-weight:600;margin:0 0 .5rem;}
   .person p{font-size:.95rem;margin-bottom:0;color:var(--ink-soft);}
+  .person .bio{margin-top:.6rem;font-size:.95rem;color:var(--ink);}
 
   /* ---- Contact / footer ---- */
   footer.site{
@@ -388,9 +402,11 @@
     <li><a href="#goals">Goals</a></li>
     <li><a href="#programme">Programme</a></li>
     <li><a href="#submissions">Accepted submissions</a></li>
+    <li><a href="#keynote">Keynote</a></li>
     <li><a href="#resources">Resources</a></li>
     <li><a href="#access">Participation &amp; access</a></li>
     <li><a href="#organisers">Organisers</a></li>
+    <li><a href="#participants">Participants</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -491,6 +507,25 @@
       </ul>
       <p>All submissions complied with the <a href="https://www.sigaccess.org/welcome-to-sigaccess/resources/accessible-writing-guide/">SIGACCESS accessibility guidelines</a>, and the organising team worked with authors to ensure accessibility before distribution. Submissions were reviewed by the organising committee for relevance and fit rather than through anonymous peer review. At least one author of each accepted submission attends the workshop in person.</p>
     </details>
+  </section>
+
+  <hr class="rule">
+
+  <section id="keynote">
+    <h2>Keynote</h2>
+    <p class="section-note">Pre-recorded contributions from invited speakers. Please watch them before the workshop.</p>
+
+    <!-- TODO: replace the placeholder entry below with one <li> per video.
+         Link each video to a page that has captions and a transcript, so the
+         content meets the accessibility standard set out below. -->
+    <!--  <ul class="videos full">
+      <li>
+        <p class="vtitle"><a href="https://example.com/video">Talk title</a></p>
+        <p class="vmeta">Speaker Name (Affiliation) &middot; 00:00</p>
+        <p class="vnote">One-sentence description of the talk.</p>
+      </li>
+    </ul>
+    -->
   </section>
 
   <hr class="rule">
@@ -614,6 +649,46 @@
 
   <hr class="rule">
 
+  <section id="participants">
+    <h2>Participants</h2>
+    <div class="people full">
+      <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">P1</span>
+          <img src="images/fabio-coutinho.jpeg" alt="" loading="lazy"
+          onload="this.parentNode.classList.add('loaded')"
+          onerror="this.style.display='none'">
+        </div>
+        <h3>Fábio Coutinho</h3>
+        <p class="role">Associate Professor of Computer Science, Federal University of Alagoas (UFAL)</p>
+        <p class="bio">Fábio Coutinho received his Ph.D. in Systems and Computer Engineering from the Federal University of Rio de Janeiro. He is an Associate Professor of Computer Science at the Federal University of Alagoas (UFAL), Brazil. He has led research and innovation projects on accessibility, supported by national organizations and industrial partners. His research interests include accessibility, learning design, sign language acquisition, data quality, and interoperability in smart cities, with recent work exploring the role of AI in accessible cultural experiences.</p>
+      </div>
+      <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">P2</span>
+          <img src="images/lou-leopold.jpg" alt="" loading="lazy"
+          onload="this.parentNode.classList.add('loaded')"
+          onerror="this.style.display='none'">
+        </div>
+        <h3>Lou Leopold</h3>
+        <p class="role">PhD Student, Psychologist, Project Assistant, TU Wien</p>
+        <p class="bio">Lou Leopold is a PhD student, psychologist and project assistant at ACCESSTECH. ACCESSTECH is a research project of the Crip Collective and located in the HCI group at TU Wien. The project investigates how access affects the interactions of disabled people and technologies. Lou's PhD project is centered on unlearning ableism and incorporating crip epistemologies in research. Their research approach is reflexive, participatory, critical and disability-centered. Their aim is to contribute to theoretical understandings of unlearning ableism, developing practical guidelines to challenge ableism, and to support more disability-centered research and technology design.</p>
+      </div>
+      <div class="person">
+        <div class="photo">
+          <span class="initials" aria-hidden="true">P3</span>
+          <img src="images/bethany-miatta-turay.jpg" alt="" loading="lazy"
+               onload="this.parentNode.classList.add('loaded')"
+               onerror="this.style.display='none'">
+        </div>
+        <h3>Bethany Miatta Turay</h3>
+        <p class="role">PhD Candidate, Computer Science, Northeastern University</p>
+        <p class="bio">Bethany Miatta Turay is a 5th year Computer Science PhD Candidate at Northeastern University. Her work examines the cognitive and emotional impacts mediated/facilitated by roleplay, design, and computing technologies, such as generative AI (e.g., parasocial relationships), games (e.g., characters), YouTube videos, musical performances, etc. Moreover, her accessibility research is twofold: investigating the impacts of game design on neurodivergent (specifically ADHD and autistic) gamers and exploring ADHD-centered design based on ADHD identity, pain points, and contextual strengths. Her work utilizes design frameworks such as value-sensitive design and leverages qualitative methodologies stemming from computer science, media studies, and psychology.
+        </p>
+      </div>
+    </div>
+  </section>
+
 <section id="organisers">
     <h2>Organisers</h2>
     <p class="section-note">The organising team brings more than 50 years of combined experience working with disability, marginalised, and minority communities across accessible computing, healthcare, disability and social justice, education, and mental health. All are based at University College London (UCL), United Kingdom.</p>
@@ -627,6 +702,7 @@
         </div>
         <h3>Maryam Bandukda</h3>
         <p class="role">Senior Research Fellow, Global Disability Innovation Hub, UCL</p>
+        <p class="bio">Maryam Bandukda is a Senior Research Fellow at the Global Disability Innovation Hub based at University College London. Maryam’s research focuses on establishing equitable, respectful, and trauma-informed research practices in accessibility research and public engagement, grounded in disability and social justice, participatory research, and decoloniality. Maryam’s broader research includes developing inclusive and adaptive mobile technologies to enhance the well-being, inclusion, and societal participation of people with disabilities. This workshop is a culmination of Maryam’s recent work on trauma-informed accessibility research4 funded by the University College London Grand Challenge of Mental Health Wellbeing Early Career Researcher Catalyst grant. Maryam is an MHFA England Mental Health First Aider6 and serves as a Safeguarding Officer at University College London.</p>
       </div>
       <div class="person">
         <div class="photo">
@@ -637,6 +713,7 @@
         </div>
         <h3>Xandra Miguel-Lorenzo</h3>
         <p class="role">Anthropologist (PhD, LSE), UCL</p>
+        <p class="bio">Dr Xandra Miguel-Lorenzo is a PhD anthropologist (London School of Economics), specialising in gender-based violence and trauma recovery, and conducted research in Spain, Solomon Islands, Boliva and the UK. She is accredited IDVA and Recovery College Tutor. Her recent NHIR-funded study at UCL explored Recovery College students’ self-care using intersectional, trauma-informed, and co-produced research methodologies.</p>
       </div>
       <div class="person">
         <div class="photo">
@@ -647,6 +724,9 @@
         </div>
         <h3>Tigmanshu Bhatnagar</h3>
         <p class="role">Lecturer &amp; Research Fellow, Global Disability Innovation Hub, UCL</p>
+        <p class="bio">Tigmanshu Bhatnagar is a Lecturer and a Research Fellow in Computer Science at University College London, based at the Global Disability Innovation Hub. His research sits at the intersection of disability justice and participatory design with a focus on how marginalised communities in low and middle income contexts create, adapt and repurpose assistive technologies outside formal systems as well as how founders develop and scale their assistive technology ventures. Across his work, he has encountered the entanglement of disability with systemic exclusion and traumatic experiences
+among end users and founders. He has had to develop methods to interrogate what ethical, non-extractive research looks like when participants live with experiences that standard HCI practices may not have suitable frameworks for
+          yet.</p>
       </div>
       <div class="person">
         <div class="photo">
@@ -658,6 +738,7 @@
         <h3>Victoria Austin</h3>
         <p class="role">Pro Vice-Provost (Inequalities), UCL</p>
         <p class="role">Professor of Social Justice and Innovation, UCL</p>
+        <p class="bio">Victoria Austin, PhD, is Pro Vice Provost (Inequalities) at University College London, where she also co-directs the WHO Global Collaborating Centre on Access to AT for UCL Engineering. Victoria’s research is at the intersection of technology, society, and justice, and she is the co-founder of the Global Disability Innovation Hub.</p>
       </div>
       <div class="person">
         <div class="photo">
@@ -669,6 +750,7 @@
         <h3>Catherine Holloway</h3>
         <p class="role">Professor of Interaction Design, UCL Interaction Centre</p>
         <p class="role">Co-founder &amp; Director, Global Disability Innovation Hub, UCL</p>
+        <p class="bio">Catherine (Cathy) Holloway is a Professor of Interaction Design at UCL’s Interactions Centre (UCLIC) & Co-founder and Director of the Global Disability Innovation Hub (GDI Hub). Cathy has co-led GDI Hub to be the first WHO Collaborating Centre on Assistive Technology, with a project portfolio of over £60m across 41 countries, reaching over 28 million people globally. Cathy has published over 190 articles on assistive technology and accessibility, as well as a recent book, Disability Interactions: Creating Inclusive Innovations. Cathy and her team research novel technologies to improve disabled people’s lives, especially in low-resource settings. Cathy also currently leads the GDI Hub’s research programme on Trauma, Mental Health, and Social Justice.</p>
       </div>
       <div class="person">
         <div class="photo">
@@ -679,9 +761,12 @@
         </div>
         <h3>Monica Lakhanpaul</h3>
         <p class="role">Professor of Integrated Community Child Health, UCL Great Ormond Street Institute of Child Health</p>
+        <p class="bio">Monica Lakhanpaul is a Professor of Integrated Community Child Health at UCL Great Ormond Street Institute of Child Health. Her research focuses on using collaborative and participatory research methods to work with marginalised and underserved communities, particularly the most vulnerable in society, to ensure that their voices are heard and to identify the best ways to improve their health and well-being. She works at the intersections of health, education and the environment, supported by citizen science and the creative arts, to directly involve the communities she works with in co-developing solutions that support them and improve their health and well-being.</p>
       </div>
     </div>
   </section>
+
+  <hr class="rule">
 
   </div>
 </main>
