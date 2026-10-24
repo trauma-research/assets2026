@@ -303,7 +303,16 @@
     color:var(--purple);margin:0;padding:0;border:0;}
   .testiform{max-width:38rem;}
 
-  /* ---- principle map ---- */
+  .votebar{display:flex;align-items:center;gap:.5rem;margin-top:.15rem;}
+  .votebtn{font:inherit;font-size:1.05rem;font-weight:600;line-height:1;cursor:pointer;
+    width:40px;height:40px;min-width:40px;border:1px solid var(--line);border-radius:999px;
+    background:var(--white);color:var(--purple);}
+  .votebtn:hover:not(:disabled){background:var(--purple);color:var(--white);border-color:var(--purple);}
+  .votebtn:disabled{opacity:.35;cursor:not-allowed;}
+  .votecount{font-variant-numeric:tabular-nums;font-weight:600;font-size:1.05rem;
+    min-width:1.6rem;text-align:center;color:var(--purple);}
+
+  /* ---- good practice library ---- */
   #principleMap{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
     gap:1rem;margin:1.5rem 0;}
   .prcol{border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;
@@ -422,12 +431,12 @@
       <!-- flip capture -->
       <div id="flipPanel" hidden>
         <div class="prompts">
-          <h3>Then flip it</h3>
+          <h3>Now make it better &mdash; together</h3>
           <p id="flipWho"></p>
           <form class="form" id="flipForm" novalidate>
             <div class="field">
               <label for="f-fix">What would have stopped it?</label>
-              <p class="hint" id="h-fix">One sentence. This is your first draft of a principle.</p>
+              <p class="hint" id="h-fix">One sentence the whole table agrees on. Nothing here is scored &mdash; the fixes belong to everyone.</p>
               <input type="text" id="f-fix" autocomplete="off" aria-describedby="h-fix">
             </div>
             <div class="field">
@@ -436,7 +445,7 @@
               <select id="f-principle" aria-describedby="h-principle"></select>
             </div>
             <div class="controls" style="margin:0">
-              <button class="act" type="submit" id="saveFlipBtn">Save and deal the next hand</button>
+              <button class="act" type="submit" id="saveFlipBtn">Add to the library and deal on</button>
             </div>
           </form>
         </div>
@@ -462,8 +471,8 @@
   <hr class="rule">
 
   <section id="map">
-    <h2>The principle map</h2>
-    <p class="section-note">Every fix the table agreed, filed under the principle it serves. The empty columns are as informative as the full ones: they show what this group did not reach for.</p>
+    <h2>The good practice library</h2>
+    <p class="section-note">Every fix the table agreed, filed under the principle it serves. Nothing here is scored or attributed to one person &mdash; the fixes were made together. The empty columns are as informative as the full ones: they show what this group did not reach for.</p>
     <div id="principleMap"></div>
     <div class="controls">
       <button class="act ghost" type="button" id="mapExportBtn" aria-expanded="false">Show the write-up text</button>
@@ -577,7 +586,7 @@ window.addEventListener('error', function(ev){
     }
   }catch(e){}
 });
-var BUILD='2026-10-24c';
+var BUILD='2026-10-24d';
 var PHASES=["Recruitment","Consent","Data collection","Analysis","Dissemination","Aftercare"];
 
 var ICONS={
@@ -926,11 +935,11 @@ function nextRound(){
   if(G.scenPool.length===0){
     G.phase='over';
     renderTable();
-    say('Every scenario has been played. Start a new game to go again.');
+    say('Every dilemma has been played. Start a new game to go again.');
     return;
   }
   G.round++;
-  G.winner=null; G.played=null;
+  G.winner=null; G.played=null; G.votes={};
   for(var i=0;i<G.players.length;i++){G.players[i].locked=[]; G.players[i].passed=false;}
   if(G.round%4===0 && G.testPool && G.testPool.length){
     G.testimony=G.testPool.pop();
@@ -980,19 +989,50 @@ function reveal(){
   say('Revealed. One sentence each: how does your complication make this worse, and for whom?');
 }
 
-function chooseWinner(pi){
+function castVote(pi,delta){
+  if(G.phase!=='reveal'&&G.phase!=='tie'){return;}
+  if(!G.votes){G.votes={};}
+  var v=(G.votes[pi]||0)+delta;
+  G.votes[pi]=v<0?0:v;
+  saveGame(); renderTable();
+}
+
+function totalVotes(){
+  var t=0,k;
+  for(k in (G.votes||{})){t+=G.votes[k];}
+  return t;
+}
+
+function confirmVote(){
   if(G.phase!=='reveal'){return;}
+  if(totalVotes()===0){say('Cast at least one vote first.');return;}
+  var best=-1,winners=[],pi;
+  for(pi=0;pi<G.players.length;pi++){
+    var v=(G.votes&&G.votes[pi])||0;
+    if(v>best){best=v;winners=[pi];}
+    else if(v===best&&v>0){winners.push(pi);}
+  }
+  if(winners.length>1){
+    G.phase='tie';
+    saveGame(); renderTable();
+    say('Tied on '+best+' votes. The Dealer, '+G.players[G.dealer].name+', taps the winning card.');
+    return;
+  }
+  declareWorst(winners[0]);
+}
+
+function declareWorst(pi){
   G.winner=pi;
   G.players[pi].won++;
   G.phase='flip';
   saveGame(); renderTable();
-  var fp=$('f-principle');
-  fp.innerHTML=PRINCIPLES.map(function(p,i){
+  $('f-principle').innerHTML=PRINCIPLES.map(function(p,i){
     return '<option value="'+i+'">'+esc(p.n)+'</option>';}).join('');
   $('f-fix').value='';
-  $('flipWho').textContent=G.players[pi].name+' won the round. What would have stopped it?';
+  $('flipWho').textContent='The table voted '+G.players[pi].name+'\u2019s card the worst. '+
+    'That is the point scored. Now everyone works out what would have stopped it.';
   $('f-fix').focus();
-  say(G.players[pi].name+' won the round.');
+  say(G.players[pi].name+' played the worst card and takes a point. Now agree the fix together.');
 }
 
 function saveFlip(fix,prIdx){
@@ -1034,7 +1074,7 @@ function renderTable(){
   if(G.phase==='testimony'){ renderTestimony(); return; }
   var s=SCENARIOS[G.scenario];
   $('scenarioSlot').innerHTML=
-    '<article class="card scen big-scen"><div class="card-head"><span class="kind">Scenario</span>'+
+    '<article class="card scen big-scen"><div class="card-head"><span class="kind">Dilemma</span>'+
     '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span></div>'+svg(s.i)+
     '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
     (G.phase==='reveal'||G.phase==='flip'
@@ -1046,9 +1086,10 @@ function renderTable(){
   var need=playCount(G.players.length);
   var txt={
     play:'Everyone choose '+(need===2?'two complications':'one complication')+' to make this worse. Your choice stays hidden until everyone has locked in.',
-    reveal:'One sentence each: how does yours make this worse, and for whom? Then tap the card that would do the most damage.',
-    flip:'Write down what would have stopped it, and file it under a principle.',
-    over:'Every scenario has been played.'
+    reveal:'One sentence each: how does yours make this worse, and for whom? Then point on three and tally the votes \u2014 you may not vote for your own card.',
+    tie:'Tied. The Dealer, '+G.players[G.dealer].name+', taps the winning card.',
+    flip:'Agree one sentence as a table, and file it in the library under the principle it serves.',
+    over:'Every dilemma has been played.'
   };
   $('instruct').textContent=txt[G.phase]||'';
 
@@ -1060,17 +1101,28 @@ function renderTable(){
         :p.hand.map(function(ci){
           return seatCard(pi,ci,p.locked.indexOf(ci)!==-1?'locked':'open');}).join('');
     }else{
+      var voting=(G.phase==='reveal'||G.phase==='tie');
       cards=p.passed?'<p class="passed">Passed this round</p>'
         :p.locked.map(function(ci){
           var st='shown';
-          if(G.phase==='reveal'){st='shown pick';}
+          if(G.phase==='tie'){st='shown pick';}
           if(G.winner===pi){st='shown winner';}
           return seatCard(pi,ci,st);}).join('');
+      if(voting&&!p.passed&&p.locked.length){
+        var v=(G.votes&&G.votes[pi])||0;
+        cards+='<div class="votebar">'+
+          '<button type="button" class="votebtn" data-vote="'+pi+'" data-d="-1"'+
+          (v===0?' disabled':'')+' aria-label="Remove a vote from '+esc(p.name)+'">&minus;</button>'+
+          '<span class="votecount" aria-label="'+v+' votes">'+v+'</span>'+
+          '<button type="button" class="votebtn" data-vote="'+pi+'" data-d="1"'+
+          ' aria-label="Add a vote for '+esc(p.name)+'">+</button>'+
+          '</div>';
+      }
     }
     return '<div class="seat'+(isDealer?' dealer':'')+(G.winner===pi?' won':'')+'">'+
       '<div class="seat-head"><span class="pname">'+esc(p.name)+
       (isDealer?' <span class="chip">Dealer</span>':'')+'</span>'+
-      '<span class="tally" title="Rounds won">'+p.won+'</span></div>'+
+      '<span class="tally" title="Worst cards played">'+p.won+'</span></div>'+
       '<div class="pcards">'+cards+'</div>'+
       (G.phase==='play'
         ? '<button type="button" class="passbtn" data-pass="'+pi+'">'+
@@ -1079,8 +1131,14 @@ function renderTable(){
       '</div>';
   }).join('');
 
-  $('revealBtn').hidden=(G.phase!=='play');
-  $('revealBtn').disabled=!(G.phase==='play'&&allLocked());
+  $('revealBtn').hidden=!(G.phase==='play'||G.phase==='reveal');
+  if(G.phase==='play'){
+    $('revealBtn').textContent='Reveal together';
+    $('revealBtn').disabled=!allLocked();
+  }else if(G.phase==='reveal'){
+    $('revealBtn').textContent='Confirm the vote ('+totalVotes()+')';
+    $('revealBtn').disabled=(totalVotes()===0);
+  }
   $('nextBtn').hidden=true;
   $('flipPanel').hidden=(G.phase!=='flip');
 }
@@ -1153,8 +1211,9 @@ function renderMap(){
             var src=(l.phase==='Testimony')
               ? 'testimony &middot; '+esc(TESTIMONY[l.testimony].t)
               : pad(l.scenario+1)+' &middot; '+esc(SCENARIOS[l.scenario].t);
+            var who=(l.phase==='Testimony')?esc(l.winner):'agreed by the table';
             return '<li><span class="fix">'+esc(l.fix)+'</span>'+
-              '<span class="prov">from '+src+' &middot; '+esc(l.winner)+'</span></li>';
+              '<span class="prov">from '+src+' &middot; '+who+'</span></li>';
             }).join('')+'</ul>'
         : '<p class="nothing">Nothing filed here yet.</p>')+
       '</section>';
@@ -1177,12 +1236,12 @@ function sessionMarkdown(){
     }
     out+='### Round '+l.round+' — '+SCENARIOS[l.scenario].t+' ('+l.phase+')\n\n';
     out+='- **Scenario:** '+SCENARIOS[l.scenario].x+'\n';
-    out+='- **Worst complication:** '+l.comps.map(function(c){return COMPLICATIONS[c];}).join(' + ')+'\n';
+    out+='- **Worst complication (voted by the table):** '+l.comps.map(function(c){return COMPLICATIONS[c];}).join(' + ')+'\n';
     out+='- **Played by:** '+l.winner+'\n';
-    out+='- **What would have stopped it:** '+l.fix+'\n';
+    out+='- **Fix agreed by the table:** '+l.fix+'\n';
     out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
   });
-  out+='## The principle map\n\n';
+  out+='## The good practice library\n\n';
   PRINCIPLES.forEach(function(pr,i){
     var items=G.log.filter(function(l){return l.principle===i;});
     out+='### '+pr.n+' ('+items.length+')\n\n';
@@ -1232,15 +1291,21 @@ $('newGameBtn').addEventListener('click',function(){
 });
 
 $('seats').addEventListener('click',function(e){
-  var t=e.target.closest?e.target.closest('[data-pass],[data-p]'):null;
+  var t=e.target.closest?e.target.closest('[data-vote],[data-pass],[data-p]'):null;
   if(!t){return;}
+  if(t.hasAttribute('data-vote')){
+    castVote(parseInt(t.getAttribute('data-vote'),10),parseInt(t.getAttribute('data-d'),10));
+    return;
+  }
   if(t.hasAttribute('data-pass')){passPlayer(parseInt(t.getAttribute('data-pass'),10));return;}
-  var pi=parseInt(t.getAttribute('data-p'),10),ci=parseInt(t.getAttribute('data-c'),10);
-  if(G.phase==='play'){toggleLock(pi,ci);}
-  else if(G.phase==='reveal'){chooseWinner(pi);}
+  var pi=parseInt(t.getAttribute('data-p'),10);
+  if(G.phase==='play'){toggleLock(pi,parseInt(t.getAttribute('data-c'),10));}
+  else if(G.phase==='tie'){declareWorst(pi);}
 });
 
-$('revealBtn').addEventListener('click',reveal);
+$('revealBtn').addEventListener('click',function(){
+  if(G.phase==='play'){reveal();}else if(G.phase==='reveal'){confirmVote();}
+});
 
 $('flipForm').addEventListener('submit',function(e){
   e.preventDefault();
