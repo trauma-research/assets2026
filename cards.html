@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deal and Decide — Activity 1 card deck — ASSETS 2026 Workshop</title>
+<title>Make It Worse — Activity 1 card game — ASSETS 2026 Workshop</title>
 <meta name="description" content="The Activity 1 card deck for the trauma-informed accessibility research workshop at ASSETS 2026: deals a scenario and a complication, with facilitation prompts and timers.">
 
 <!-- TODO: replace with the real published URL before launch. -->
 <link rel="canonical" href="https://example.github.io/tiar-workshop/cards.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Deal and Decide — Activity 1 card deck">
+<meta property="og:title" content="Make It Worse — Activity 1 card game">
 <meta property="og:description" content="Scenario and complication cards for surfacing harms in trauma-informed accessibility research.">
 <meta name="theme-color" content="#2c0442">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -202,6 +202,128 @@
   .hold li{text-indent:-1.1rem;margin-bottom:.25rem;}
   .hold li::before{content:"\2014\00a0";}
 
+  /* ---- rule builder ---- */
+  .form{display:grid;gap:1.1rem;max-width:var(--measure);margin:0 0 1.5rem;}
+  .field{display:grid;gap:.35rem;min-width:0;}
+  .field label{font-weight:600;font-size:.95rem;color:var(--purple);}
+  .field .hint{font-size:.88rem;color:var(--ink-soft);margin:0;}
+  .field input,.field select,.field textarea{
+    font:inherit;font-size:1rem;color:var(--ink);background:var(--white);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:.6rem .7rem;min-height:44px;width:100%;
+  }
+  .field textarea{min-height:5rem;resize:vertical;line-height:1.5;}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;
+  }
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+  @media (max-width:40rem){.twoup{grid-template-columns:1fr;}}
+  .count{font-size:.85rem;color:var(--ink-soft);}
+  .count[data-over="yes"]{color:#8a1538;font-weight:600;}
+  .warn{
+    background:var(--paper-2);border-left:4px solid var(--green);
+    border-radius:0 var(--radius) var(--radius) 0;padding:.8rem 1.1rem;
+    font-size:.92rem;margin:0;
+  }
+  .rules{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1rem;}
+  .rules .card{border-top:3px solid var(--purple);}
+  .rule-h{font-family:"Fraunces",Georgia,serif;font-size:1.2rem;color:var(--purple);margin:0 0 .6rem;}
+  .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem 1.25rem;margin:0 0 .75rem;}
+  .meta-grid dt{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .meta-grid dd{margin:.1rem 0 0;font-size:.95rem;}
+  .rule-body p{margin:0 0 .55rem;font-size:.96rem;}
+  .rule-body p:last-child{margin-bottom:0;}
+  .rule-body strong{color:var(--green);}
+  .parked{opacity:.75;}
+  .parked .rule-h::after{content:" — parked";color:var(--ink-soft);font-size:.9rem;font-family:"Inter",sans-serif;}
+  .rowbtns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem;}
+  .rowbtns button{
+    font:inherit;font-size:.9rem;cursor:pointer;min-height:36px;padding:.3rem .8rem;
+    border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--purple);
+  }
+  .rowbtns button:hover{background:var(--purple);color:var(--white);border-color:var(--purple);}
+  #exportBox{width:100%;min-height:9rem;font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;
+    font-size:.85rem;border:1px solid var(--line);border-radius:var(--radius);padding:.7rem;background:var(--white);color:var(--ink);}
+
+  /* ---- game table ---- */
+  .roundbar{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin:0 0 1.1rem;
+    padding-bottom:.7rem;border-bottom:1px solid var(--line);}
+  .roundno{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;color:var(--purple);font-weight:600;}
+  .dealerof{font-size:.9rem;color:var(--ink-soft);}
+  .roundbar .spacer{flex:1 1 auto;}
+  button.act.small{min-height:36px;padding:.3rem .85rem;font-size:.9rem;}
+
+  .scenarioSlot{margin:0 0 1.1rem;}
+  .big-scen{max-width:42rem;}
+  .big-scen h3{font-size:1.5rem;}
+  .big-scen .text{font-size:1.12rem;}
+  .stall{margin-top:.9rem;border-top:1px solid var(--line);padding-top:.6rem;}
+  .stall summary{cursor:pointer;font-weight:600;color:var(--bright);font-size:.92rem;
+    min-height:36px;display:flex;align-items:center;}
+  .stall ul{margin:.5rem 0 0;padding-left:1.1rem;list-style:none;font-size:.95rem;color:var(--ink-soft);}
+  .stall li{text-indent:-1.1rem;margin-bottom:.3rem;}
+  .stall li::before{content:"\2014\00a0";}
+
+  .instruct{font-size:1rem;color:var(--ink-soft);margin:0 0 1.1rem;max-width:var(--measure);}
+
+  .seats{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.9rem;margin:0 0 1.3rem;}
+  .seat{border:1px solid var(--line);border-radius:var(--radius);padding:.85rem .9rem;
+    background:var(--white);min-width:0;display:flex;flex-direction:column;gap:.55rem;}
+  .seat.dealer{border-color:var(--bright);}
+  .seat.won{border-color:var(--green);border-width:2px;}
+  .seat-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;}
+  .pname{font-weight:600;font-size:.98rem;min-width:0;}
+  .chip{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;background:var(--paper-2);
+    color:var(--bright);padding:.1rem .45rem;border-radius:999px;font-weight:600;}
+  .tally{font-variant-numeric:tabular-nums;font-weight:600;color:var(--green);
+    background:var(--paper-2);border-radius:999px;min-width:1.9rem;text-align:center;padding:.1rem .4rem;}
+  .pcards{display:flex;flex-direction:column;gap:.4rem;}
+  .pc{font:inherit;font-size:.92rem;line-height:1.4;text-align:left;cursor:pointer;
+    border:1px solid var(--line);border-radius:8px;padding:.55rem .65rem;background:var(--white);
+    color:var(--ink);min-height:44px;}
+  .pc.open:hover{border-color:var(--bright);}
+  .pc.locked{background:var(--purple);color:var(--white);border-color:var(--purple);
+    font-size:0;min-height:44px;position:relative;}
+  .pc.locked::after{content:"Locked in";font-size:.9rem;font-weight:600;}
+  .pc.shown{background:var(--paper-2);border-color:var(--line);cursor:default;}
+  .pc.pick{cursor:pointer;}
+  .pc.pick:hover{border-color:var(--green);background:var(--white);}
+  .pc.winner{background:var(--white);border-color:var(--green);border-width:2px;font-weight:600;}
+  .passbtn{font:inherit;font-size:.86rem;cursor:pointer;min-height:36px;align-self:flex-start;
+    border:1px solid var(--line);border-radius:999px;padding:.2rem .8rem;
+    background:var(--white);color:var(--ink-soft);}
+  .passbtn:hover{border-color:var(--bright);color:var(--bright);}
+  .passed{margin:0;font-size:.92rem;color:var(--ink-soft);font-style:italic;}
+
+  .card.testi{border-top:3px solid var(--green);max-width:42rem;}
+  .card.testi .kind{color:var(--green);}
+  .qmark{font-family:"Fraunces",Georgia,serif;font-size:3rem;line-height:.6;
+    color:var(--green);margin:.2rem 0 .3rem;}
+  .voice{font-family:"Fraunces",Georgia,serif;font-size:1.18rem;line-height:1.5;
+    color:var(--purple);margin:0;padding:0;border:0;}
+  .testiform{max-width:38rem;}
+
+  /* ---- principle map ---- */
+  #principleMap{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
+    gap:1rem;margin:1.5rem 0;}
+  .prcol{border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;
+    background:var(--white);border-top:3px solid var(--bright);min-width:0;}
+  .prcol.none{border-top-color:var(--green);}
+  .prcol.empty{background:var(--paper-2);}
+  .prcol h3{font-size:1.02rem;margin:0 0 .4rem;display:flex;justify-content:space-between;
+    align-items:baseline;gap:.5rem;}
+  .prcol .cnt{font-family:"Inter",sans-serif;font-size:.8rem;font-variant-numeric:tabular-nums;
+    color:var(--ink-soft);font-weight:600;}
+  .prq{font-size:.88rem;color:var(--ink-soft);margin:0 0 .7rem;}
+  .fixes{list-style:none;margin:0;padding:0;display:grid;gap:.6rem;}
+  .fixes li{border-top:1px solid var(--line);padding-top:.5rem;}
+  .fix{display:block;font-size:.96rem;}
+  .prov{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:.15rem;}
+  .nothing{font-size:.9rem;color:var(--ink-soft);margin:0;font-style:italic;}
+  #mapBox{width:100%;min-height:9rem;font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;
+    font-size:.85rem;border:1px solid var(--line);border-radius:var(--radius);padding:.7rem;
+    background:var(--white);color:var(--ink);}
+
   footer.site{background:var(--purple);color:var(--paper);padding-block:clamp(2.25rem,4vw,3rem);margin-top:2rem;}
   footer.site h2{color:var(--white);}
   footer.site a{color:var(--on-purple);}
@@ -222,13 +344,20 @@
 </style>
 </head>
 <body>
+<p id="bootFail" hidden style="background:#fdeaea;border:1px solid #a3243b;border-left:4px solid #a3243b;
+   border-radius:10px;padding:1rem 1.2rem;margin:1rem;color:#5c0f1f;font-size:.96rem">
+  <strong>This page did not load correctly.</strong> You are most likely opening an older copy of the file &mdash;
+  browsers save repeat downloads as <code>cards(1).html</code>, <code>cards(2).html</code> and so on.
+  Check the build date at the foot of the page and open the newest file.
+  <span id="bootWhy" style="display:block;margin-top:.5rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem"></span>
+</p>
 <a class="skip" href="#main">Skip to main content</a>
 
 <header class="site">
   <div class="wrap">
     <p class="eyebrow">Activity 1 &middot; Diverging</p>
-    <h1>Deal and Decide</h1>
-    <p class="lede">A scenario and a complication, dealt together. Write first, reveal together, then talk about where the answers differed. Roughly seven minutes a hand.</p>
+    <h1>Make It Worse</h1>
+    <p class="lede">The Activity 1 card game. Two to six players, roughly five minutes a round.</p>
     <a class="back" href="index.html">&larr; Back to the workshop page</a>
   </div>
 </header>
@@ -237,48 +366,188 @@
   <div class="wrap">
 
   <section id="deal">
-    <h2>Deal a hand</h2>
-    <p class="section-note">Deal one scenario and one complication, and read both aloud. Everyone then writes, silently, for two minutes: what would you actually do, and what goes wrong here, and for whom. Reveal all cards at the same moment, so nobody sets the frame, then spend three minutes on where the answers differed. Either card can be swapped on its own using the button in its corner, if a hand lands somewhere the room has already been.</p>
+    <h2>Make It Worse</h2>
+    <p class="section-note">A card game for two to six people, about the ways research goes wrong. The Dealer turns over a scenario; everyone plays a complication to make it worse. Reveal together, agree which does the most damage, then say what would have stopped it &mdash; and which principle that answer serves. Roughly five minutes a round. After every third round the table reads a <strong>testimony card</strong> instead &mdash; one person's own account, in their own words. Nobody plays a complication on those.</p>
 
-    <div class="hand" id="hand">
-      <p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>
+    <div class="callout">
+      <p><strong>Nobody is asked to talk about themselves.</strong> You play a card, not an experience. Every harm on the table came out of the deck, so nothing in this game requires you to have been there. Anyone can pass at any point, for any reason or none.</p>
     </div>
 
-    <div id="promptsWrap" hidden></div>
+    <!-- SETUP ------------------------------------------------------ -->
+    <div id="setupPanel">
+      <h3>Who is playing?</h3>
+      <form class="form" id="setupForm" novalidate>
+        <div class="field">
+          <label for="playerCount">Number of players</label>
+          <p class="hint" id="h-count">Two to six. With two players you each play two complications a round.</p>
+          <select id="playerCount" aria-describedby="h-count">
+            <option value="2">2 players</option>
+            <option value="3">3 players</option>
+            <option value="4">4 players</option>
+            <option value="5" selected>5 players</option>
+            <option value="6">6 players</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="playerNames">Names, separated by commas</label>
+          <p class="hint" id="h-names">Optional. Leave this blank and everyone gets a number.</p>
+          <input type="text" id="playerNames" autocomplete="off" aria-describedby="h-names">
+        </div>
+        <div class="controls" style="margin:0">
+          <button class="act" type="submit" id="startBtn">Deal the first hand</button>
+        </div>
+      </form>
+    </div>
 
+    <!-- TABLE ------------------------------------------------------ -->
+    <div id="tablePanel" hidden>
+      <div class="roundbar">
+        <span class="roundno" id="roundNo">Round 1</span>
+        <span class="dealerof" id="dealerName"></span>
+        <span class="spacer"></span>
+        <button class="act ghost small" type="button" id="newGameBtn">New game</button>
+      </div>
+
+      <div class="scenarioSlot" id="scenarioSlot"></div>
+
+      <p class="instruct" id="instruct"></p>
+
+      <div class="seats" id="seats"></div>
+
+      <div class="controls">
+        <button class="act" type="button" id="revealBtn" disabled>Reveal together</button>
+        <button class="act ghost" type="button" id="nextBtn" hidden>Next round</button>
+      </div>
+
+      <!-- flip capture -->
+      <div id="flipPanel" hidden>
+        <div class="prompts">
+          <h3>Then flip it</h3>
+          <p id="flipWho"></p>
+          <form class="form" id="flipForm" novalidate>
+            <div class="field">
+              <label for="f-fix">What would have stopped it?</label>
+              <p class="hint" id="h-fix">One sentence. This is your first draft of a principle.</p>
+              <input type="text" id="f-fix" autocomplete="off" aria-describedby="h-fix">
+            </div>
+            <div class="field">
+              <label for="f-principle">Which principle does that serve?</label>
+              <p class="hint" id="h-principle">If none of the six fit, say so &mdash; that is a finding about the principle set, not a failure.</p>
+              <select id="f-principle" aria-describedby="h-principle"></select>
+            </div>
+            <div class="controls" style="margin:0">
+              <button class="act" type="submit" id="saveFlipBtn">Save and deal the next hand</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="timer">
+        <span class="clock" id="clock">0:00</span>
+        <span class="timer-label" id="timerLabel">One minute each to say how yours makes it worse, then talk.</span>
+        <button class="act ghost" id="t1" type="button">1 min</button>
+        <button class="act ghost" id="t3" type="button">3 min</button>
+        <button class="act ghost" id="tStop" type="button" disabled>Stop</button>
+        <div class="bar"><span id="bar"></span></div>
+      </div>
+      <p class="vh" aria-live="polite" id="announce"></p>
+
+      <div class="cover">
+        <h3>Lifecycle covered &mdash; <span id="dealtCount">0 of 22</span> scenarios played</h3>
+        <ul class="phases" id="phases"></ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="map">
+    <h2>The principle map</h2>
+    <p class="section-note">Every fix the table agreed, filed under the principle it serves. The empty columns are as informative as the full ones: they show what this group did not reach for.</p>
+    <div id="principleMap"></div>
     <div class="controls">
-      <button class="act" id="dealBtn" type="button">Deal a hand</button>
-      <button class="act ghost" id="promptBtn" type="button" disabled aria-expanded="false">Show the prompts</button>
-      <button class="act ghost" id="resetBtn" type="button">Reshuffle</button>
+      <button class="act ghost" type="button" id="mapExportBtn" aria-expanded="false">Show the write-up text</button>
+      <button class="act ghost" type="button" id="mapCopyBtn">Copy to clipboard</button>
+      <button class="act ghost" type="button" id="mapDlBtn">Download as Markdown</button>
     </div>
-
-    <div class="timer">
-      <span class="clock" id="clock">0:00</span>
-      <span class="timer-label" id="timerLabel">Two minutes silent writing, then three minutes of discussion.</span>
-      <button class="act ghost" id="t2" type="button">2 min write</button>
-      <button class="act ghost" id="t3" type="button">3 min discuss</button>
-      <button class="act ghost" id="tStop" type="button" disabled>Stop</button>
-      <div class="bar"><span id="bar"></span></div>
-    </div>
-    <p class="vh" aria-live="polite" id="announce"></p>
-
-    <div class="cover">
-      <h3>Lifecycle covered so far &mdash; <span id="dealtCount">0 of 12</span> scenarios dealt</h3>
-      <ul class="phases" id="phases"></ul>
-    </div>
-
-    <div class="cover">
-      <h3>Whose view is missing? &mdash; lay these out at the end</h3>
-      <ul class="phases" id="personaChips"></ul>
-    </div>
+    <textarea id="mapBox" hidden readonly aria-label="Markdown of the session so far"></textarea>
+    <p class="vh" aria-live="polite" id="mapAnnounce"></p>
   </section>
 
   <hr class="rule">
 
   <section id="deck">
     <h2>The whole deck</h2>
-    <p class="section-note">Twelve scenarios, eight complications and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
+    <p class="section-note">Twenty-two scenarios, four testimony cards, sixteen complications, seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
     <div id="browse"></div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="rules">
+    <h2>Activity 2 — build the rules</h2>
+    <p class="section-note">Type each rule up as the pairs finish it, so the sheets are already transcribed when the workshop ends. Every rule has to answer a specific harm card from Activity 1. The printed version is A3: <a href="activity2-rule-sheet-A3.pdf">download the rule sheet (PDF)</a> and print one per rule, plus a parked sheet.</p>
+
+    <form class="form" id="ruleForm" novalidate>
+      <div class="field">
+        <label for="f-rule">The rule</label>
+        <p class="hint" id="h-rule">Twelve words or fewer. Imperative — something that could sit in a checklist.</p>
+        <input type="text" id="f-rule" name="rule" aria-describedby="h-rule c-rule" autocomplete="off">
+        <span class="count" id="c-rule" data-over="no">0 words</span>
+      </div>
+
+      <div class="twoup">
+        <div class="field">
+          <label for="f-harm">Answers harm card</label>
+          <select id="f-harm" name="harm"></select>
+        </div>
+        <div class="field">
+          <label for="f-phase">When in the lifecycle</label>
+          <select id="f-phase" name="phase"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-who">Who is responsible</label>
+        <p class="hint" id="h-who">A role from the persona deck, not &ldquo;researchers&rdquo;.</p>
+        <select id="f-who" name="who" aria-describedby="h-who"></select>
+      </div>
+
+      <div class="field">
+        <label for="f-cost">What it costs</label>
+        <p class="hint" id="h-cost">Name the real trade: a smaller sample, a slower start, a question you do not get to ask, a finding you cannot publish.</p>
+        <textarea id="f-cost" name="cost" aria-describedby="h-cost"></textarea>
+        <p class="warn" id="costWarn" hidden>That reads as time or money alone. The sheet asks for the trade underneath it — what do you actually give up?</p>
+      </div>
+
+      <div class="field">
+        <label for="f-signal">Failure signal</label>
+        <p class="hint" id="h-signal">How would you know, from outside, that this was not happening?</p>
+        <textarea id="f-signal" name="signal" aria-describedby="h-signal"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="f-open">Open question</label>
+        <p class="hint" id="h-open">What could the pair not resolve? Leave it blank if nothing.</p>
+        <textarea id="f-open" name="open" aria-describedby="h-open"></textarea>
+      </div>
+
+      <div class="controls" style="margin:0">
+        <button class="act" type="submit" id="addRule">Add this rule</button>
+        <button class="act ghost" type="button" id="clearForm">Clear the form</button>
+      </div>
+    </form>
+
+    <h3 id="rulesHeading">Rules so far — <span id="ruleCount">none yet</span></h3>
+    <ul class="rules" id="rulesList"></ul>
+
+    <div class="controls" style="margin-top:1.5rem">
+      <button class="act ghost" type="button" id="exportBtn" aria-expanded="false">Show the write-up text</button>
+      <button class="act ghost" type="button" id="copyBtn">Copy to clipboard</button>
+      <button class="act ghost" type="button" id="dlBtn">Download as Markdown</button>
+    </div>
+    <textarea id="exportBox" hidden readonly aria-label="Markdown of every rule recorded"></textarea>
+    <p class="vh" aria-live="polite" id="ruleAnnounce"></p>
   </section>
 
   </div>
@@ -291,12 +560,24 @@
     <p><strong>Maryam Bandukda</strong> &mdash; <a href="mailto:m.bandukda@ucl.ac.uk">m.bandukda@ucl.ac.uk</a></p>
     <p><a href="index.html">Back to the workshop page</a></p>
     <div class="meta">
-      <p>The scenarios and complications are composed for this workshop and do not describe specific studies or people. Co-creating a Trauma-Informed Accessibility Research Practice &mdash; a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto (Vila Nova de Gaia), Portugal.</p>
+      <p id="buildLine"></p>
+    <p>The scenarios and complications are composed for this workshop and do not describe specific studies or people. Co-creating a Trauma-Informed Accessibility Research Practice &mdash; a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto (Vila Nova de Gaia), Portugal.</p>
     </div>
   </div>
 </footer>
 
 <script>
+window.addEventListener('error', function(ev){
+  try{
+    var el=document.getElementById('bootFail');
+    if(el){
+      el.hidden=false;
+      var why=document.getElementById('bootWhy');
+      if(why){why.textContent=String((ev && (ev.message||ev.error))||'');}
+    }
+  }catch(e){}
+});
+var BUILD='2026-10-24c';
 var PHASES=["Recruitment","Consent","Data collection","Analysis","Dissemination","Aftercare"];
 
 var ICONS={
@@ -349,7 +630,15 @@ var COMPLICATIONS=[
  "Your ethics approval does not cover this.",
  "The participant is also a colleague.",
  "It is a video call and you cannot see the room.",
- "No aftercare was budgeted, and never was."
+ "No aftercare was budgeted, and never was.",
+ "Your PI has already written the abstract, and it says what you will find.",
+ "The participant has done three studies this year and knows what you want to hear.",
+ "Your recorder has been off for twenty minutes.",
+ "The participant's support worker answers every question first.",
+ "The room is borrowed, and the next group is waiting outside.",
+ "The participant wants to be named, credited, and quoted in full.",
+ "You are two hours from the end of the last day of fieldwork.",
+ "Nobody on the team is from the community this is about."
 ];
 
 var PERSONAS=[
@@ -379,62 +668,6 @@ var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function pad(n){return String(n).padStart(2,'0');}
 function $(id){return document.getElementById(id);}
 
-var pool=[], current=null, dealt=[], promptsOpen=false;
-
-function loadState(){
-  try{
-    var raw=localStorage.getItem('dd-dealt');
-    if(raw){var v=JSON.parse(raw); if(Object.prototype.toString.call(v)==='[object Array]'){dealt=v;}}
-  }catch(e){dealt=[];}
-  rebuildPool();
-}
-function saveState(){try{localStorage.setItem('dd-dealt',JSON.stringify(dealt));}catch(e){}}
-function rebuildPool(){
-  pool=[];
-  for(var i=0;i<SCENARIOS.length;i++){if(dealt.indexOf(i)===-1){pool.push(i);}}
-  for(var j=pool.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=pool[j];pool[j]=pool[k];pool[k]=t;}
-}
-
-function renderHand(){
-  if(!current){return;}
-  var s=SCENARIOS[current.s], c=COMPLICATIONS[current.c];
-  var noMore=(pool.length===0);
-  $('hand').innerHTML=
-    '<article class="card scen"><div class="card-head"><span class="kind">Scenario</span>'+
-      '<span class="head-right"><span class="num">'+pad(current.s+1)+'/12</span>'+
-      '<button type="button" class="swap" data-swap="scenario"'+(noMore?' disabled':'')+
-      ' aria-label="Swap this scenario for another'+(noMore?' (none left)':'')+'" title="Swap this scenario">'+
-      SWAP_ICON+'</button></span></div>'+
-      svg(s.i)+'<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3>'+
-      '<p class="text">'+esc(s.x)+'</p></article>'+
-    '<article class="card comp"><div class="card-head"><span class="kind">Complication</span>'+
-      '<span class="head-right"><span class="num">'+pad(current.c+1)+'/8</span>'+
-      '<button type="button" class="swap" data-swap="complication"'+
-      ' aria-label="Swap this complication for another" title="Swap this complication">'+
-      SWAP_ICON+'</button></span></div>'+
-      '<p class="text big">'+esc(c)+'</p></article>';
-}
-
-function renderPrompts(){
-  var w=$('promptsWrap');
-  if(!current||!promptsOpen){w.hidden=true;w.innerHTML='';return;}
-  var s=SCENARIOS[current.s];
-  w.innerHTML='<div class="prompts"><h3>Two minutes, silent, on your own cards</h3>'+
-    '<ol><li>What would you actually do?</li><li>What goes wrong here, and for whom?</li></ol>'+
-    '<p class="stall">If the room stalls</p><ul>'+
-    s.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></div>';
-  w.hidden=false;
-}
-
-function renderCoverage(){
-  var hit={};
-  dealt.forEach(function(i){hit[SCENARIOS[i].p]=true;});
-  $('phases').innerHTML=PHASES.map(function(p){
-    return '<li data-hit="'+(hit[p]?'yes':'no')+'">'+esc(p)+'</li>';}).join('');
-  $('dealtCount').textContent=dealt.length+' of 12';
-  $('personaChips').innerHTML=PERSONAS.map(function(p){return '<li>'+esc(p.r)+'</li>';}).join('');
-}
-
 function renderBrowse(){
   $('browse').innerHTML=
     '<h3 class="group-title">Scenarios</h3><div class="deckgrid">'+
@@ -454,71 +687,569 @@ function renderBrowse(){
     'from the wall. Capture the gaps as open questions. These are a gap-check, not roles to play.</p>';
 }
 
-function deal(){
-  if(pool.length===0){
-    $('announce').textContent='All twelve scenarios have been dealt. Reshuffle to go again.';
-    $('dealBtn').disabled=true;
+/* ---------- Make It Worse: the game ---------- */
+
+var NEW_ICONS={
+ "ic_followup": "<circle cx=\"21\" cy=\"34\" r=\"4\"/><path d=\"M14 48a7 7 0 0 1 14 0\"/><circle cx=\"39\" cy=\"34\" r=\"4\"/><path d=\"M32 48a7 7 0 0 1 14 0\"/><path d=\"M12 24a20 20 0 0 1 36 0\"/><path d=\"M12 24l1-6M12 24l6-1\"/>",
+ "ic_circle": "<circle cx=\"18\" cy=\"14\" r=\"3\"/><circle cx=\"31\" cy=\"21\" r=\"3\"/><circle cx=\"31\" cy=\"36\" r=\"3\"/><circle cx=\"18\" cy=\"44\" r=\"3\"/><circle cx=\"6\" cy=\"36\" r=\"3\"/><circle cx=\"6\" cy=\"21\" r=\"3\"/><rect x=\"40\" y=\"18\" width=\"16\" height=\"22\"/><path d=\"M44 32h8\"/>",
+ "ic_overwhelm": "<circle cx=\"30\" cy=\"38\" r=\"5\"/><path d=\"M20 54a10 10 0 0 1 20 0\"/><path d=\"M16 24h28M19 17h22M22 10h16\"/>",
+ "ic_rigid": "<rect x=\"6\" y=\"16\" width=\"18\" height=\"28\"/><path d=\"M6 25h18M6 34h18\"/><path d=\"M34 46c16-6-2-14 14-22\"/>",
+ "ic_child": "<circle cx=\"12\" cy=\"30\" r=\"4\"/><path d=\"M5 44a7 7 0 0 1 14 0\"/><circle cx=\"48\" cy=\"30\" r=\"4\"/><path d=\"M41 44a7 7 0 0 1 14 0\"/><circle cx=\"30\" cy=\"34\" r=\"3.4\"/><path d=\"M24 46a6 6 0 0 1 12 0\"/><rect x=\"31\" y=\"10\" width=\"18\" height=\"13\" rx=\"3\"/>",
+ "ic_ownership": "<rect x=\"22\" y=\"12\" width=\"16\" height=\"30\"/><path d=\"M26 20h8M26 26h8M26 32h8\"/><path d=\"M18 42a10 10 0 0 1-10-10\"/><path d=\"M42 42a10 10 0 0 0 10-10\"/>",
+ "ic_darkscreen": "<rect x=\"7\" y=\"14\" width=\"46\" height=\"28\"/><path d=\"M24 50h12M30 42v8\"/><path d=\"M22 22l16 12M38 22L22 34\" stroke-width=\"3.4\"/>",
+ "ic_room": "<rect x=\"6\" y=\"10\" width=\"48\" height=\"36\"/><rect x=\"24\" y=\"14\" width=\"12\" height=\"4\"/><path d=\"M18 20v8M30 20v8M42 20v8\"/><circle cx=\"30\" cy=\"36\" r=\"3.2\"/><path d=\"M24 48a6 6 0 0 1 12 0\"/>",
+ "ic_literal": "<path d=\"M6 24c8-16 14 10 22-4\"/><path d=\"M54 36H34M34 36l6-4M34 36l6 4\"/><path d=\"M54 46H34M34 46l6-4M34 46l6 4\"/>",
+ "ic_pace": "<circle cx=\"20\" cy=\"30\" r=\"13\"/><path d=\"M20 30v-8M20 30h6\"/><path d=\"M40 20h14M40 30h10M40 40h6\"/>"
+};
+var NEW_SCEN=[
+ {
+  "t": "Asked again",
+  "x": "A participant who spoke warmly about your first study agrees to the follow-up, then becomes distressed. Revisiting it has brought back what they thought they had processed.",
+  "p": "Data collection",
+  "i": "ic_followup",
+  "q": [
+   "How do you assess the risk of re-traumatisation in follow-up or longitudinal work?",
+   "What do you owe someone you are re-approaching about the same thing?",
+   "What change to timing, content or method would have helped here?"
+  ]
+ },
+ {
+  "t": "The storytelling circle",
+  "x": "A community partner proposes a storytelling circle for women with experience of gender-based violence. Your institution requires audio recording and signed consent. They do not want to sign anything.",
+  "p": "Consent",
+  "i": "ic_circle",
+  "q": [
+   "What would trauma-informed consent actually look like here?",
+   "Which of the institutional requirements is a rule, and which is a habit?",
+   "Whose knowledge practice is being asked to bend, and why that one?"
+  ]
+ },
+ {
+  "t": "You, after the sixth interview",
+  "x": "Repeated interviews with young people who were forcibly displaced. The work matters and you are overwhelmed after every session. You will not raise it with your supervisor, and there is nothing in place if you did.",
+  "p": "Analysis",
+  "i": "ic_overwhelm",
+  "q": [
+   "What would make this work sustainable, and whose job is it to build that?",
+   "What stops you telling your supervisor?",
+   "What would trauma-informed supervision look like in practice?"
+  ]
+ },
+ {
+  "t": "Ethics says no",
+  "x": "Your co-design partners want drop-in participation and a method that can flex. The ethics board requires fixed inclusion criteria, consent in advance, and a formal data protocol.",
+  "p": "Recruitment",
+  "i": "ic_rigid",
+  "q": [
+   "How do you argue for flexibility in the board's own language?",
+   "Which of these constraints is genuinely immovable?",
+   "What compromise is not available, and who pays for that?"
+  ]
+ },
+ {
+  "t": "The child who tells the room",
+  "x": "A child in a participatory group session tells everyone something distressing. You do not know whether to intervene, report, or let it pass, or what to write down afterwards.",
+  "p": "Data collection",
+  "i": "ic_child",
+  "q": [
+   "What is your immediate responsibility, in the next sixty seconds?",
+   "What does safeguarding look like here without overriding the child?",
+   "What gets documented, and who ends up reading it?"
+  ]
+ },
+ {
+  "t": "Whose story is it",
+  "x": "A grassroots organisation wants to co-own and publish the stories collected with them. Your ethics board requires everything anonymised and access restricted.",
+  "p": "Dissemination",
+  "i": "ic_ownership",
+  "q": [
+   "Who decided that anonymity was the protective option here?",
+   "What would co-ownership need to look like in the protocol?",
+   "Who gains from restriction, and who loses?"
+  ]
+ },
+ {
+  "t": "The screen goes dark",
+  "x": "A remote interview. They begin describing medical neglect, their voice goes, and the call ends. They do not come back. You have an email address and no follow-up plan.",
+  "p": "Data collection",
+  "i": "ic_darkscreen",
+  "q": [
+   "What do you do in the next hour, and what do you deliberately avoid?",
+   "What should the consent process have said about following up?",
+   "What do you need, having sat through that?"
+  ]
+ },
+ {
+  "t": "The room itself",
+  "x": "Fluorescent light, blank walls, security on the door. Your participant says it reminds them of the offices where they were treated badly. They stay, and afterwards they stop replying.",
+  "p": "Data collection",
+  "i": "ic_room",
+  "q": [
+   "What does this building say before anyone speaks?",
+   "Where else could this have happened, and who decided it would not?",
+   "Whose convenience chose the room?"
+  ]
+ },
+ {
+  "t": "Say exactly what happened",
+  "x": "A participant describes a family trauma in proverbs and metaphor. A colleague interrupts: can you tell me exactly what happened, were you scared, how did that make you feel. The interview ends early.",
+  "p": "Data collection",
+  "i": "ic_literal",
+  "q": [
+   "Whose idea of disclosure is being enforced in that question?",
+   "What would the team have needed to know beforehand, and from whom?",
+   "What does probing for feeling assume about how people tell the truth?"
+  ]
+ },
+ {
+  "t": "The pace they need",
+  "x": "Participants who have been displaced need time before they will tell you anything, and reschedule often. Your funder wants findings this quarter.",
+  "p": "Recruitment",
+  "i": "ic_pace",
+  "q": [
+   "What does relationship-building actually cost, in weeks and in money?",
+   "How would you put that to the funder in terms they accept?",
+   "What is the honest minimum below which you should not start?"
+  ]
+ }
+];
+var TESTIMONY=[
+ {
+  "t": "I didn't know it would go this deep",
+  "v": "I signed up for a study about access to services. Then they started asking about the most painful things in my life, things I don't normally talk about. The researcher was kind, but I wasn't prepared. I kept going because I didn't want to let them down. Afterwards I couldn't sleep.",
+  "q": [
+   "Was the consent process honest about emotional risk, or only about data?",
+   "What should have been in place for the hours after the interview?",
+   "What made it hard to stop, and who built that in?"
+  ]
+ },
+ {
+  "t": "I said yes, but I didn't feel I could say no",
+  "v": "They asked me to a co-design session about disability services. I was glad to be asked. When I arrived there were government officials and service managers in the room. I smiled and nodded a lot. Inside I was shrinking. I wanted to contribute, but not like that.",
+  "q": [
+   "Who was in that room, and who decided they would be?",
+   "Was consent ongoing, or was it a signature collected once?",
+   "What would have made leaving a real option?"
+  ]
+ },
+ {
+  "t": "They asked me again, and again",
+  "v": "I've told my story in so many projects. They all want to hear how bad it was, and then they disappear. Nothing changes. Now they've come back for a follow-up and want all the same things. I thought I was done.",
+  "q": [
+   "What has this person had back from any of it?",
+   "Is this participation, or extraction with better manners?",
+   "What would an honest re-approach have said first?"
+  ]
+ },
+ {
+  "t": "No one asked what I needed",
+  "v": "I'm Deaf. They sent me a consent form to sign without asking whether I needed anything. The interview was on a video call, the captions didn't work, and there was no interpreter. I tried my best. At the end they thanked me. I'm not sure they understood me.",
+  "q": [
+   "At what point should access have been asked about, and by whom?",
+   "What did taking part cost this person that the study will never record?",
+   "What was assumed about how they communicate?"
+  ]
+ }
+];
+
+for(var _k in NEW_ICONS){ICONS[_k]=NEW_ICONS[_k];}
+for(var _i=0;_i<NEW_SCEN.length;_i++){SCENARIOS.push(NEW_SCEN[_i]);}
+
+var PRINCIPLES=[
+ {n:"Safety",
+  g:"Everyone involved feels physically and psychologically safe.",
+  q:"Does this person feel safe in this room, in this format, with you — and do you?"},
+ {n:"Trustworthiness and transparency",
+  g:"Decisions are made openly, so that trust can be built and kept.",
+  q:"Does the participant know what happens to what they say, who hears it, and what you cannot promise?"},
+ {n:"Peer support",
+  g:"People with shared experience are a route to safety and hope.",
+  q:"Is anyone here because they have been through it — and are they paid, supported and credited?"},
+ {n:"Collaboration and mutuality",
+  g:"Power differences are levelled, and the work is done in partnership.",
+  q:"Who set the question, who controls the pace, and who decides when it stops?"},
+ {n:"Empowerment, voice and choice",
+  g:"People's strengths are recognised, and choice is real rather than nominal.",
+  q:"Is the choice on offer a real one, or a choice between taking part as designed and not at all?"},
+ {n:"Cultural, historical and gender issues",
+  g:"Stereotypes are moved past; historical trauma is recognised and addressed.",
+  q:"Whose norms shaped this method, and what history does this community have with people like you?"},
+ {n:"None of these fit",
+  g:"The six do not name what this fix actually does.",
+  q:"So what does it serve? A principle set that cannot name your fix is a finding about the set."}
+];
+
+var G=null;
+
+function shuffled(n){
+  var a=[],i,j,t;
+  for(i=0;i<n;i++){a.push(i);}
+  for(j=a.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));t=a[j];a[j]=a[k];a[k]=t;}
+  return a;
+}
+function handSize(p){return p>=5?2:3;}
+function playCount(p){return p===2?2:1;}
+
+function newGame(count,names){
+  var i,players=[];
+  for(i=0;i<count;i++){
+    players.push({name:(names[i]&&names[i].trim())||('Player '+(i+1)),hand:[],locked:[],won:0});
+  }
+  G={players:players,scenPool:shuffled(SCENARIOS.length),compPool:shuffled(COMPLICATIONS.length),
+     compDiscard:[],round:0,dealer:0,scenario:null,played:null,winner:null,
+     phase:'play',log:[],playedScenarios:[],testPool:shuffled(TESTIMONY.length),
+     testimony:null};
+  for(i=0;i<players.length;i++){refill(players[i]);}
+  nextRound();
+}
+
+function drawComp(){
+  if(G.compPool.length===0){
+    G.compPool=G.compDiscard;
+    G.compDiscard=[];
+    for(var j=G.compPool.length-1;j>0;j--){
+      var k=Math.floor(Math.random()*(j+1)),t=G.compPool[j];G.compPool[j]=G.compPool[k];G.compPool[k]=t;
+    }
+  }
+  return G.compPool.length?G.compPool.pop():null;
+}
+function refill(p){
+  var want=handSize(G?G.players.length:5);
+  while(p.hand.length<want){
+    var c=drawComp();
+    if(c===null){break;}
+    p.hand.push(c);
+  }
+}
+
+function nextRound(){
+  if(G.scenPool.length===0){
+    G.phase='over';
+    renderTable();
+    say('Every scenario has been played. Start a new game to go again.');
     return;
   }
-  var s=pool.pop();
-  current={s:s,c:Math.floor(Math.random()*COMPLICATIONS.length)};
-  dealt.push(s); saveState();
-  promptsOpen=false;
-  $('promptBtn').disabled=false;
-  $('promptBtn').setAttribute('aria-expanded','false');
-  $('promptBtn').textContent='Show the prompts';
-  renderHand(); renderPrompts(); renderCoverage();
-  $('dealBtn').textContent='Deal the next hand';
-  $('dealBtn').disabled=(pool.length===0);
-  $('announce').textContent='Dealt: '+SCENARIOS[s].t+'. Complication: '+COMPLICATIONS[current.c];
+  G.round++;
+  G.winner=null; G.played=null;
+  for(var i=0;i<G.players.length;i++){G.players[i].locked=[]; G.players[i].passed=false;}
+  if(G.round%4===0 && G.testPool && G.testPool.length){
+    G.testimony=G.testPool.pop();
+    G.scenario=null; G.phase='testimony';
+    saveGame(); renderTable();
+    say('Round '+G.round+' is a testimony round. Nobody plays a complication.');
+    return;
+  }
+  G.testimony=null;
+  G.scenario=G.scenPool.pop();
+  G.playedScenarios.push(G.scenario);
+  G.phase='play';
+  saveGame(); renderTable(); renderCoverage();
+  say('Round '+G.round+'. '+SCENARIOS[G.scenario].t+'. '+G.players[G.dealer].name+' is dealing.');
 }
 
-function swapScenario(){
-  if(!current||pool.length===0){return;}
-  var old=current.s;
-  var next=pool.pop();
-  // the discarded scenario goes back in the pile at a random depth
-  pool.splice(Math.floor(Math.random()*(pool.length+1)),0,old);
-  var at=dealt.indexOf(old);
-  if(at!==-1){dealt.splice(at,1);}
-  dealt.push(next);
-  current.s=next;
-  saveState();
-  promptsOpen=false;                       // prompts belong to the old scenario
-  $('promptBtn').setAttribute('aria-expanded','false');
-  $('promptBtn').textContent='Show the prompts';
-  renderHand(); renderPrompts(); renderCoverage();
-  $('announce').textContent='Scenario swapped. Now: '+SCENARIOS[next].t+'.';
-  focusSwap('scenario');
+function allLocked(){
+  var need=playCount(G.players.length),i;
+  for(i=0;i<G.players.length;i++){
+    if(G.players[i].locked.length!==need && !G.players[i].passed){return false;}
+  }
+  return true;
 }
 
-function swapComplication(){
-  if(!current||COMPLICATIONS.length<2){return;}
-  var next=current.c;
-  while(next===current.c){next=Math.floor(Math.random()*COMPLICATIONS.length);}
-  current.c=next;
-  renderHand();
-  $('announce').textContent='Complication swapped. Now: '+COMPLICATIONS[next];
-  focusSwap('complication');
+function toggleLock(pi,ci){
+  if(G.phase!=='play'){return;}
+  var p=G.players[pi],need=playCount(G.players.length);
+  var at=p.locked.indexOf(ci);
+  if(at!==-1){p.locked.splice(at,1);}
+  else if(p.locked.length<need){p.locked.push(ci);}
+  else{p.locked.shift();p.locked.push(ci);}
+  saveGame(); renderTable();
 }
 
-function focusSwap(which){
-  // the card was re-rendered, so put focus back on the button just pressed
-  var b=document.querySelector('[data-swap="'+which+'"]');
-  if(b && !b.disabled){b.focus();}
+function passPlayer(pi){
+  var p=G.players[pi];
+  p.passed=!p.passed;
+  if(p.passed){p.locked=[];}
+  saveGame(); renderTable();
+  say(p.name+(p.passed?' has passed this round.':' is back in.'));
 }
 
-function reset(){
-  dealt=[];current=null;promptsOpen=false;saveState();rebuildPool();
-  $('hand').innerHTML='<p class="empty">Press <strong>Deal a hand</strong> to turn over the first scenario.</p>';
-  $('promptsWrap').hidden=true;
-  $('promptBtn').disabled=true;
-  $('dealBtn').disabled=false;
-  $('dealBtn').textContent='Deal a hand';
-  renderCoverage();
-  $('announce').textContent='Deck reshuffled. Twelve scenarios back in play.';
+function reveal(){
+  if(G.phase!=='play'||!allLocked()){return;}
+  G.phase='reveal';
+  saveGame(); renderTable();
+  say('Revealed. One sentence each: how does your complication make this worse, and for whom?');
 }
 
+function chooseWinner(pi){
+  if(G.phase!=='reveal'){return;}
+  G.winner=pi;
+  G.players[pi].won++;
+  G.phase='flip';
+  saveGame(); renderTable();
+  var fp=$('f-principle');
+  fp.innerHTML=PRINCIPLES.map(function(p,i){
+    return '<option value="'+i+'">'+esc(p.n)+'</option>';}).join('');
+  $('f-fix').value='';
+  $('flipWho').textContent=G.players[pi].name+' won the round. What would have stopped it?';
+  $('f-fix').focus();
+  say(G.players[pi].name+' won the round.');
+}
+
+function saveFlip(fix,prIdx){
+  var w=G.players[G.winner];
+  G.log.push({
+    round:G.round, scenario:G.scenario, phase:SCENARIOS[G.scenario].p,
+    winner:w.name, comps:w.locked.slice(), fix:fix, principle:prIdx
+  });
+  // spent cards go to the discard; everyone draws back up
+  for(var i=0;i<G.players.length;i++){
+    var p=G.players[i];
+    for(var j=0;j<p.locked.length;j++){
+      var at=p.hand.indexOf(p.locked[j]);
+      if(at!==-1){p.hand.splice(at,1); G.compDiscard.push(p.locked[j]);}
+    }
+    p.locked=[]; p.passed=false;
+    refill(p);
+  }
+  G.dealer=(G.dealer+1)%G.players.length;
+  saveGame(); renderMap();
+  nextRound();
+}
+
+/* ---------- rendering ---------- */
+
+function seatCard(pi,ci,state){
+  var c=COMPLICATIONS[ci];
+  return '<button type="button" class="pc '+state+'" data-p="'+pi+'" data-c="'+ci+'"'+
+    (state==='locked'?' aria-pressed="true"':' aria-pressed="false"')+'>'+esc(c)+'</button>';
+}
+
+function renderTable(){
+  if(!G){return;}
+  $('setupPanel').hidden=true;
+  $('tablePanel').hidden=false;
+  $('roundNo').textContent='Round '+G.round;
+  $('dealerName').textContent=G.players[G.dealer].name+' deals';
+
+  if(G.phase==='testimony'){ renderTestimony(); return; }
+  var s=SCENARIOS[G.scenario];
+  $('scenarioSlot').innerHTML=
+    '<article class="card scen big-scen"><div class="card-head"><span class="kind">Scenario</span>'+
+    '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span></div>'+svg(s.i)+
+    '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
+    (G.phase==='reveal'||G.phase==='flip'
+      ? '<details class="stall"><summary>If the round stalls</summary><ul>'+
+        s.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></details>'
+      : '')+
+    '</article>';
+
+  var need=playCount(G.players.length);
+  var txt={
+    play:'Everyone choose '+(need===2?'two complications':'one complication')+' to make this worse. Your choice stays hidden until everyone has locked in.',
+    reveal:'One sentence each: how does yours make this worse, and for whom? Then tap the card that would do the most damage.',
+    flip:'Write down what would have stopped it, and file it under a principle.',
+    over:'Every scenario has been played.'
+  };
+  $('instruct').textContent=txt[G.phase]||'';
+
+  $('seats').innerHTML=G.players.map(function(p,pi){
+    var isDealer=(pi===G.dealer);
+    var cards;
+    if(G.phase==='play'){
+      cards=p.passed?'<p class="passed">Passed this round</p>'
+        :p.hand.map(function(ci){
+          return seatCard(pi,ci,p.locked.indexOf(ci)!==-1?'locked':'open');}).join('');
+    }else{
+      cards=p.passed?'<p class="passed">Passed this round</p>'
+        :p.locked.map(function(ci){
+          var st='shown';
+          if(G.phase==='reveal'){st='shown pick';}
+          if(G.winner===pi){st='shown winner';}
+          return seatCard(pi,ci,st);}).join('');
+    }
+    return '<div class="seat'+(isDealer?' dealer':'')+(G.winner===pi?' won':'')+'">'+
+      '<div class="seat-head"><span class="pname">'+esc(p.name)+
+      (isDealer?' <span class="chip">Dealer</span>':'')+'</span>'+
+      '<span class="tally" title="Rounds won">'+p.won+'</span></div>'+
+      '<div class="pcards">'+cards+'</div>'+
+      (G.phase==='play'
+        ? '<button type="button" class="passbtn" data-pass="'+pi+'">'+
+          (p.passed?'Re-join':'Pass')+'</button>'
+        : '')+
+      '</div>';
+  }).join('');
+
+  $('revealBtn').hidden=(G.phase!=='play');
+  $('revealBtn').disabled=!(G.phase==='play'&&allLocked());
+  $('nextBtn').hidden=true;
+  $('flipPanel').hidden=(G.phase!=='flip');
+}
+
+function renderTestimony(){
+  var t=TESTIMONY[G.testimony];
+  $('roundNo').textContent='Round '+G.round;
+  $('dealerName').textContent=G.players[G.dealer].name+' reads';
+  $('scenarioSlot').innerHTML=
+    '<article class="card testi"><div class="card-head"><span class="kind">Testimony</span>'+
+    '<span class="num">'+pad(G.testimony+1)+'/'+TESTIMONY.length+'</span></div>'+
+    '<p class="qmark" aria-hidden="true">&ldquo;</p>'+
+    '<blockquote class="voice">'+esc(t.v)+'</blockquote>'+
+    '<details class="stall"><summary>If it stalls</summary><ul>'+
+    t.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></details></article>';
+  $('instruct').textContent='Read it aloud, in full. Nobody plays a complication on this card. '+
+    'Everyone writes one thing that should have happened, and every one of them gets filed.';
+  $('seats').innerHTML='<form class="form testiform" id="testiForm" novalidate>'+
+    G.players.map(function(p,pi){
+      return '<div class="field"><label for="n-'+pi+'">'+esc(p.name)+'</label>'+
+        '<input type="text" id="n-'+pi+'" autocomplete="off" '+
+        'placeholder="One thing that should have happened"></div>';
+    }).join('')+
+    '<div class="field"><label for="n-pr">File these under</label>'+
+    '<select id="n-pr">'+PRINCIPLES.map(function(pr,i){
+      return '<option value="'+i+'">'+esc(pr.n)+'</option>';}).join('')+'</select></div>'+
+    '<div class="controls" style="margin:0">'+
+    '<button class="act" type="submit">Save and carry on</button></div></form>';
+  $('revealBtn').hidden=true; $('nextBtn').hidden=true; $('flipPanel').hidden=true;
+  var f=$('testiForm');
+  if(f){f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var any=false,i;
+    for(i=0;i<G.players.length;i++){
+      var v=$('n-'+i).value.trim();
+      if(v){
+        any=true;
+        G.log.push({round:G.round,testimony:G.testimony,phase:'Testimony',
+          winner:G.players[i].name,comps:[],fix:v,
+          principle:parseInt($('n-pr').value,10)});
+      }
+    }
+    if(!any){say('Write at least one before moving on.');$('n-0').focus();return;}
+    G.dealer=(G.dealer+1)%G.players.length;
+    saveGame(); renderMap(); nextRound();
+  });}
+}
+
+function renderCoverage(){
+  var hit={},i;
+  for(i=0;i<G.playedScenarios.length;i++){hit[SCENARIOS[G.playedScenarios[i]].p]=true;}
+  $('phases').innerHTML=PHASES.map(function(p){
+    return '<li data-hit="'+(hit[p]?'yes':'no')+'">'+esc(p)+'</li>';}).join('');
+  $('dealtCount').textContent=G.playedScenarios.length+' of '+SCENARIOS.length;
+}
+
+function renderMap(){
+  var byP={},i;
+  for(i=0;i<PRINCIPLES.length;i++){byP[i]=[];}
+  if(G){
+    for(i=0;i<G.log.length;i++){byP[G.log[i].principle].push(G.log[i]);}
+  }
+  $('principleMap').innerHTML=PRINCIPLES.map(function(pr,i){
+    var items=byP[i];
+    return '<section class="prcol'+(items.length?'':' empty')+(i===6?' none':'')+'">'+
+      '<h3>'+esc(pr.n)+' <span class="cnt">'+items.length+'</span></h3>'+
+      '<p class="prq">'+esc(pr.q)+'</p>'+
+      (items.length
+        ? '<ul class="fixes">'+items.map(function(l){
+            var src=(l.phase==='Testimony')
+              ? 'testimony &middot; '+esc(TESTIMONY[l.testimony].t)
+              : pad(l.scenario+1)+' &middot; '+esc(SCENARIOS[l.scenario].t);
+            return '<li><span class="fix">'+esc(l.fix)+'</span>'+
+              '<span class="prov">from '+src+' &middot; '+esc(l.winner)+'</span></li>';
+            }).join('')+'</ul>'
+        : '<p class="nothing">Nothing filed here yet.</p>')+
+      '</section>';
+  }).join('');
+}
+
+function sessionMarkdown(){
+  if(!G||G.log.length===0){return 'No rounds completed yet.';}
+  var out='# Activity 1 — Make It Worse\n\n'+
+    'Co-creating a Trauma-Informed Accessibility Research Practice, ASSETS 2026, 25 October 2026.\n\n'+
+    G.players.length+' players. '+G.log.length+' rounds completed.\n\n## Rounds\n\n';
+  G.log.forEach(function(l){
+    if(l.phase==='Testimony'){
+      out+='### Round '+l.round+' — testimony: '+TESTIMONY[l.testimony].t+'\n\n';
+      out+='- **In their words:** '+TESTIMONY[l.testimony].v+'\n';
+      out+='- **Written by:** '+l.winner+'\n';
+      out+='- **What should have happened:** '+l.fix+'\n';
+      out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
+      return;
+    }
+    out+='### Round '+l.round+' — '+SCENARIOS[l.scenario].t+' ('+l.phase+')\n\n';
+    out+='- **Scenario:** '+SCENARIOS[l.scenario].x+'\n';
+    out+='- **Worst complication:** '+l.comps.map(function(c){return COMPLICATIONS[c];}).join(' + ')+'\n';
+    out+='- **Played by:** '+l.winner+'\n';
+    out+='- **What would have stopped it:** '+l.fix+'\n';
+    out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
+  });
+  out+='## The principle map\n\n';
+  PRINCIPLES.forEach(function(pr,i){
+    var items=G.log.filter(function(l){return l.principle===i;});
+    out+='### '+pr.n+' ('+items.length+')\n\n';
+    if(items.length===0){out+='_Nothing filed here._\n\n';}
+    else{items.forEach(function(l){var src=(l.phase==='Testimony')?'testimony: '+TESTIMONY[l.testimony].t:pad(l.scenario+1)+' '+SCENARIOS[l.scenario].t;out+='- '+l.fix+'  \n  _from '+src+', '+l.winner+'_\n';}); out+='\n';}
+  });
+  var empty=PRINCIPLES.filter(function(pr,i){
+    return G.log.filter(function(l){return l.principle===i;}).length===0;});
+  if(empty.length){
+    out+='**Not reached this session:** '+empty.map(function(p){return p.n;}).join('; ')+'.\n';
+  }
+  return out;
+}
+
+/* ---------- persistence ---------- */
+function saveGame(){try{localStorage.setItem('miw-game',JSON.stringify(G));}catch(e){}}
+function loadGame(){
+  try{
+    var raw=localStorage.getItem('miw-game');
+    if(!raw){return false;}
+    var v=JSON.parse(raw);
+    if(!v||!v.players||!v.players.length){return false;}
+    G=v;
+    if(!G.playedScenarios){G.playedScenarios=[];}
+    return true;
+  }catch(e){return false;}
+}
+function say(t){$('announce').textContent=t;}
+
+/* ---------- wiring ---------- */
+
+$('setupForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var n=parseInt($('playerCount').value,10);
+  var names=$('playerNames').value.split(',');
+  newGame(n,names);
+  renderMap();
+});
+
+$('newGameBtn').addEventListener('click',function(){
+  G=null;
+  try{localStorage.removeItem('miw-game');}catch(e){}
+  $('tablePanel').hidden=true;
+  $('setupPanel').hidden=false;
+  renderMap();
+  $('playerCount').focus();
+});
+
+$('seats').addEventListener('click',function(e){
+  var t=e.target.closest?e.target.closest('[data-pass],[data-p]'):null;
+  if(!t){return;}
+  if(t.hasAttribute('data-pass')){passPlayer(parseInt(t.getAttribute('data-pass'),10));return;}
+  var pi=parseInt(t.getAttribute('data-p'),10),ci=parseInt(t.getAttribute('data-c'),10);
+  if(G.phase==='play'){toggleLock(pi,ci);}
+  else if(G.phase==='reveal'){chooseWinner(pi);}
+});
+
+$('revealBtn').addEventListener('click',reveal);
+
+$('flipForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var fix=$('f-fix').value.trim();
+  if(!fix){say('Write what would have stopped it before moving on.');$('f-fix').focus();return;}
+  saveFlip(fix,parseInt($('f-principle').value,10));
+});
+
+/* timer */
 var tid=null,left=0,total=0;
 function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function paint(){
@@ -527,53 +1258,253 @@ function paint(){
 }
 function stopTimer(){if(tid){clearInterval(tid);tid=null;} $('tStop').disabled=true;}
 function startTimer(secs,label){
-  stopTimer();
-  left=secs; total=secs;
+  stopTimer(); left=secs; total=secs;
   $('timerLabel').textContent=label;
   $('clock').classList.remove('done');
   $('tStop').disabled=false;
-  paint();
-  $('announce').textContent=label+' started.';
+  paint(); say(label+' started.');
   tid=setInterval(function(){
     left--; paint();
-    if(left===60||left===30){$('announce').textContent=fmt(left)+' remaining.';}
+    if(left===30){say('30 seconds remaining.');}
     if(left<=0){
-      stopTimer();
-      $('clock').classList.add('done');
+      stopTimer(); $('clock').classList.add('done');
       $('timerLabel').textContent=label+' — time.';
-      $('announce').textContent=label+' finished.';
+      say(label+' finished.');
     }
   },1000);
 }
-
-$('hand').addEventListener('click',function(e){
-  var b=e.target.closest ? e.target.closest('[data-swap]') : null;
-  if(!b||b.disabled){return;}
-  if(b.getAttribute('data-swap')==='scenario'){swapScenario();}else{swapComplication();}
-});
-
-$('dealBtn').addEventListener('click',deal);
-$('resetBtn').addEventListener('click',reset);
-$('promptBtn').addEventListener('click',function(e){
-  promptsOpen=!promptsOpen;
-  e.currentTarget.setAttribute('aria-expanded',String(promptsOpen));
-  e.currentTarget.textContent=promptsOpen?'Hide the prompts':'Show the prompts';
-  renderPrompts();
-});
-$('t2').addEventListener('click',function(){startTimer(120,'Two minutes silent writing');});
-$('t3').addEventListener('click',function(){startTimer(180,'Three minutes of discussion');});
+$('t1').addEventListener('click',function(){startTimer(60,'One minute');});
+$('t3').addEventListener('click',function(){startTimer(180,'Three minutes');});
 $('tStop').addEventListener('click',function(){
-  stopTimer();
-  $('timerLabel').textContent='Timer stopped.';
-  $('announce').textContent='Timer stopped.';
+  stopTimer(); $('timerLabel').textContent='Timer stopped.'; say('Timer stopped.');
 });
 
-loadState();
-renderCoverage();
-renderBrowse();
-if(dealt.length>0){
-  $('announce').textContent=dealt.length+' scenarios already dealt in this browser. Reshuffle to start over.';
+/* map export */
+$('mapExportBtn').addEventListener('click',function(e){
+  var open=$('mapBox').hidden;
+  $('mapBox').value=sessionMarkdown();
+  $('mapBox').hidden=!open;
+  e.currentTarget.setAttribute('aria-expanded',String(open));
+  e.currentTarget.textContent=open?'Hide the write-up text':'Show the write-up text';
+});
+$('mapCopyBtn').addEventListener('click',function(){
+  var text=sessionMarkdown();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      $('mapAnnounce').textContent='Copied to the clipboard.';
+    },function(){
+      $('mapBox').value=text;$('mapBox').hidden=false;$('mapBox').select();
+      $('mapAnnounce').textContent='Could not copy automatically. The text is selected — copy it manually.';
+    });
+  }else{
+    $('mapBox').value=text;$('mapBox').hidden=false;$('mapBox').select();
+    $('mapAnnounce').textContent='The text is selected — copy it manually.';
+  }
+});
+$('mapDlBtn').addEventListener('click',function(){
+  try{
+    var blob=new Blob([sessionMarkdown()],{type:'text/markdown;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='activity1-make-it-worse.md';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+    $('mapAnnounce').textContent='Download started.';
+  }catch(err){
+    $('mapBox').value=sessionMarkdown();$('mapBox').hidden=false;
+    $('mapAnnounce').textContent='Download not available here. The text is shown instead.';
+  }
+});
+
+/* boot */
+try{ $('buildLine').textContent='Build '+BUILD+' \u00b7 '+SCENARIOS.length+' scenarios, '+
+  TESTIMONY.length+' testimony, '+COMPLICATIONS.length+' complications, '+PRINCIPLES.length+' principles'; }catch(e){}
+renderMap();
+if(loadGame()){
+  renderTable(); renderCoverage(); renderMap();
+  say('Picked up where you left off, round '+G.round+'.');
 }
+renderBrowse();
+
+/* ---------- Activity 2: rule builder ---------- */
+var rules=[];
+
+function loadRules(){
+  try{
+    var raw=localStorage.getItem('dd-rules');
+    if(raw){var v=JSON.parse(raw); if(Object.prototype.toString.call(v)==='[object Array]'){rules=v;}}
+  }catch(e){rules=[];}
+}
+function saveRules(){try{localStorage.setItem('dd-rules',JSON.stringify(rules));}catch(e){}}
+
+function fillSelects(){
+  $('f-harm').innerHTML='<option value="">Choose a card</option>'+SCENARIOS.map(function(s,i){
+    return '<option value="'+(i+1)+'">'+pad(i+1)+' — '+esc(s.t)+'</option>';}).join('');
+  $('f-phase').innerHTML='<option value="">Choose a phase</option>'+PHASES.map(function(p){
+    return '<option value="'+esc(p)+'">'+esc(p)+'</option>';}).join('');
+  $('f-who').innerHTML='<option value="">Choose a role</option>'+PERSONAS.map(function(p){
+    return '<option value="'+esc(p.r)+'">'+esc(p.r)+'</option>';}).join('');
+}
+
+function wordCount(t){var w=t.trim(); return w?w.split(/\s+/).length:0;}
+
+// Only flags a cost line that is *nothing but* time or money.
+function costIsThin(t){
+  var w=t.toLowerCase().replace(/[^a-z ]/g,' ').split(/\s+/).filter(Boolean);
+  if(w.length===0||w.length>8){return false;}
+  var allowed={more:1,time:1,money:1,funding:1,budget:1,cost:1,less:1,extra:1,a:1,bit:1,of:1,and:1,'it':1,takes:1,longer:1,slower:1};
+  for(var i=0;i<w.length;i++){if(!allowed[w[i]]){return false;}}
+  return true;
+}
+
+function renderRules(){
+  $('ruleCount').textContent=rules.length===0?'none yet':
+    (rules.length+(rules.length===1?' rule':' rules')+
+     ', '+rules.filter(function(r){return r.parked;}).length+' parked');
+  $('rulesList').innerHTML=rules.map(function(r,i){
+    var harm=r.harm?SCENARIOS[r.harm-1]:null;
+    return '<li class="card'+(r.parked?' parked':'')+'">'+
+      '<p class="rule-h">'+esc(r.rule||'(untitled rule)')+'</p>'+
+      '<dl class="meta-grid">'+
+        '<div><dt>Answers harm card</dt><dd>'+(harm?pad(r.harm)+' — '+esc(harm.t):'—')+'</dd></div>'+
+        '<div><dt>When</dt><dd>'+esc(r.phase||'—')+'</dd></div>'+
+        '<div><dt>Who</dt><dd>'+esc(r.who||'—')+'</dd></div>'+
+      '</dl>'+
+      '<div class="rule-body">'+
+        '<p><strong>Costs:</strong> '+esc(r.cost||'—')+'</p>'+
+        '<p><strong>Failure signal:</strong> '+esc(r.signal||'—')+'</p>'+
+        (r.open?'<p><strong>Open question:</strong> '+esc(r.open)+'</p>':'')+
+      '</div>'+
+      '<div class="rowbtns">'+
+        '<button type="button" data-act="park" data-i="'+i+'">'+(r.parked?'Un-park':'Park')+'</button>'+
+        '<button type="button" data-act="del" data-i="'+i+'">Delete</button>'+
+      '</div></li>';
+  }).join('');
+}
+
+function toMarkdown(){
+  if(rules.length===0){return 'No rules recorded yet.';}
+  var out='# Activity 2 — draft principles\n\n'+
+    'Co-creating a Trauma-Informed Accessibility Research Practice, ASSETS 2026, 25 October 2026.\n\n';
+  rules.forEach(function(r,i){
+    var harm=r.harm?SCENARIOS[r.harm-1]:null;
+    out+='## '+(i+1)+'. '+(r.rule||'(untitled rule)')+(r.parked?'  [PARKED]':'')+'\n\n';
+    out+='- **Answers harm card:** '+(harm?pad(r.harm)+' — '+harm.t+' ('+harm.p+')':'not recorded')+'\n';
+    out+='- **When:** '+(r.phase||'not recorded')+'\n';
+    out+='- **Who is responsible:** '+(r.who||'not recorded')+'\n';
+    out+='- **What it costs:** '+(r.cost||'not recorded')+'\n';
+    out+='- **Failure signal:** '+(r.signal||'not recorded')+'\n';
+    if(r.open){out+='- **Open question:** '+r.open+'\n';}
+    out+='\n';
+  });
+  var parked=rules.filter(function(r){return r.parked;});
+  out+='---\n\n'+rules.length+' rules recorded, '+parked.length+' parked.\n';
+  return out;
+}
+
+fillSelects();
+loadRules();
+renderRules();
+
+$('ruleForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var r={
+    rule:$('f-rule').value.trim(),
+    harm:$('f-harm').value?parseInt($('f-harm').value,10):0,
+    phase:$('f-phase').value,
+    who:$('f-who').value,
+    cost:$('f-cost').value.trim(),
+    signal:$('f-signal').value.trim(),
+    open:$('f-open').value.trim(),
+    parked:false
+  };
+  if(!r.rule){
+    $('ruleAnnounce').textContent='Add the rule text before saving.';
+    $('f-rule').focus();
+    return;
+  }
+  rules.push(r); saveRules(); renderRules();
+  $('ruleForm').reset();
+  $('c-rule').textContent='0 words';
+  $('c-rule').setAttribute('data-over','no');
+  $('costWarn').hidden=true;
+  $('ruleAnnounce').textContent='Rule saved. '+rules.length+' recorded.';
+  $('f-rule').focus();
+});
+
+$('clearForm').addEventListener('click',function(){
+  $('ruleForm').reset();
+  $('c-rule').textContent='0 words';
+  $('c-rule').setAttribute('data-over','no');
+  $('costWarn').hidden=true;
+  $('f-rule').focus();
+});
+
+$('f-rule').addEventListener('input',function(e){
+  var n=wordCount(e.target.value);
+  $('c-rule').textContent=n+(n===1?' word':' words')+(n>12?' — over twelve':'');
+  $('c-rule').setAttribute('data-over',n>12?'yes':'no');
+});
+
+$('f-cost').addEventListener('blur',function(e){
+  $('costWarn').hidden=!costIsThin(e.target.value);
+});
+
+$('rulesList').addEventListener('click',function(e){
+  var b=e.target.closest ? e.target.closest('[data-act]') : null;
+  if(!b){return;}
+  var i=parseInt(b.getAttribute('data-i'),10);
+  if(b.getAttribute('data-act')==='park'){
+    rules[i].parked=!rules[i].parked;
+    $('ruleAnnounce').textContent=rules[i].parked?'Rule parked.':'Rule un-parked.';
+  }else{
+    var gone=rules[i].rule;
+    rules.splice(i,1);
+    $('ruleAnnounce').textContent='Deleted: '+gone;
+  }
+  saveRules(); renderRules();
+});
+
+$('exportBtn').addEventListener('click',function(e){
+  var open=$('exportBox').hidden;
+  $('exportBox').value=toMarkdown();
+  $('exportBox').hidden=!open;
+  e.currentTarget.setAttribute('aria-expanded',String(open));
+  e.currentTarget.textContent=open?'Hide the write-up text':'Show the write-up text';
+});
+
+$('copyBtn').addEventListener('click',function(){
+  var text=toMarkdown();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      $('ruleAnnounce').textContent='Copied to the clipboard.';
+    },function(){
+      $('exportBox').value=text; $('exportBox').hidden=false; $('exportBox').select();
+      $('ruleAnnounce').textContent='Could not copy automatically. The text is selected — copy it manually.';
+    });
+  }else{
+    $('exportBox').value=text; $('exportBox').hidden=false; $('exportBox').select();
+    $('ruleAnnounce').textContent='The text is selected — copy it manually.';
+  }
+});
+
+$('dlBtn').addEventListener('click',function(){
+  try{
+    var blob=new Blob([toMarkdown()],{type:'text/markdown;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='activity2-draft-principles.md';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+    $('ruleAnnounce').textContent='Download started.';
+  }catch(err){
+    $('exportBox').value=toMarkdown(); $('exportBox').hidden=false;
+    $('ruleAnnounce').textContent='Download not available here. The text is shown instead.';
+  }
+});
+
+
+
 </script>
 </body>
 </html>
