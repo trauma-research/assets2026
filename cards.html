@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Make It Worse — Activity 1 card game — ASSETS 2026 Workshop</title>
-<meta name="description" content="The Activity 1 card deck for the trauma-informed accessibility research workshop at ASSETS 2026: deals a scenario and a complication, with facilitation prompts and timers.">
+<title>Common Ground — ASSETS 2026 Workshop</title>
+<meta name="description" content="The card deck for the trauma-informed accessibility research workshop at ASSETS 2026: deals a scenario and a complication, with facilitation prompts and timers.">
 
 <!-- TODO: replace with the real published URL before launch. -->
 <link rel="canonical" href="https://example.github.io/tiar-workshop/cards.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Make It Worse — Activity 1 card game">
+<meta property="og:title" content="Common Ground">
 <meta property="og:description" content="Scenario and complication cards for surfacing harms in trauma-informed accessibility research.">
 <meta name="theme-color" content="#2c0442">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -111,7 +111,7 @@
   @media (max-width:46rem){.hand{grid-template-columns:1fr;}}
 
   .card{
-    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--white);border:1px solid var(--line);border-radius:0;
     padding:1.3rem 1.4rem;min-width:0;
   }
   .card.scen{border-top:3px solid var(--bright);}
@@ -263,6 +263,9 @@
 
   .scenarioSlot{margin:0 0 1.1rem;}
   .big-scen{max-width:42rem;}
+  .dil-top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.6rem;}
+  .dil-top .cat-label{margin:0;}
+  .dil-meta{margin:0 0 .3rem;font-size:.85rem;color:var(--ink-soft);}
   .big-scen h3{font-size:1.5rem;}
   .big-scen .text{font-size:1.12rem;}
   .stall{margin-top:.9rem;border-top:1px solid var(--line);padding-top:.6rem;}
@@ -275,7 +278,7 @@
   .instruct{font-size:1rem;color:var(--ink-soft);margin:0 0 1.1rem;max-width:var(--measure);}
 
   .seats{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.9rem;margin:0 0 1.3rem;}
-  .seat{border:1px solid var(--line);border-radius:var(--radius);padding:.85rem .9rem;
+  .seat{border:1px solid var(--line);border-radius:0;padding:.85rem .9rem;
     background:var(--white);min-width:0;display:flex;flex-direction:column;gap:.55rem;}
   .seat.dealer{border-color:var(--bright);}
   .seat.won{border-color:var(--green);border-width:2px;}
@@ -287,7 +290,7 @@
     background:var(--paper-2);border-radius:999px;min-width:1.9rem;text-align:center;padding:.1rem .4rem;}
   .pcards{display:flex;flex-direction:column;gap:.4rem;}
   .pc{font:inherit;font-size:.92rem;line-height:1.4;text-align:left;cursor:pointer;
-    border:1px solid var(--line);border-radius:8px;padding:.55rem .65rem;background:var(--white);
+    border:1px solid var(--line);border-radius:0;padding:.55rem .65rem;background:var(--white);
     color:var(--ink);min-height:44px;}
   .pc.open:hover{border-color:var(--bright);}
   .pc.locked{background:var(--purple);color:var(--white);border-color:var(--purple);
@@ -321,12 +324,13 @@
     min-width:1.6rem;text-align:center;color:var(--purple);}
 
   /* ---- good practice library ---- */
-  #principleMap{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));
-    gap:1rem;margin:1.5rem 0;}
-  .prcol{border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;
-    background:var(--white);border-top:3px solid var(--bright);min-width:0;}
+  #principleMap{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,20rem));
+    justify-content:start;gap:1rem;margin:1.5rem 0;max-width:none;}
+  .prcol{border:1px solid var(--line);border-radius:0;padding:1rem 1.1rem;
+    background:var(--white);border-top:3px solid var(--bright);min-width:0;max-width:20rem;}
   .prcol.none{border-top-color:var(--green);}
-  .prcol.empty{background:var(--paper-2);}
+  .prcol[data-cat]{border-top:6px solid var(--cat);}
+  .prcol.empty{background:var(--white);}
   .prcol h3{font-size:1.02rem;margin:0 0 .4rem;display:flex;justify-content:space-between;
     align-items:baseline;gap:.5rem;}
   .prcol .cnt{font-family:"Inter",sans-serif;font-size:.8rem;font-variant-numeric:tabular-nums;
@@ -381,6 +385,54 @@
   .ugcrow{display:flex;gap:.4rem;}
   .ugcrow input{flex:1;min-width:0;}
   .ugcform .hint{font-size:.8rem;margin:.3rem 0 0;color:var(--ink-soft);}
+  .status-locked, .status-wait{
+    margin:.6rem 0 0;padding:.55rem .65rem;min-height:44px;border-radius:8px;
+    font-size:.92rem;font-weight:600;text-align:center;box-sizing:border-box;
+  }
+  .status-locked{background:var(--purple);color:var(--white);border:1px solid var(--purple);}
+  .status-wait{background:var(--white);color:var(--ink);border:2px dashed var(--ink-soft);}
+  .pc.back{
+    display:inline-block;min-width:4.5rem;min-height:3.5rem;margin:.2rem;
+    border:1px solid var(--line);border-radius:0;
+    background:repeating-linear-gradient(45deg,var(--white) 0 8px,rgba(0,0,0,.08) 8px 16px);
+  }
+  .form textarea{
+    width:100%;min-height:9rem;box-sizing:border-box;font:inherit;font-size:1rem;line-height:1.5;
+    padding:.7rem .85rem;border:1px solid var(--line);border-radius:8px;
+    background:var(--white);color:var(--ink);resize:vertical;
+  }
+  .principles{border:0;padding:0;margin:0 0 1.25rem;min-width:0;}
+  .principles legend{font-weight:600;padding:0;margin-bottom:.35rem;}
+  .checks{display:grid;gap:.5rem;}
+  .check{
+    display:flex;align-items:flex-start;gap:.6rem;min-height:44px;box-sizing:border-box;
+    padding:.5rem .65rem;border:1px solid var(--line);border-radius:8px;background:var(--white);cursor:pointer;
+  }
+  .check input{margin:.2rem 0 0;width:20px;height:20px;flex:none;}
+  /* library as a gallery of tiles; .empty is also the deck's empty-state box, so reset it here */
+  #principleMap > .prcol{grid-column:auto;border:1px solid var(--line);border-top:6px solid var(--cat, var(--green));padding:1rem 1.1rem;margin:0;}
+  .prcol{text-align:left;}
+  .prcol h3{display:block;font-size:1.15rem;margin:0 0 .35rem;}
+  .prcol .count{display:flex;align-items:baseline;gap:.5rem;margin:0 0 .6rem;}
+  .prcol .count .num{font-size:.95rem;line-height:1.2;font-weight:600;color:var(--purple);
+    font-variant-numeric:tabular-nums;background:var(--paper-2);border-radius:999px;padding:.1rem .6rem;}
+  .prcol.empty .count .num{color:var(--ink-soft);}
+  .prcol .count .lbl{font-size:.78rem;font-weight:600;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);}
+  .prcol .fixes li{border-top:0;padding:.35rem 0 .35rem .8rem;border-left:3px solid var(--cat, var(--line));}
+  .prcol .fix{font-size:.98rem;line-height:1.45;}
+  .board-wrap{margin:0 0 1rem;}
+  .board-wrap h3{margin:0 0 .5rem;font-size:1rem;color:var(--ink-soft);font-family:inherit;font-weight:600;}
+  .board{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;
+    grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));}
+  .board li{
+    display:flex;align-items:center;gap:.5rem;min-height:44px;box-sizing:border-box;
+    background:var(--white);border:1px solid var(--line);border-radius:8px;padding:.45rem .65rem;
+  }
+  .board li.lead{border-color:var(--purple);border-width:2px;}
+  .board .rank{font-weight:700;color:var(--ink-soft);min-width:1.4rem;font-variant-numeric:tabular-nums;}
+  .board .pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .board .pts{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -395,10 +447,8 @@
 
 <header class="site">
   <div class="wrap">
-    <p class="eyebrow">Activity 1 &middot; Diverging</p>
-    <h1>Make It Worse</h1>
-    <p class="lede">The Activity 1 card game. Two to six players, roughly five minutes a round.</p>
-    <a class="back" href="index.html">&larr; Back to the workshop page</a>
+    <h1>Common Ground</h1>
+    <p class="lede">The card game. Two to six players, roughly five minutes a round.</p>
   </div>
 </header>
 
@@ -406,7 +456,7 @@
   <div class="wrap">
 
   <section id="deal">
-    <h2>Make It Worse</h2>
+    <h2>Common Ground</h2>
     <p class="section-note">A card game for two to six people, about the ways research goes wrong. The Dealer turns over a scenario; everyone plays a complication to make it worse. Reveal together, agree which does the most damage, then say what would have stopped it &mdash; and which principle that answer serves. Roughly five minutes a round. After every third round the table reads a <strong>testimony card</strong> instead &mdash; one person's own account, in their own words. Nobody plays a complication on those.</p>
 
     <div class="callout">
@@ -448,6 +498,11 @@
         <button class="act ghost small" type="button" id="newGameBtn">New game</button>
       </div>
 
+      <section class="board-wrap" aria-labelledby="boardTitle">
+        <h3 id="boardTitle">Score</h3>
+        <ol class="board" id="leaderboard"></ol>
+      </section>
+
       <div class="scenarioSlot" id="scenarioSlot"></div>
 
       <p class="instruct" id="instruct"></p>
@@ -462,19 +517,19 @@
       <!-- flip capture -->
       <div id="flipPanel" hidden>
         <div class="prompts">
-          <h3>Now make it better &mdash; together</h3>
+          <h3>Mitigation strategies</h3>
           <p id="flipWho"></p>
           <form class="form" id="flipForm" novalidate>
             <div class="field">
               <label for="f-fix">What would have stopped it?</label>
               <p class="hint" id="h-fix">One sentence the whole table agrees on. Nothing here is scored &mdash; the fixes belong to everyone.</p>
-              <input type="text" id="f-fix" autocomplete="off" aria-describedby="h-fix">
+              <textarea id="f-fix" rows="6" aria-describedby="h-fix"></textarea>
             </div>
-            <div class="field">
-              <label for="f-principle">Which principle does that serve?</label>
-              <p class="hint" id="h-principle">If none of the six fit, say so &mdash; that is a finding about the principle set, not a failure.</p>
-              <select id="f-principle" aria-describedby="h-principle"></select>
-            </div>
+            <fieldset class="field principles">
+              <legend>Which principles does it serve?</legend>
+              <p class="hint" id="h-principle">Tick every one that applies. If none of the six fit, tick the last one: that is a finding about the principle set, not a failure.</p>
+              <div class="checks" id="f-principles" aria-describedby="h-principle"></div>
+            </fieldset>
             <div class="controls" style="margin:0">
               <button class="act" type="submit" id="saveFlipBtn">Add to the library and deal on</button>
             </div>
@@ -543,7 +598,7 @@
 
   <section id="rules">
     <h2>Activity 2 — build the rules</h2>
-    <p class="section-note">Type each rule up as the pairs finish it, so the sheets are already transcribed when the workshop ends. Every rule has to answer a specific harm card from Activity 1. The printed version is A3: <a href="activity2-rule-sheet-A3.pdf">download the rule sheet (PDF)</a> and print one per rule, plus a parked sheet.</p>
+    <p class="section-note">Type each rule up as the pairs finish it, so the sheets are already transcribed when the workshop ends. Every rule has to answer a specific harm card from the card game. The printed version is A3: <a href="activity2-rule-sheet-A3.pdf">download the rule sheet (PDF)</a> and print one per rule, plus a parked sheet.</p>
 
     <form class="form" id="ruleForm" novalidate>
       <div class="field">
@@ -1458,6 +1513,28 @@ var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function pad(n){return String(n).padStart(2,'0');}
 function $(id){return document.getElementById(id);}
 
+function renderLeaderboard(){
+  var order=G.players.map(function(p,pi){return {pi:pi,p:p};})
+    .sort(function(a,b){return b.p.won-a.p.won;});
+  var rank=0, prev=null;
+  $('leaderboard').innerHTML=order.map(function(o,i){
+    if(o.p.won!==prev){rank=i+1; prev=o.p.won;}
+    var lead=(rank===1 && o.p.won>0);
+    return '<li'+(lead?' class="lead"':'')+'>'+
+      '<span class="rank" aria-label="Rank '+rank+'">'+rank+'</span>'+
+      '<span class="pname">'+esc(o.p.name)+'</span>'+
+      '<span class="pts">'+o.p.won+(o.p.won===1?' point':' points')+'</span></li>';
+  }).join('');
+}
+
+function turnControl(pi){
+  var p=G.players[pi];
+  if(p.passed){return '';}
+  if(G.shown===pi){return '<button type="button" class="act ghost small" data-hide="'+pi+'">Hide my cards</button>';}
+  if(G.turn===pi){return '<button type="button" class="act small" data-show="'+pi+'">Show my cards</button>';}
+  if(p.locked.length>=playCount()){return '<p class="status-locked">Locked in</p>';}
+  return '<p class="status-wait">Waiting for handover</p>';
+}
 function ugcForm(pi){
   return '<form class="ugcform" data-ugc="'+pi+'" novalidate>'+
     '<label for="ugc-'+pi+'">Your own complication</label>'+
@@ -1494,11 +1571,11 @@ function renderBrowse(){
       '<span class="kind">Persona</span><span class="num">'+pad(i+1)+'</span></div>'+
       '<h3>'+esc(p.r)+'</h3><p class="text">'+esc(p.o)+'</p><ul class="hold">'+
       p.h.map(function(h){return '<li>'+esc(h)+'</li>';}).join('')+'</ul></article>';}).join('')+
-    '</div><p>Lay the six persona cards out at the end of Activity 1 and ask whose view is missing '+
+    '</div><p>Lay the six persona cards out at the end of the card game and ask whose view is missing '+
     'from the wall. Capture the gaps as open questions. These are a gap-check, not roles to play.</p>';
 }
 
-/* ---------- Make It Worse: the game ---------- */
+/* ---------- Common Ground: the game ---------- */
 
 var NEW_ICONS={
  "ic_followup": "<circle cx=\"21\" cy=\"34\" r=\"4\"/><path d=\"M14 48a7 7 0 0 1 14 0\"/><circle cx=\"39\" cy=\"34\" r=\"4\"/><path d=\"M32 48a7 7 0 0 1 14 0\"/><path d=\"M12 24a20 20 0 0 1 36 0\"/><path d=\"M12 24l1-6M12 24l6-1\"/>",
@@ -1625,6 +1702,7 @@ function swapDilemma(){
   G.scenario=next;
   G.playedScenarios[G.playedScenarios.length-1]=next;
   G.players.forEach(function(p){p.locked=[];});
+  G.shown=null; G.turn=pendingFrom(G.dealer);
   dealRound();
   saveGame(); renderTable(); renderCoverage();
   say('Swapped. Now: '+SCENARIOS[next].t+'. Everyone has a new hand.');
@@ -1642,7 +1720,7 @@ function nextRound(){
   for(var i=0;i<G.players.length;i++){G.players[i].locked=[]; G.players[i].passed=false;}
   if(G.round%4===0 && G.testPool && G.testPool.length){
     G.testimony=G.testPool.pop();
-    G.scenario=null; G.phase='testimony';
+    G.scenario=null; G.phase='testimony'; G.shown=null; G.turn=null;
     saveGame(); renderTable();
     say('Round '+G.round+' is a testimony round. Nobody plays a complication.');
     return;
@@ -1651,6 +1729,7 @@ function nextRound(){
   G.scenario=G.scenPool.pop();
   G.playedScenarios.push(G.scenario);
   dealRound();
+  G.shown=null; G.turn=pendingFrom(G.dealer);
   G.phase='play';
   saveGame(); renderTable(); renderCoverage();
   say('Round '+G.round+'. '+SCENARIOS[G.scenario].t+'. '+G.players[G.dealer].name+' is dealing.');
@@ -1664,20 +1743,54 @@ function allLocked(){
   return true;
 }
 
+// Play is hidden: one player at a time looks at their own cards, locks one, and hands over.
+function isPending(pi){
+  var p=G.players[pi];
+  return !p.passed && p.locked.length<playCount();
+}
+function pendingFrom(from){
+  for(var k=0;k<G.players.length;k++){
+    var j=(from+k)%G.players.length;
+    if(isPending(j)){return j;}
+  }
+  return null;
+}
+function showMine(pi){
+  if(G.phase!=='play'||G.turn!==pi){return;}
+  G.shown=pi; saveGame(); renderTable();
+  say(G.players[pi].name+', your cards are showing. Only you should look.');
+}
+function hideMine(){
+  G.shown=null; saveGame(); renderTable();
+}
+function handOver(from){
+  G.shown=null;
+  G.turn=pendingFrom(from);
+  if(G.turn!==null){say('Handover to '+G.players[G.turn].name+'.');}
+  else{say('Everyone has locked in. Reveal together.');}
+}
+function playText(){
+  if(G.shown!=null){return G.players[G.shown].name+': choose one complication to make this worse, then hand over. Nobody else should look.';}
+  if(G.turn!=null){return 'Handover to '+G.players[G.turn].name+'. '+G.players[G.turn].name+', press Show my cards on your card.';}
+  return 'Everyone has locked in. Reveal together.';
+}
+
 function toggleLock(pi,ci){
-  if(G.phase!=='play'){return;}
+  if(G.phase!=='play'||G.shown!==pi){return;}
   var p=G.players[pi],need=playCount();
   var at=p.locked.indexOf(ci);
   if(at!==-1){p.locked.splice(at,1);}
   else if(p.locked.length<need){p.locked.push(ci);}
   else{p.locked.shift();p.locked.push(ci);}
+  if(p.locked.length===need){handOver(pi);}
   saveGame(); renderTable();
 }
 
 function passPlayer(pi){
   var p=G.players[pi];
   p.passed=!p.passed;
-  if(p.passed){p.locked=[];}
+  if(p.passed){p.locked=[]; if(G.shown===pi){G.shown=null;}}
+  if(G.phase==='play' && (G.turn==null || !isPending(G.turn))){handOver(pi);}
   saveGame(); renderTable();
   say(p.name+(p.passed?' has passed this round.':' is back in.'));
 }
@@ -1726,20 +1839,23 @@ function declareWorst(pi){
   G.players[pi].won++;
   G.phase='flip';
   saveGame(); renderTable();
-  $('f-principle').innerHTML=PRINCIPLES.map(function(p,i){
-    return '<option value="'+i+'">'+esc(p.n)+'</option>';}).join('');
+  $('f-principles').innerHTML=PRINCIPLES.map(function(p,i){
+    return '<label class="check"><input type="checkbox" name="f-pr" value="'+i+'"> '+esc(p.n)+'</label>';}).join('');
   $('f-fix').value='';
   $('flipWho').textContent='The table voted '+G.players[pi].name+'\u2019s card the worst. '+
-    'That is the point scored. Now everyone works out what would have stopped it.';
+    'That is the point scored. Now agree the mitigation strategies together.';
   $('f-fix').focus();
-  say(G.players[pi].name+' played the worst card and takes a point. Now agree the fix together.');
+  say(G.players[pi].name+' played the worst card and takes a point. Now agree the mitigation together.');
 }
 
-function saveFlip(fix,prIdx){
+function prsOf(l){return l.principles||[l.principle];}
+function prNames(l){return prsOf(l).map(function(p){return PRINCIPLES[p].n;}).join('; ');}
+
+function saveFlip(fix,prs){
   var w=G.players[G.winner];
   G.log.push({
     round:G.round, scenario:G.scenario, phase:SCENARIOS[G.scenario].p,
-    winner:w.name, comps:w.locked.slice(), fix:fix, principle:prIdx
+    winner:w.name, comps:w.locked.slice(), fix:fix, principles:prs
   });
   for(var i=0;i<G.players.length;i++){G.players[i].locked=[]; G.players[i].passed=false;}
   G.dealer=(G.dealer+1)%G.players.length;
@@ -1761,16 +1877,17 @@ function renderTable(){
   $('tablePanel').hidden=false;
   $('roundNo').textContent='Round '+G.round;
   $('dealerName').textContent=G.players[G.dealer].name+' deals';
+  renderLeaderboard();
 
   if(G.phase==='testimony'){ renderTestimony(); return; }
   var s=SCENARIOS[G.scenario];
   $('scenarioSlot').innerHTML=
-    '<article class="card scen big-scen" data-cat="'+s.c+'"><div class="card-head"><span class="kind">Dilemma</span>'+
-    '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span>'+
+    '<article class="card scen big-scen" data-cat="'+s.c+'"><div class="dil-top"><p class="cat-label">'+esc(PRINCIPLES[s.c].n)+'</p>'+
     '<button type="button" class="swap" data-swap="dilemma"'+
     ((G.phase!=='play'||G.scenPool.length===0)?' disabled':'')+
-    ' aria-label="Swap this dilemma for another not yet played" title="Swap this dilemma">'+SWAP_ICON+'</button></div>'+svg(s.i)+
-    '<p class="cat-label">'+esc(PRINCIPLES[s.c].n)+'</p><p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
+    ' aria-label="Swap this dilemma for another not yet played" title="Swap this dilemma">'+SWAP_ICON+'</button></div>'+
+    '<p class="dil-meta">Dilemma '+(G.scenario+1)+' of '+SCENARIOS.length+' &middot; '+esc(s.p)+'</p>'+
+    '<h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
     (G.phase==='reveal'||G.phase==='flip'
       ? '<details class="stall"><summary>If the round stalls</summary><ul>'+
         s.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></details>'
@@ -1779,10 +1896,10 @@ function renderTable(){
 
   var need=playCount();
   var txt={
-    play:'Everyone choose one complication to make this worse. Your choice stays hidden until everyone has locked in.',
+    play:playText(),
     reveal:'One sentence each: how does yours make this worse, and for whom? Then point on three and tally the votes \u2014 you may not vote for your own card.',
     tie:'Tied. The Dealer, '+G.players[G.dealer].name+', taps the winning card.',
-    flip:'Agree one sentence as a table, and file it in the library under the principle it serves.',
+    flip:'Agree the mitigation as a table, then tick every principle it serves.',
     over:'Every dilemma has been played.'
   };
   $('instruct').textContent=txt[G.phase]||'';
@@ -1791,9 +1908,13 @@ function renderTable(){
     var isDealer=(pi===G.dealer);
     var cards;
     if(G.phase==='play'){
-      cards=p.passed?'<p class="passed">Passed this round</p>'
-        :p.hand.map(function(ci){
+      if(p.passed){cards='<p class="passed">Passed this round</p>';}
+      else if(G.shown===pi){
+        cards=p.hand.map(function(ci){
           return seatCard(pi,ci,p.locked.indexOf(ci)!==-1?'locked':'open');}).join('');
+      }else{
+        cards=p.hand.map(function(){return '<span class="pc back" role="img" aria-label="Face-down card"></span>';}).join('');
+      }
     }else{
       var voting=(G.phase==='reveal'||G.phase==='tie');
       cards=p.passed?'<p class="passed">Passed this round</p>'
@@ -1818,7 +1939,8 @@ function renderTable(){
       (isDealer?' <span class="chip">Dealer</span>':'')+'</span>'+
       '<span class="tally" title="Worst cards played">'+p.won+'</span></div>'+
       '<div class="pcards">'+cards+'</div>'+
-      (G.phase==='play'&&!p.passed?ugcForm(pi):'')+
+      (G.phase==='play'&&G.shown===pi?ugcForm(pi):'')+
+      (G.phase==='play'?turnControl(pi):'')+
       (G.phase==='play'
         ? '<button type="button" class="passbtn" data-pass="'+pi+'">'+
           (p.passed?'Re-join':'Pass')+'</button>'
@@ -1894,21 +2016,17 @@ function renderMap(){
   var byP={},i;
   for(i=0;i<PRINCIPLES.length;i++){byP[i]=[];}
   if(G){
-    for(i=0;i<G.log.length;i++){byP[G.log[i].principle].push(G.log[i]);}
+    G.log.forEach(function(l){prsOf(l).forEach(function(p){byP[p].push(l);});});
   }
   $('principleMap').innerHTML=PRINCIPLES.map(function(pr,i){
     var items=byP[i];
-    return '<section class="prcol'+(items.length?'':' empty')+(i===6?' none':'')+'">'+
-      '<h3>'+esc(pr.n)+' <span class="cnt">'+items.length+'</span></h3>'+
+    return '<section class="prcol'+(items.length?'':' empty')+(i===6?' none':'')+'"'+(i<6?' data-cat="'+i+'"':'')+'>'+
+      '<p class="count"><span class="num">'+items.length+'</span><span class="lbl">'+'filed'+'</span></p>'+
+      '<h3>'+esc(pr.n)+'</h3>'+
       '<p class="prq">'+esc(pr.q)+'</p>'+
       (items.length
         ? '<ul class="fixes">'+items.map(function(l){
-            var src=(l.phase==='Testimony')
-              ? 'testimony &middot; '+esc(TESTIMONY[l.testimony].t)
-              : pad(l.scenario+1)+' &middot; '+esc(SCENARIOS[l.scenario].t);
-            var who=(l.phase==='Testimony')?esc(l.winner):'agreed by the table';
-            return '<li><span class="fix">'+esc(l.fix)+'</span>'+
-              '<span class="prov">from '+src+' &middot; '+who+'</span></li>';
+            return '<li><span class="fix">'+esc(l.fix)+'</span></li>';
             }).join('')+'</ul>'
         : '<p class="nothing">Nothing filed here yet.</p>')+
       '</section>';
@@ -1917,7 +2035,7 @@ function renderMap(){
 
 function sessionMarkdown(){
   if(!G||G.log.length===0){return 'No rounds completed yet.';}
-  var out='# Activity 1 — Make It Worse\n\n'+
+  var out='# Common Ground\n\n'+
     'Co-creating a Trauma-Informed Accessibility Research Practice, ASSETS 2026, 25 October 2026.\n\n'+
     G.players.length+' players. '+G.log.length+' rounds completed.\n\n## Rounds\n\n';
   G.log.forEach(function(l){
@@ -1926,7 +2044,7 @@ function sessionMarkdown(){
       out+='- **In their words:** '+TESTIMONY[l.testimony].v+'\n';
       out+='- **Written by:** '+l.winner+'\n';
       out+='- **What should have happened:** '+l.fix+'\n';
-      out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
+      out+='- **Principle:** '+prNames(l)+'\n\n';
       return;
     }
     out+='### Round '+l.round+' — '+SCENARIOS[l.scenario].t+' ('+l.phase+')\n\n';
@@ -1934,17 +2052,17 @@ function sessionMarkdown(){
     out+='- **Worst complication (voted by the table):** '+l.comps.map(function(c){return COMPLICATIONS[c]+(COMP_UGC[c]?' (UGC)':'');}).join(' + ')+'\n';
     out+='- **Played by:** '+l.winner+'\n';
     out+='- **Fix agreed by the table:** '+l.fix+'\n';
-    out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
+    out+='- **Principle:** '+prNames(l)+'\n\n';
   });
   out+='## The good practice library\n\n';
   PRINCIPLES.forEach(function(pr,i){
-    var items=G.log.filter(function(l){return l.principle===i;});
+    var items=G.log.filter(function(l){return prsOf(l).indexOf(i)!==-1;});
     out+='### '+pr.n+' ('+items.length+')\n\n';
     if(items.length===0){out+='_Nothing filed here._\n\n';}
     else{items.forEach(function(l){var src=(l.phase==='Testimony')?'testimony: '+TESTIMONY[l.testimony].t:pad(l.scenario+1)+' '+SCENARIOS[l.scenario].t;out+='- '+l.fix+'  \n  _from '+src+', '+l.winner+'_\n';}); out+='\n';}
   });
   var empty=PRINCIPLES.filter(function(pr,i){
-    return G.log.filter(function(l){return l.principle===i;}).length===0;});
+    return G.log.filter(function(l){return prsOf(l).indexOf(i)!==-1;}).length===0;});
   if(empty.length){
     out+='**Not reached this session:** '+empty.map(function(p){return p.n;}).join('; ')+'.\n';
   }
@@ -1963,6 +2081,8 @@ function loadGame(){
     if(!v||!v.players||!v.players.length){return false;}
     G=v;
     if(!G.playedScenarios){G.playedScenarios=[];}
+    if(G.shown===undefined){G.shown=null;}
+    if(G.turn===undefined){G.turn=(G.phase==='play')?pendingFrom(G.dealer):null;}
     return true;
   }catch(e){return false;}
 }
@@ -1988,13 +2108,15 @@ $('newGameBtn').addEventListener('click',function(){
 });
 
 $('seats').addEventListener('click',function(e){
-  var t=e.target.closest?e.target.closest('[data-vote],[data-pass],[data-p]'):null;
+  var t=e.target.closest?e.target.closest('[data-vote],[data-pass],[data-p],[data-show],[data-hide]'):null;
   if(!t){return;}
   if(t.hasAttribute('data-vote')){
     castVote(parseInt(t.getAttribute('data-vote'),10),parseInt(t.getAttribute('data-d'),10));
     return;
   }
   if(t.hasAttribute('data-pass')){passPlayer(parseInt(t.getAttribute('data-pass'),10));return;}
+  if(t.hasAttribute('data-show')){showMine(parseInt(t.getAttribute('data-show'),10));return;}
+  if(t.hasAttribute('data-hide')){hideMine();return;}
   var pi=parseInt(t.getAttribute('data-p'),10);
   if(G.phase==='play'){toggleLock(pi,parseInt(t.getAttribute('data-c'),10));}
   else if(G.phase==='tie'){declareWorst(pi);}
@@ -2010,6 +2132,7 @@ $('seats').addEventListener('submit',function(e){
   if(!f.classList||!f.classList.contains('ugcform')){return;}
   e.preventDefault();
   var pi=parseInt(f.getAttribute('data-ugc'),10);
+  if(G.shown!==pi){return;}
   var t=f.querySelector('input').value.trim();
   if(!t){say('Write the complication before adding it.');return;}
   var idx=addCustom(G.scenario,t,true);
@@ -2026,7 +2149,9 @@ $('flipForm').addEventListener('submit',function(e){
   e.preventDefault();
   var fix=$('f-fix').value.trim();
   if(!fix){say('Write what would have stopped it before moving on.');$('f-fix').focus();return;}
-  saveFlip(fix,parseInt($('f-principle').value,10));
+  var prs=[].map.call(document.querySelectorAll('#f-principles input:checked'),function(b){return parseInt(b.value,10);});
+  if(!prs.length){say('Tick at least one principle before moving on.');return;}
+  saveFlip(fix,prs);
 });
 
 /* timer */
@@ -2086,7 +2211,7 @@ $('mapDlBtn').addEventListener('click',function(){
     var blob=new Blob([sessionMarkdown()],{type:'text/markdown;charset=utf-8'});
     var a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
-    a.download='activity1-make-it-worse.md';
+    a.download='common-ground.md';
     document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
     $('mapAnnounce').textContent='Download started.';
