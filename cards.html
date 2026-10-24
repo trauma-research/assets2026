@@ -20,22 +20,26 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Palette — UCL brand colours, identical to index.html. */
-    --ink:        #2b2433;
-    --ink-soft:   #524b5c;
-    --paper:      #f5f1f7;
-    --paper-2:    #ece4f1;
-    --purple:     #2c0442;
-    --bright:     #500778;
-    --green:      #113b3a;
-    --line:       #ddd2e4;
-    --focus:      #500778;
+    /* Palette: Common Ground. One calm primary (teal-blue) for everything interactive, a warm
+       sage-cream base, and one apricot-gold accent for the turn, the leader and reveals.
+       The six category colours are the only saturated colours on the page.
+       Token names are historical; the values are the brand. */
+    --ink:        #27323a;
+    --ink-soft:   #56626b;
+    --paper:      #f6f4ee;
+    --paper-2:    #ebe9df;
+    --purple:     #2f6f80;
+    --bright:     #2f6f80;
+    --green:      #3d7a6a;
+    --line:       #d7d5c9;
+    --focus:      #2f6f80;
     --focus-dark: #ffffff;
-    --on-purple:  #f3ecf7;
-    --on-purple-soft:#cdbcd9;
+    --on-purple:  #f6f4ee;
+    --on-purple-soft:#c5dde2;
+    --marigold:   #e9a23b;
     --white:      #ffffff;
 
     --measure: 68ch;
@@ -52,7 +56,7 @@
 
   body{
     margin:0;background:var(--paper);color:var(--ink);
-    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    font-family:"Nunito",system-ui,sans-serif;
     font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased;
   }
 
@@ -80,11 +84,11 @@
   header.site{background:var(--purple);color:var(--paper);border-bottom:4px solid var(--green);}
   header.site .wrap{padding-block:clamp(2rem,5vw,3.25rem);}
   .eyebrow{
-    font-family:"Inter",system-ui,sans-serif;font-weight:600;letter-spacing:.14em;
+    font-family:"Nunito",system-ui,sans-serif;font-weight:600;letter-spacing:.14em;
     text-transform:uppercase;font-size:.78rem;color:var(--on-purple-soft);margin:0 0 1rem;
   }
   h1{
-    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-family:"Fredoka",system-ui,sans-serif;font-weight:500;
     font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.12;letter-spacing:-.01em;
     margin:0 0 1rem;max-width:22ch;color:var(--white);
   }
@@ -94,12 +98,12 @@
   main{padding-block:clamp(2rem,4vw,3rem);}
   section{margin-bottom:clamp(2.25rem,5vw,3.5rem);}
   h2{
-    font-family:"Fraunces",Georgia,serif;font-weight:500;
+    font-family:"Fredoka",system-ui,sans-serif;font-weight:500;
     font-size:clamp(1.4rem,2.8vw,1.95rem);line-height:1.2;
     letter-spacing:-.01em;margin:0 0 .4rem;color:var(--ink);
   }
   h2 + .section-note{color:var(--ink-soft);margin:0 0 1.5rem;font-size:1rem;max-width:var(--measure);}
-  h3{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.15rem;margin:0 0 .5rem;color:var(--purple);}
+  h3{font-family:"Fredoka",system-ui,sans-serif;font-weight:600;font-size:1.15rem;margin:0 0 .5rem;color:var(--purple);}
   p{margin:0 0 1.1rem;}
   section > .wrap > p, section > .wrap > ul{max-width:var(--measure);}
   ul.body{margin:0 0 1.2rem;padding-left:1.3rem;}
@@ -119,7 +123,7 @@
   .card.comp.removed{opacity:.55;}
   .scenlib{margin:0 0 1rem;}
   .scenlib > summary{
-    cursor:pointer;font-family:"Fraunces",Georgia,serif;font-weight:600;color:var(--purple);
+    cursor:pointer;font-family:"Fredoka",system-ui,sans-serif;font-weight:600;color:var(--purple);
     font-size:1.08rem;min-height:2.75rem;display:flex;align-items:center;gap:.5rem;
   }
   .scenlib > summary .cnt{font-family:inherit;font-size:.85rem;color:var(--ink-soft);}
@@ -140,7 +144,7 @@
   .num{font-size:.8rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
   .card h3{margin:.3rem 0 .4rem;font-size:1.3rem;color:var(--purple);}
   .card .text{margin:0;font-size:1.05rem;}
-  .card .big{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;line-height:1.35;color:var(--purple);}
+  .card .big{font-family:"Fredoka",system-ui,sans-serif;font-size:1.25rem;line-height:1.35;color:var(--purple);}
   .phase{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin:0;}
   .icon{width:54px;height:54px;display:block;color:var(--bright);margin:0 0 .3rem;}
   .empty{
@@ -179,7 +183,7 @@
     padding:1.1rem 1.3rem;margin:0 0 1.75rem;background:var(--white);
   }
   .clock{
-    font-family:"Fraunces",Georgia,serif;font-size:2.3rem;font-weight:600;
+    font-family:"Fredoka",system-ui,sans-serif;font-size:2.3rem;font-weight:600;
     font-variant-numeric:tabular-nums;line-height:1;min-width:4.5ch;color:var(--purple);
   }
   .clock.done{color:var(--bright);}
@@ -191,7 +195,7 @@
   /* ---- coverage ---- */
   .cover{margin:0 0 1.75rem;}
   .cover h3{
-    font-family:"Inter",system-ui,sans-serif;font-size:.78rem;letter-spacing:.12em;
+    font-family:"Nunito",system-ui,sans-serif;font-size:.78rem;letter-spacing:.12em;
     text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin:0 0 .6rem;
   }
   .phases{display:flex;gap:.45rem;flex-wrap:wrap;list-style:none;margin:0;padding:0;}
@@ -205,7 +209,7 @@
   /* ---- browse ---- */
   .deckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:1rem;}
   .deckgrid .card .text{font-size:.98rem;}
-  .group-title{font-family:"Fraunces",Georgia,serif;font-size:1.3rem;margin:2rem 0 .9rem;color:var(--ink);}
+  .group-title{font-family:"Fredoka",system-ui,sans-serif;font-size:1.3rem;margin:2rem 0 .9rem;color:var(--ink);}
   .hold{margin:.6rem 0 0;padding-left:1.1rem;list-style:none;font-size:.92rem;color:var(--ink-soft);}
   .hold li{text-indent:-1.1rem;margin-bottom:.25rem;}
   .hold li::before{content:"\2014\00a0";}
@@ -235,7 +239,7 @@
   }
   .rules{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1rem;}
   .rules .card{border-top:3px solid var(--purple);}
-  .rule-h{font-family:"Fraunces",Georgia,serif;font-size:1.2rem;color:var(--purple);margin:0 0 .6rem;}
+  .rule-h{font-family:"Fredoka",system-ui,sans-serif;font-size:1.2rem;color:var(--purple);margin:0 0 .6rem;}
   .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem 1.25rem;margin:0 0 .75rem;}
   .meta-grid dt{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
   .meta-grid dd{margin:.1rem 0 0;font-size:.95rem;}
@@ -243,7 +247,7 @@
   .rule-body p:last-child{margin-bottom:0;}
   .rule-body strong{color:var(--green);}
   .parked{opacity:.75;}
-  .parked .rule-h::after{content:" — parked";color:var(--ink-soft);font-size:.9rem;font-family:"Inter",sans-serif;}
+  .parked .rule-h::after{content:" — parked";color:var(--ink-soft);font-size:.9rem;font-family:"Nunito",sans-serif;}
   .rowbtns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.85rem;}
   .rowbtns button{
     font:inherit;font-size:.9rem;cursor:pointer;min-height:36px;padding:.3rem .8rem;
@@ -256,7 +260,7 @@
   /* ---- game table ---- */
   .roundbar{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin:0 0 1.1rem;
     padding-bottom:.7rem;border-bottom:1px solid var(--line);}
-  .roundno{font-family:"Fraunces",Georgia,serif;font-size:1.25rem;color:var(--purple);font-weight:600;}
+  .roundno{font-family:"Fredoka",system-ui,sans-serif;font-size:1.25rem;color:var(--purple);font-weight:600;}
   .dealerof{font-size:.9rem;color:var(--ink-soft);}
   .roundbar .spacer{flex:1 1 auto;}
   button.act.small{min-height:36px;padding:.3rem .85rem;font-size:.9rem;}
@@ -308,9 +312,9 @@
 
   .card.testi{border-top:3px solid var(--green);max-width:42rem;}
   .card.testi .kind{color:var(--green);}
-  .qmark{font-family:"Fraunces",Georgia,serif;font-size:3rem;line-height:.6;
+  .qmark{font-family:"Fredoka",system-ui,sans-serif;font-size:3rem;line-height:.6;
     color:var(--green);margin:.2rem 0 .3rem;}
-  .voice{font-family:"Fraunces",Georgia,serif;font-size:1.18rem;line-height:1.5;
+  .voice{font-family:"Fredoka",system-ui,sans-serif;font-size:1.18rem;line-height:1.5;
     color:var(--purple);margin:0;padding:0;border:0;}
   .testiform{max-width:38rem;}
 
@@ -333,7 +337,7 @@
   .prcol.empty{background:var(--white);}
   .prcol h3{font-size:1.02rem;margin:0 0 .4rem;display:flex;justify-content:space-between;
     align-items:baseline;gap:.5rem;}
-  .prcol .cnt{font-family:"Inter",sans-serif;font-size:.8rem;font-variant-numeric:tabular-nums;
+  .prcol .cnt{font-family:"Nunito",sans-serif;font-size:.8rem;font-variant-numeric:tabular-nums;
     color:var(--ink-soft);font-weight:600;}
   .prq{font-size:.88rem;color:var(--ink-soft);margin:0 0 .7rem;}
   .fixes{list-style:none;margin:0;padding:0;display:grid;gap:.6rem;}
@@ -429,7 +433,7 @@
     display:flex;align-items:center;gap:.5rem;min-height:44px;box-sizing:border-box;
     background:var(--white);border:1px solid var(--line);border-radius:8px;padding:.45rem .65rem;
   }
-  .board li.lead{border-color:var(--purple);border-width:2px;}
+  .board li.lead{border-color:var(--marigold);border-width:2px;background:#fff7dc;}
   .board .rank{font-weight:700;color:var(--ink-soft);min-width:1.4rem;font-variant-numeric:tabular-nums;}
   .board .pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .board .pts{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
@@ -448,7 +452,7 @@
 <header class="site">
   <div class="wrap">
     <h1>Common Ground</h1>
-    <p class="lede">The card game. Two to six players, roughly five minutes a round.</p>
+    <p class="lede">A game about the ways trauma-informed research goes wrong, and how to put it right.</p>
   </div>
 </header>
 
@@ -456,8 +460,8 @@
   <div class="wrap">
 
   <section id="deal">
-    <h2>Common Ground</h2>
-    <p class="section-note">A card game for two to six people, about the ways research goes wrong. The Dealer turns over a scenario; everyone plays a complication to make it worse. Reveal together, agree which does the most damage, then say what would have stopped it &mdash; and which principle that answer serves. Roughly five minutes a round. After every third round the table reads a <strong>testimony card</strong> instead &mdash; one person's own account, in their own words. Nobody plays a complication on those.</p>
+    <h2>How to play</h2>
+    <p class="section-note">About five minutes a round. A dilemma is dealt and everyone plays one complication. Reveal them together, vote for the worst, then agree a mitigation. After every third round, the table reads a <strong>testimony card</strong> instead.</p>
 
     <div class="callout">
       <p><strong>Nobody is asked to talk about themselves.</strong> You play a card, not an experience. Every harm on the table came out of the deck, so nothing in this game requires you to have been there. Anyone can pass at any point, for any reason or none.</p>
@@ -469,7 +473,7 @@
       <form class="form" id="setupForm" novalidate>
         <div class="field">
           <label for="playerCount">Number of players</label>
-          <p class="hint" id="h-count">Two to six. Everyone plays one complication a round.</p>
+          <p class="hint" id="h-count">Choose the number of people playing.</p>
           <select id="playerCount" aria-describedby="h-count">
             <option value="2">2 players</option>
             <option value="3">3 players</option>
@@ -522,12 +526,12 @@
           <form class="form" id="flipForm" novalidate>
             <div class="field">
               <label for="f-fix">What would have stopped it?</label>
-              <p class="hint" id="h-fix">One sentence the whole table agrees on. Nothing here is scored &mdash; the fixes belong to everyone.</p>
+              <p class="hint" id="h-fix">One sentence the whole table agrees on.</p>
               <textarea id="f-fix" rows="6" aria-describedby="h-fix"></textarea>
             </div>
             <fieldset class="field principles">
               <legend>Which principles does it serve?</legend>
-              <p class="hint" id="h-principle">Tick every one that applies. If none of the six fit, tick the last one: that is a finding about the principle set, not a failure.</p>
+              <p class="hint" id="h-principle">Tick every one that fits. If none fit, tick the last.</p>
               <div class="checks" id="f-principles" aria-describedby="h-principle"></div>
             </fieldset>
             <div class="controls" style="margin:0">
@@ -539,7 +543,7 @@
 
       <div class="timer">
         <span class="clock" id="clock">0:00</span>
-        <span class="timer-label" id="timerLabel">One minute each to say how yours makes it worse, then talk.</span>
+        <span class="timer-label" id="timerLabel">One minute each, then talk.</span>
         <button class="act ghost" id="t1" type="button">1 min</button>
         <button class="act ghost" id="t3" type="button">3 min</button>
         <button class="act ghost" id="tStop" type="button" disabled>Stop</button>
@@ -558,7 +562,7 @@
 
   <section id="map">
     <h2>The good practice library</h2>
-    <p class="section-note">Every fix the table agreed, filed under the principle it serves. Nothing here is scored or attributed to one person &mdash; the fixes were made together. The empty columns are as informative as the full ones: they show what this group did not reach for.</p>
+    <p class="section-note">Each mitigation, filed under the principles it serves. Empty columns show what the group did not reach for.</p>
     <div id="principleMap"></div>
     <div class="controls">
       <button class="act ghost" type="button" id="mapExportBtn" aria-expanded="false">Show the write-up text</button>
@@ -569,31 +573,7 @@
     <p class="vh" aria-live="polite" id="mapAnnounce"></p>
   </section>
 
-  <hr class="rule">
-
-  <section id="deck">
-    <h2>The whole deck</h2>
-    <p class="section-note">Thirty dilemmas in six categories, four testimony cards, twenty complications for each dilemma (plus any you add), seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
-    <h3>Add your own complication</h3>
-    <p class="section-note">Write one complication for a specific dilemma. It joins that dilemma's cards on this device and is dealt whenever that dilemma is played. You can remove cards you added, but not the printed ones.</p>
-    <form class="form" id="compForm" novalidate>
-      <div class="field">
-        <label for="c-scen">Which dilemma is it for?</label>
-        <select id="c-scen"></select>
-      </div>
-      <div class="field">
-        <label for="c-text">Your complication</label>
-        <p class="hint" id="h-comp">One sentence that would make this dilemma worse.</p>
-        <input type="text" id="c-text" autocomplete="off" aria-describedby="h-comp">
-      </div>
-      <div class="controls" style="margin:0">
-        <button class="act" type="submit">Add to the library</button>
-      </div>
-    </form>
-    <p class="vh" aria-live="polite" id="compAnnounce"></p>
-    <div id="browse"></div>
-  </section>
-
+  
   <hr class="rule">
 
   <section id="rules">
@@ -1543,37 +1523,6 @@ function ugcForm(pi){
     '<p class="hint">This will be checked by a moderator.</p></form>';
 }
 
-function compCard(ci){
-  var custom=ci>=CUSTOM_START, off=COMP_OFF[ci];
-  return '<article class="card comp'+(off?' removed':'')+'" data-cat="'+SCENARIOS[COMP_SCEN[ci]].c+'"><div class="card-head">'+
-    '<span class="kind">'+(COMP_UGC[ci]?'UGC':custom?'Added by you':'Complication')+'</span><span class="num">'+pad(ci+1)+'</span></div>'+
-    '<p class="text">'+esc(COMPLICATIONS[ci])+'</p>'+
-    (custom&&!off?'<button type="button" class="act ghost small" data-rm="'+ci+'">Remove from library</button>':'')+
-    (off?'<p class="hint">Removed. It will not be dealt again.</p>':'')+'</article>';
-}
-
-function renderBrowse(){
-  // keep any dilemma the reader has open open after a re-render
-  var open={};
-  document.querySelectorAll('#browse details.scenlib[open]').forEach(function(d){open[d.getAttribute('data-s')]=true;});
-  $('browse').innerHTML=
-    '<h3 class="group-title">Scenarios</h3><div class="deckgrid">'+
-    SCENARIOS.map(function(s,i){return '<article class="card scen" data-cat="'+s.c+'"><div class="card-head">'+
-      '<span class="kind">Scenario</span><span class="num">'+pad(i+1)+'</span></div>'+svg(s.i)+
-      '<p class="cat-label">'+esc(PRINCIPLES[s.c].n)+'</p><p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p></article>';}).join('')+
-    '</div><h3 class="group-title">Complications, by dilemma</h3>'+
-    SCENARIOS.map(function(s,si){
-      return '<details class="scenlib" data-s="'+si+'"'+(open[si]?' open':'')+'><summary>'+pad(si+1)+
-        ' &middot; '+esc(s.t)+' <span class="cnt">'+activeFor(si).length+'</span></summary>'+
-        '<div class="deckgrid">'+SCEN_IDX[si].map(compCard).join('')+'</div></details>';}).join('')+
-    '<h3 class="group-title">Whose view?</h3><div class="deckgrid">'+
-    PERSONAS.map(function(p,i){return '<article class="card pers"><div class="card-head">'+
-      '<span class="kind">Persona</span><span class="num">'+pad(i+1)+'</span></div>'+
-      '<h3>'+esc(p.r)+'</h3><p class="text">'+esc(p.o)+'</p><ul class="hold">'+
-      p.h.map(function(h){return '<li>'+esc(h)+'</li>';}).join('')+'</ul></article>';}).join('')+
-    '</div><p>Lay the six persona cards out at the end of the card game and ask whose view is missing '+
-    'from the wall. Capture the gaps as open questions. These are a gap-check, not roles to play.</p>';
-}
 
 /* ---------- Common Ground: the game ---------- */
 
@@ -1758,7 +1707,7 @@ function pendingFrom(from){
 function showMine(pi){
   if(G.phase!=='play'||G.turn!==pi){return;}
   G.shown=pi; saveGame(); renderTable();
-  say(G.players[pi].name+', your cards are showing. Only you should look.');
+  say(G.players[pi].name+', only you should look.');
 }
 function hideMine(){
   G.shown=null; saveGame(); renderTable();
@@ -1770,7 +1719,7 @@ function handOver(from){
   else{say('Everyone has locked in. Reveal together.');}
 }
 function playText(){
-  if(G.shown!=null){return G.players[G.shown].name+': choose one complication to make this worse, then hand over. Nobody else should look.';}
+  if(G.shown!=null){return G.players[G.shown].name+': choose one complication, then hand over.';}
   if(G.turn!=null){return 'Handover to '+G.players[G.turn].name+'. '+G.players[G.turn].name+', press Show my cards on your card.';}
   return 'Everyone has locked in. Reveal together.';
 }
@@ -1799,7 +1748,7 @@ function reveal(){
   if(G.phase!=='play'||!allLocked()){return;}
   G.phase='reveal';
   saveGame(); renderTable();
-  say('Revealed. One sentence each: how does your complication make this worse, and for whom?');
+  say('Cards revealed.');
 }
 
 function castVote(pi,delta){
@@ -1842,10 +1791,10 @@ function declareWorst(pi){
   $('f-principles').innerHTML=PRINCIPLES.map(function(p,i){
     return '<label class="check"><input type="checkbox" name="f-pr" value="'+i+'"> '+esc(p.n)+'</label>';}).join('');
   $('f-fix').value='';
-  $('flipWho').textContent='The table voted '+G.players[pi].name+'\u2019s card the worst. '+
-    'That is the point scored. Now agree the mitigation strategies together.';
+  $('flipWho').textContent=G.players[pi].name+'\u2019s card got the most votes and scores a point. '+
+    'Now agree a mitigation together.';
   $('f-fix').focus();
-  say(G.players[pi].name+' played the worst card and takes a point. Now agree the mitigation together.');
+  say(G.players[pi].name+' scores a point.');
 }
 
 function prsOf(l){return l.principles||[l.principle];}
@@ -1897,9 +1846,9 @@ function renderTable(){
   var need=playCount();
   var txt={
     play:playText(),
-    reveal:'One sentence each: how does yours make this worse, and for whom? Then point on three and tally the votes \u2014 you may not vote for your own card.',
+    reveal:'Say how your card makes it worse. Point on three, then vote for the worst card. You cannot vote for your own.',
     tie:'Tied. The Dealer, '+G.players[G.dealer].name+', taps the winning card.',
-    flip:'Agree the mitigation as a table, then tick every principle it serves.',
+    flip:'Agree a mitigation, then tick the principles it serves.',
     over:'Every dilemma has been played.'
   };
   $('instruct').textContent=txt[G.phase]||'';
@@ -1971,8 +1920,8 @@ function renderTestimony(){
     '<blockquote class="voice">'+esc(t.v)+'</blockquote>'+
     '<details class="stall"><summary>If it stalls</summary><ul>'+
     t.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></details></article>';
-  $('instruct').textContent='Read it aloud, in full. Nobody plays a complication on this card. '+
-    'Everyone writes one thing that should have happened, and every one of them gets filed.';
+  $('instruct').textContent='Read it aloud. '+
+    'Everyone writes one thing that should have happened.';
   $('seats').innerHTML='<form class="form testiform" id="testiForm" novalidate>'+
     G.players.map(function(p,pi){
       return '<div class="field"><label for="n-'+pi+'">'+esc(p.name)+'</label>'+
@@ -2229,35 +2178,6 @@ if(loadGame()){
   renderTable(); renderCoverage(); renderMap();
   say('Picked up where you left off, round '+G.round+'.');
 }
-fillCompSelect();
-renderBrowse();
-
-/* ---------- add your own complication ---------- */
-function fillCompSelect(){
-  $('c-scen').innerHTML=SCENARIOS.map(function(s,i){
-    return '<option value="'+i+'">'+pad(i+1)+' — '+esc(s.t)+'</option>';}).join('');
-}
-
-$('compForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var t=$('c-text').value.trim();
-  if(!t){$('compAnnounce').textContent='Write the complication before adding it.';$('c-text').focus();return;}
-  var s=parseInt($('c-scen').value,10);
-  addCustom(s,t);
-  $('c-text').value='';
-  renderBrowse();
-  $('compAnnounce').textContent='Added to '+SCENARIOS[s].t+'. It will be dealt when that dilemma is played.';
-  $('c-text').focus();
-});
-
-$('browse').addEventListener('click',function(e){
-  var b=e.target.closest?e.target.closest('[data-rm]'):null;
-  if(!b){return;}
-  removeCustom(parseInt(b.getAttribute('data-rm'),10));
-  renderBrowse();
-  $('compAnnounce').textContent='Removed from the library.';
-});
-
 /* ---------- Activity 2: rule builder ---------- */
 var rules=[];
 
