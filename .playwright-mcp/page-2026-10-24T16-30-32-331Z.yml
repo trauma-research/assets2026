@@ -1,0 +1,540 @@
+- generic [active] [ref=f3e1]:
+  - link "Skip to main content" [ref=f3e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f3e3]:
+    - generic [ref=f3e4]:
+      - paragraph [ref=f3e5]: Activity 1 · Diverging
+      - heading "Make It Worse" [level=1] [ref=f3e6]
+      - paragraph [ref=f3e7]: The Activity 1 card game. Two to six players, roughly five minutes a round.
+      - link "← Back to the workshop page" [ref=f3e8] [cursor=pointer]:
+        - /url: index.html
+  - main [ref=f3e9]:
+    - generic [ref=f3e10]:
+      - generic [ref=f3e11]:
+        - heading "Make It Worse" [level=2] [ref=f3e12]
+        - paragraph [ref=f3e13]:
+          - text: A card game for two to six people, about the ways research goes wrong. The Dealer turns over a scenario; everyone plays a complication to make it worse. Reveal together, agree which does the most damage, then say what would have stopped it — and which principle that answer serves. Roughly five minutes a round. After every third round the table reads a
+          - strong [ref=f3e14]: testimony card
+          - text: instead — one person's own account, in their own words. Nobody plays a complication on those.
+        - paragraph [ref=f3e16]:
+          - strong [ref=f3e17]: Nobody is asked to talk about themselves.
+          - text: You play a card, not an experience. Every harm on the table came out of the deck, so nothing in this game requires you to have been there. Anyone can pass at any point, for any reason or none.
+        - generic [ref=f3e18]:
+          - heading "Who is playing?" [level=3] [ref=f3e19]
+          - generic [ref=f3e20]:
+            - generic [ref=f3e21]:
+              - generic [ref=f3e22]: Number of players
+              - paragraph [ref=f3e23]: Two to six. With two players you each play two complications a round.
+              - combobox "Number of players" [ref=f3e24]:
+                - option "2 players"
+                - option "3 players"
+                - option "4 players"
+                - option "5 players" [selected]
+                - option "6 players"
+            - generic [ref=f3e25]:
+              - generic [ref=f3e26]: Names, separated by commas
+              - paragraph [ref=f3e27]: Optional. Leave this blank and everyone gets a number.
+              - textbox "Names, separated by commas" [ref=f3e28]
+            - button "Deal the first hand" [ref=f3e30] [cursor=pointer]
+      - separator [ref=f3e31]
+      - generic [ref=f3e32]:
+        - heading "The good practice library" [level=2] [ref=f3e33]
+        - paragraph [ref=f3e34]: "Every fix the table agreed, filed under the principle it serves. Nothing here is scored or attributed to one person — the fixes were made together. The empty columns are as informative as the full ones: they show what this group did not reach for."
+        - generic [ref=f3e35]:
+          - generic [ref=f3e36]:
+            - heading "Safety 0" [level=3] [ref=f3e37]:
+              - text: Safety
+              - generic [ref=f3e38]: "0"
+            - paragraph [ref=f3e39]: Does this person feel safe in this room, in this format, with you — and do you?
+            - paragraph [ref=f3e40]: Nothing filed here yet.
+          - generic [ref=f3e41]:
+            - heading "Trustworthiness and transparency 0" [level=3] [ref=f3e42]:
+              - text: Trustworthiness and transparency
+              - generic [ref=f3e43]: "0"
+            - paragraph [ref=f3e44]: Does the participant know what happens to what they say, who hears it, and what you cannot promise?
+            - paragraph [ref=f3e45]: Nothing filed here yet.
+          - generic [ref=f3e46]:
+            - heading "Peer support 0" [level=3] [ref=f3e47]:
+              - text: Peer support
+              - generic [ref=f3e48]: "0"
+            - paragraph [ref=f3e49]: Is anyone here because they have been through it — and are they paid, supported and credited?
+            - paragraph [ref=f3e50]: Nothing filed here yet.
+          - generic [ref=f3e51]:
+            - heading "Collaboration and mutuality 0" [level=3] [ref=f3e52]:
+              - text: Collaboration and mutuality
+              - generic [ref=f3e53]: "0"
+            - paragraph [ref=f3e54]: Who set the question, who controls the pace, and who decides when it stops?
+            - paragraph [ref=f3e55]: Nothing filed here yet.
+          - generic [ref=f3e56]:
+            - heading "Empowerment, voice and choice 0" [level=3] [ref=f3e57]:
+              - text: Empowerment, voice and choice
+              - generic [ref=f3e58]: "0"
+            - paragraph [ref=f3e59]: Is the choice on offer a real one, or a choice between taking part as designed and not at all?
+            - paragraph [ref=f3e60]: Nothing filed here yet.
+          - generic [ref=f3e61]:
+            - heading "Cultural, historical and gender issues 0" [level=3] [ref=f3e62]:
+              - text: Cultural, historical and gender issues
+              - generic [ref=f3e63]: "0"
+            - paragraph [ref=f3e64]: Whose norms shaped this method, and what history does this community have with people like you?
+            - paragraph [ref=f3e65]: Nothing filed here yet.
+          - generic [ref=f3e66]:
+            - heading "None of these fit 0" [level=3] [ref=f3e67]:
+              - text: None of these fit
+              - generic [ref=f3e68]: "0"
+            - paragraph [ref=f3e69]: So what does it serve? A principle set that cannot name your fix is a finding about the set.
+            - paragraph [ref=f3e70]: Nothing filed here yet.
+        - generic [ref=f3e71]:
+          - button "Show the write-up text" [ref=f3e72] [cursor=pointer]
+          - button "Copy to clipboard" [ref=f3e73] [cursor=pointer]
+          - button "Download as Markdown" [ref=f3e74] [cursor=pointer]
+        - paragraph [ref=f3e75]
+      - separator [ref=f3e76]
+      - generic [ref=f3e77]:
+        - heading "The whole deck" [level=2] [ref=f3e78]
+        - paragraph [ref=f3e79]:
+          - text: "Twenty-two scenarios, four testimony cards, six complications for each scenario (plus any you add), seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming:"
+          - link "download the print-ready deck (PDF)" [ref=f3e80] [cursor=pointer]:
+            - /url: activity1-card-deck-A5.pdf
+          - text: .
+        - heading "Add your own complication" [level=3] [ref=f3e81]
+        - paragraph [ref=f3e82]: Write one complication for a specific dilemma. It joins that dilemma's cards on this device and is dealt whenever that dilemma is played. You can remove cards you added, but not the printed ones.
+        - generic [ref=f3e83]:
+          - generic [ref=f3e84]:
+            - generic [ref=f3e85]: Which dilemma is it for?
+            - combobox "Which dilemma is it for?" [ref=f3e86]:
+              - option "01 — The disclosure" [selected]
+              - option "02 — The enthusiastic yes"
+              - option "03 — The gatekeeper"
+              - option "04 — The third transcript"
+              - option "05 — The identifying quote"
+              - option "06 — The threshold"
+              - option "07 — The late withdrawal"
+              - option "08 — The session that becomes something else"
+              - option "09 — The returning participant"
+              - option "10 — The squeezed timeline"
+              - option "11 — Reviewer 2"
+              - option "12 — The journalist"
+              - option "13 — Asked again"
+              - option "14 — The storytelling circle"
+              - option "15 — You, after the sixth interview"
+              - option "16 — Ethics says no"
+              - option "17 — The child who tells the room"
+              - option "18 — Whose story is it"
+              - option "19 — The screen goes dark"
+              - option "20 — The room itself"
+              - option "21 — Say exactly what happened"
+              - option "22 — The pace they need"
+          - generic [ref=f3e87]:
+            - generic [ref=f3e88]: Your complication
+            - paragraph [ref=f3e89]: One sentence that would make this dilemma worse.
+            - textbox "Your complication" [ref=f3e90]
+          - button "Add to the library" [ref=f3e92] [cursor=pointer]
+        - paragraph [ref=f3e93]
+        - generic [ref=f3e94]:
+          - heading "Scenarios" [level=3] [ref=f3e95]
+          - generic [ref=f3e96]:
+            - article [ref=f3e97]:
+              - generic [ref=f3e98]:
+                - generic [ref=f3e99]: Scenario
+                - generic [ref=f3e100]: "01"
+              - paragraph [ref=f3e105]: Data collection
+              - heading "The disclosure" [level=3] [ref=f3e106]
+              - paragraph [ref=f3e107]: A participant in a study about navigation aids begins describing an assault that happened while using one. It is not what you are studying. The recorder is running.
+            - article [ref=f3e108]:
+              - generic [ref=f3e109]:
+                - generic [ref=f3e110]: Scenario
+                - generic [ref=f3e111]: "02"
+              - paragraph [ref=f3e120]: Consent
+              - heading "The enthusiastic yes" [level=3] [ref=f3e121]
+              - paragraph [ref=f3e122]: A participant with an intellectual disability agrees to everything you propose, warmly, including things you can tell they have not understood.
+            - article [ref=f3e123]:
+              - generic [ref=f3e124]:
+                - generic [ref=f3e125]: Scenario
+                - generic [ref=f3e126]: "03"
+              - paragraph [ref=f3e131]: Recruitment
+              - heading "The gatekeeper" [level=3] [ref=f3e132]
+              - paragraph [ref=f3e133]: A disability charity will give you access to participants, but wants to review your findings before publication and to sit in on interviews.
+            - article [ref=f3e134]:
+              - generic [ref=f3e135]:
+                - generic [ref=f3e136]: Scenario
+                - generic [ref=f3e137]: "04"
+              - paragraph [ref=f3e143]: Analysis
+              - heading "The third transcript" [level=3] [ref=f3e144]
+              - paragraph [ref=f3e145]: Your research assistant has transcribed three interviews about domestic abuse this week and has gone quiet in supervision.
+            - article [ref=f3e146]:
+              - generic [ref=f3e147]:
+                - generic [ref=f3e148]: Scenario
+                - generic [ref=f3e149]: "05"
+              - paragraph [ref=f3e153]: Dissemination
+              - heading "The identifying quote" [level=3] [ref=f3e154]
+              - paragraph [ref=f3e155]: Your most powerful quote is also the most identifying. Removing the detail removes the point.
+            - article [ref=f3e156]:
+              - generic [ref=f3e157]:
+                - generic [ref=f3e158]: Scenario
+                - generic [ref=f3e159]: "06"
+              - paragraph [ref=f3e164]: Data collection
+              - heading "The threshold" [level=3] [ref=f3e165]
+              - paragraph [ref=f3e166]: A participant describes a current situation that may meet your institution's safeguarding threshold. They told you in confidence and asked you explicitly not to act.
+            - article [ref=f3e167]:
+              - generic [ref=f3e168]:
+                - generic [ref=f3e169]: Scenario
+                - generic [ref=f3e170]: "07"
+              - paragraph [ref=f3e178]: Analysis
+              - heading "The late withdrawal" [level=3] [ref=f3e179]
+              - paragraph [ref=f3e180]: A participant withdraws after analysis is complete and the paper is under review. Their data shaped the themes.
+            - article [ref=f3e181]:
+              - generic [ref=f3e182]:
+                - generic [ref=f3e183]: Scenario
+                - generic [ref=f3e184]: "08"
+              - paragraph [ref=f3e188]: Data collection
+              - heading "The session that becomes something else" [level=3] [ref=f3e189]
+              - paragraph [ref=f3e190]: Your co-design workshop turns into a support group. The participants want that. Your funder wants design outputs.
+            - article [ref=f3e191]:
+              - generic [ref=f3e192]:
+                - generic [ref=f3e193]: Scenario
+                - generic [ref=f3e194]: "09"
+              - paragraph [ref=f3e200]: Aftercare
+              - heading "The returning participant" [level=3] [ref=f3e201]
+              - paragraph [ref=f3e202]: Someone who took part two years ago emails asking what happened to the study, and whether anything actually changed.
+            - article [ref=f3e203]:
+              - generic [ref=f3e204]:
+                - generic [ref=f3e205]: Scenario
+                - generic [ref=f3e206]: "10"
+              - paragraph [ref=f3e212]: Recruitment
+              - heading "The squeezed timeline" [level=3] [ref=f3e213]
+              - paragraph [ref=f3e214]: Ethics took four months. The funded period did not move. Recruitment now has to happen in three weeks.
+            - article [ref=f3e215]:
+              - generic [ref=f3e216]:
+                - generic [ref=f3e217]: Scenario
+                - generic [ref=f3e218]: "11"
+              - paragraph [ref=f3e223]: Dissemination
+              - heading "Reviewer 2" [level=3] [ref=f3e224]
+              - paragraph [ref=f3e225]: A reviewer says your trauma-informed protocol made the study methodologically weak, because you did not probe.
+            - article [ref=f3e226]:
+              - generic [ref=f3e227]:
+                - generic [ref=f3e228]: Scenario
+                - generic [ref=f3e229]: "12"
+              - paragraph [ref=f3e234]: Dissemination
+              - heading "The journalist" [level=3] [ref=f3e235]
+              - paragraph [ref=f3e236]: A reporter wants to cover your findings and to interview a participant directly.
+            - article [ref=f3e237]:
+              - generic [ref=f3e238]:
+                - generic [ref=f3e239]: Scenario
+                - generic [ref=f3e240]: "13"
+              - paragraph [ref=f3e248]: Data collection
+              - heading "Asked again" [level=3] [ref=f3e249]
+              - paragraph [ref=f3e250]: A participant who spoke warmly about your first study agrees to the follow-up, then becomes distressed. Revisiting it has brought back what they thought they had processed.
+            - article [ref=f3e251]:
+              - generic [ref=f3e252]:
+                - generic [ref=f3e253]: Scenario
+                - generic [ref=f3e254]: "14"
+              - paragraph [ref=f3e263]: Consent
+              - heading "The storytelling circle" [level=3] [ref=f3e264]
+              - paragraph [ref=f3e265]: A community partner proposes a storytelling circle for women with experience of gender-based violence. Your institution requires audio recording and signed consent. They do not want to sign anything.
+            - article [ref=f3e266]:
+              - generic [ref=f3e267]:
+                - generic [ref=f3e268]: Scenario
+                - generic [ref=f3e269]: "15"
+              - paragraph [ref=f3e274]: Analysis
+              - heading "You, after the sixth interview" [level=3] [ref=f3e275]
+              - paragraph [ref=f3e276]: Repeated interviews with young people who were forcibly displaced. The work matters and you are overwhelmed after every session. You will not raise it with your supervisor, and there is nothing in place if you did.
+            - article [ref=f3e277]:
+              - generic [ref=f3e278]:
+                - generic [ref=f3e279]: Scenario
+                - generic [ref=f3e280]: "16"
+              - paragraph [ref=f3e285]: Recruitment
+              - heading "Ethics says no" [level=3] [ref=f3e286]
+              - paragraph [ref=f3e287]: Your co-design partners want drop-in participation and a method that can flex. The ethics board requires fixed inclusion criteria, consent in advance, and a formal data protocol.
+            - article [ref=f3e288]:
+              - generic [ref=f3e289]:
+                - generic [ref=f3e290]: Scenario
+                - generic [ref=f3e291]: "17"
+              - paragraph [ref=f3e300]: Data collection
+              - heading "The child who tells the room" [level=3] [ref=f3e301]
+              - paragraph [ref=f3e302]: A child in a participatory group session tells everyone something distressing. You do not know whether to intervene, report, or let it pass, or what to write down afterwards.
+            - article [ref=f3e303]:
+              - generic [ref=f3e304]:
+                - generic [ref=f3e305]: Scenario
+                - generic [ref=f3e306]: "18"
+              - paragraph [ref=f3e312]: Dissemination
+              - heading "Whose story is it" [level=3] [ref=f3e313]
+              - paragraph [ref=f3e314]: A grassroots organisation wants to co-own and publish the stories collected with them. Your ethics board requires everything anonymised and access restricted.
+            - article [ref=f3e315]:
+              - generic [ref=f3e316]:
+                - generic [ref=f3e317]: Scenario
+                - generic [ref=f3e318]: "19"
+              - paragraph [ref=f3e323]: Data collection
+              - heading "The screen goes dark" [level=3] [ref=f3e324]
+              - paragraph [ref=f3e325]: A remote interview. They begin describing medical neglect, their voice goes, and the call ends. They do not come back. You have an email address and no follow-up plan.
+            - article [ref=f3e326]:
+              - generic [ref=f3e327]:
+                - generic [ref=f3e328]: Scenario
+                - generic [ref=f3e329]: "20"
+              - paragraph [ref=f3e336]: Data collection
+              - heading "The room itself" [level=3] [ref=f3e337]
+              - paragraph [ref=f3e338]: Fluorescent light, blank walls, security on the door. Your participant says it reminds them of the offices where they were treated badly. They stay, and afterwards they stop replying.
+            - article [ref=f3e339]:
+              - generic [ref=f3e340]:
+                - generic [ref=f3e341]: Scenario
+                - generic [ref=f3e342]: "21"
+              - paragraph [ref=f3e347]: Data collection
+              - heading "Say exactly what happened" [level=3] [ref=f3e348]
+              - paragraph [ref=f3e349]: "A participant describes a family trauma in proverbs and metaphor. A colleague interrupts: can you tell me exactly what happened, were you scared, how did that make you feel. The interview ends early."
+            - article [ref=f3e350]:
+              - generic [ref=f3e351]:
+                - generic [ref=f3e352]: Scenario
+                - generic [ref=f3e353]: "22"
+              - paragraph [ref=f3e358]: Recruitment
+              - heading "The pace they need" [level=3] [ref=f3e359]
+              - paragraph [ref=f3e360]: Participants who have been displaced need time before they will tell you anything, and reschedule often. Your funder wants findings this quarter.
+          - heading "Complications, by dilemma" [level=3] [ref=f3e361]
+          - group [ref=f3e362]:
+            - generic "01 · The disclosure 6" [ref=f3e363] [cursor=pointer]:
+              - text: 01 · The disclosure
+              - generic [ref=f3e364]: "6"
+          - group [ref=f3e365]:
+            - generic "02 · The enthusiastic yes 6" [ref=f3e366] [cursor=pointer]:
+              - text: 02 · The enthusiastic yes
+              - generic [ref=f3e367]: "6"
+          - group [ref=f3e368]:
+            - generic "03 · The gatekeeper 6" [ref=f3e369] [cursor=pointer]:
+              - text: 03 · The gatekeeper
+              - generic [ref=f3e370]: "6"
+          - group [ref=f3e371]:
+            - generic "04 · The third transcript 6" [ref=f3e372] [cursor=pointer]:
+              - text: 04 · The third transcript
+              - generic [ref=f3e373]: "6"
+          - group [ref=f3e374]:
+            - generic "05 · The identifying quote 6" [ref=f3e375] [cursor=pointer]:
+              - text: 05 · The identifying quote
+              - generic [ref=f3e376]: "6"
+          - group [ref=f3e377]:
+            - generic "06 · The threshold 6" [ref=f3e378] [cursor=pointer]:
+              - text: 06 · The threshold
+              - generic [ref=f3e379]: "6"
+          - group [ref=f3e380]:
+            - generic "07 · The late withdrawal 6" [ref=f3e381] [cursor=pointer]:
+              - text: 07 · The late withdrawal
+              - generic [ref=f3e382]: "6"
+          - group [ref=f3e383]:
+            - generic "08 · The session that becomes something else 6" [ref=f3e384] [cursor=pointer]:
+              - text: 08 · The session that becomes something else
+              - generic [ref=f3e385]: "6"
+          - group [ref=f3e386]:
+            - generic "09 · The returning participant 6" [ref=f3e387] [cursor=pointer]:
+              - text: 09 · The returning participant
+              - generic [ref=f3e388]: "6"
+          - group [ref=f3e389]:
+            - generic "10 · The squeezed timeline 6" [ref=f3e390] [cursor=pointer]:
+              - text: 10 · The squeezed timeline
+              - generic [ref=f3e391]: "6"
+          - group [ref=f3e392]:
+            - generic "11 · Reviewer 2 6" [ref=f3e393] [cursor=pointer]:
+              - text: 11 · Reviewer 2
+              - generic [ref=f3e394]: "6"
+          - group [ref=f3e395]:
+            - generic "12 · The journalist 6" [ref=f3e396] [cursor=pointer]:
+              - text: 12 · The journalist
+              - generic [ref=f3e397]: "6"
+          - group [ref=f3e398]:
+            - generic "13 · Asked again 6" [ref=f3e399] [cursor=pointer]:
+              - text: 13 · Asked again
+              - generic [ref=f3e400]: "6"
+          - group [ref=f3e401]:
+            - generic "14 · The storytelling circle 6" [ref=f3e402] [cursor=pointer]:
+              - text: 14 · The storytelling circle
+              - generic [ref=f3e403]: "6"
+          - group [ref=f3e404]:
+            - generic "15 · You, after the sixth interview 6" [ref=f3e405] [cursor=pointer]:
+              - text: 15 · You, after the sixth interview
+              - generic [ref=f3e406]: "6"
+          - group [ref=f3e407]:
+            - generic "16 · Ethics says no 6" [ref=f3e408] [cursor=pointer]:
+              - text: 16 · Ethics says no
+              - generic [ref=f3e409]: "6"
+          - group [ref=f3e410]:
+            - generic "17 · The child who tells the room 6" [ref=f3e411] [cursor=pointer]:
+              - text: 17 · The child who tells the room
+              - generic [ref=f3e412]: "6"
+          - group [ref=f3e413]:
+            - generic "18 · Whose story is it 6" [ref=f3e414] [cursor=pointer]:
+              - text: 18 · Whose story is it
+              - generic [ref=f3e415]: "6"
+          - group [ref=f3e416]:
+            - generic "19 · The screen goes dark 6" [ref=f3e417] [cursor=pointer]:
+              - text: 19 · The screen goes dark
+              - generic [ref=f3e418]: "6"
+          - group [ref=f3e419]:
+            - generic "20 · The room itself 6" [ref=f3e420] [cursor=pointer]:
+              - text: 20 · The room itself
+              - generic [ref=f3e421]: "6"
+          - group [ref=f3e422]:
+            - generic "21 · Say exactly what happened 6" [ref=f3e423] [cursor=pointer]:
+              - text: 21 · Say exactly what happened
+              - generic [ref=f3e424]: "6"
+          - group [ref=f3e425]:
+            - generic "22 · The pace they need 6" [ref=f3e426] [cursor=pointer]:
+              - text: 22 · The pace they need
+              - generic [ref=f3e427]: "6"
+          - heading "Whose view?" [level=3] [ref=f3e428]
+          - generic [ref=f3e429]:
+            - article [ref=f3e430]:
+              - generic [ref=f3e431]:
+                - generic [ref=f3e432]: Persona
+                - generic [ref=f3e433]: "01"
+              - heading "Primary researcher" [level=3] [ref=f3e434]
+              - paragraph [ref=f3e435]: Holds the relationship with participants and makes the decisions in the room.
+              - list [ref=f3e436]:
+                - listitem [ref=f3e437]: — Controls what is asked, when, and whether to stop.
+                - listitem [ref=f3e438]: — Sees the room, the pauses, and everything the recorder misses.
+                - listitem [ref=f3e439]: — Cannot see what the institution will defend, or what happens once the study closes.
+            - article [ref=f3e440]:
+              - generic [ref=f3e441]:
+                - generic [ref=f3e442]: Persona
+                - generic [ref=f3e443]: "02"
+              - heading "Research supervisor" [level=3] [ref=f3e444]
+              - paragraph [ref=f3e445]: Accountable for the study and for the people running it.
+              - list [ref=f3e446]:
+                - listitem [ref=f3e447]: — Controls workload, what counts as enough data, and whose career is exposed.
+                - listitem [ref=f3e448]: — Sees the pattern across projects and students.
+                - listitem [ref=f3e449]: — Cannot see what actually happened in the interview room.
+            - article [ref=f3e450]:
+              - generic [ref=f3e451]:
+                - generic [ref=f3e452]: Persona
+                - generic [ref=f3e453]: "03"
+              - heading "Ethics and data protection" [level=3] [ref=f3e454]
+              - paragraph [ref=f3e455]: Approves the protocol and sets the conditions it runs under.
+              - list [ref=f3e456]:
+                - listitem [ref=f3e457]: — Controls approval, conditions, and what may be stored and for how long.
+                - listitem [ref=f3e458]: — Sees the written protocol.
+                - listitem [ref=f3e459]: — Cannot see the gap between the protocol and the practice.
+            - article [ref=f3e460]:
+              - generic [ref=f3e461]:
+                - generic [ref=f3e462]: Persona
+                - generic [ref=f3e463]: "04"
+              - heading "Safeguarding lead" [level=3] [ref=f3e464]
+              - paragraph [ref=f3e465]: Acts when a threshold is met, whatever the research needs.
+              - list [ref=f3e466]:
+                - listitem [ref=f3e467]: — Controls escalation, and where the threshold sits.
+                - listitem [ref=f3e468]: — Sees the risk, once somebody reports it.
+                - listitem [ref=f3e469]: — Cannot see what the participant wanted to happen.
+            - article [ref=f3e470]:
+              - generic [ref=f3e471]:
+                - generic [ref=f3e472]: Persona
+                - generic [ref=f3e473]: "05"
+              - heading "Research participant" [level=3] [ref=f3e474]
+              - paragraph [ref=f3e475]: Gives the account, and lives with having given it.
+              - list [ref=f3e476]:
+                - listitem [ref=f3e477]: — Controls what to say, what to withhold, and whether to come back.
+                - listitem [ref=f3e478]: — Sees exactly how they were treated.
+                - listitem [ref=f3e479]: — Cannot see what happens to their words after they leave the room.
+            - article [ref=f3e480]:
+              - generic [ref=f3e481]:
+                - generic [ref=f3e482]: Persona
+                - generic [ref=f3e483]: "06"
+              - heading "Parent or carer" [level=3] [ref=f3e484]
+              - paragraph [ref=f3e485]: Often the route in, and sometimes the voice over the top.
+              - list [ref=f3e486]:
+                - listitem [ref=f3e487]: — Controls access, frequently consent, sometimes the account itself.
+                - listitem [ref=f3e488]: — Sees the aftermath at home.
+                - listitem [ref=f3e489]: — Cannot see what was said when they were not there, or talks across it.
+          - paragraph [ref=f3e490]: Lay the six persona cards out at the end of Activity 1 and ask whose view is missing from the wall. Capture the gaps as open questions. These are a gap-check, not roles to play.
+      - separator [ref=f3e491]
+      - generic [ref=f3e492]:
+        - heading "Activity 2 — build the rules" [level=2] [ref=f3e493]
+        - paragraph [ref=f3e494]:
+          - text: "Type each rule up as the pairs finish it, so the sheets are already transcribed when the workshop ends. Every rule has to answer a specific harm card from Activity 1. The printed version is A3:"
+          - link "download the rule sheet (PDF)" [ref=f3e495] [cursor=pointer]:
+            - /url: activity2-rule-sheet-A3.pdf
+          - text: and print one per rule, plus a parked sheet.
+        - generic [ref=f3e496]:
+          - generic [ref=f3e497]:
+            - generic [ref=f3e498]: The rule
+            - paragraph [ref=f3e499]: Twelve words or fewer. Imperative — something that could sit in a checklist.
+            - textbox "The rule" [ref=f3e500]
+            - generic [ref=f3e501]: 0 words
+          - generic [ref=f3e502]:
+            - generic [ref=f3e503]:
+              - generic [ref=f3e504]: Answers harm card
+              - combobox "Answers harm card" [ref=f3e505]:
+                - option "Choose a card" [selected]
+                - option "01 — The disclosure"
+                - option "02 — The enthusiastic yes"
+                - option "03 — The gatekeeper"
+                - option "04 — The third transcript"
+                - option "05 — The identifying quote"
+                - option "06 — The threshold"
+                - option "07 — The late withdrawal"
+                - option "08 — The session that becomes something else"
+                - option "09 — The returning participant"
+                - option "10 — The squeezed timeline"
+                - option "11 — Reviewer 2"
+                - option "12 — The journalist"
+                - option "13 — Asked again"
+                - option "14 — The storytelling circle"
+                - option "15 — You, after the sixth interview"
+                - option "16 — Ethics says no"
+                - option "17 — The child who tells the room"
+                - option "18 — Whose story is it"
+                - option "19 — The screen goes dark"
+                - option "20 — The room itself"
+                - option "21 — Say exactly what happened"
+                - option "22 — The pace they need"
+            - generic [ref=f3e506]:
+              - generic [ref=f3e507]: When in the lifecycle
+              - combobox "When in the lifecycle" [ref=f3e508]:
+                - option "Choose a phase" [selected]
+                - option "Recruitment"
+                - option "Consent"
+                - option "Data collection"
+                - option "Analysis"
+                - option "Dissemination"
+                - option "Aftercare"
+          - generic [ref=f3e509]:
+            - generic [ref=f3e510]: Who is responsible
+            - paragraph [ref=f3e511]: A role from the persona deck, not “researchers”.
+            - combobox "Who is responsible" [ref=f3e512]:
+              - option "Choose a role" [selected]
+              - option "Primary researcher"
+              - option "Research supervisor"
+              - option "Ethics and data protection"
+              - option "Safeguarding lead"
+              - option "Research participant"
+              - option "Parent or carer"
+          - generic [ref=f3e513]:
+            - generic [ref=f3e514]: What it costs
+            - paragraph [ref=f3e515]: "Name the real trade: a smaller sample, a slower start, a question you do not get to ask, a finding you cannot publish."
+            - textbox "What it costs" [ref=f3e516]
+          - generic [ref=f3e517]:
+            - generic [ref=f3e518]: Failure signal
+            - paragraph [ref=f3e519]: How would you know, from outside, that this was not happening?
+            - textbox "Failure signal" [ref=f3e520]
+          - generic [ref=f3e521]:
+            - generic [ref=f3e522]: Open question
+            - paragraph [ref=f3e523]: What could the pair not resolve? Leave it blank if nothing.
+            - textbox "Open question" [ref=f3e524]
+          - generic [ref=f3e525]:
+            - button "Add this rule" [ref=f3e526] [cursor=pointer]
+            - button "Clear the form" [ref=f3e527] [cursor=pointer]
+        - heading "Rules so far — none yet" [level=3] [ref=f3e528]
+        - list
+        - generic [ref=f3e529]:
+          - button "Show the write-up text" [ref=f3e530] [cursor=pointer]
+          - button "Copy to clipboard" [ref=f3e531] [cursor=pointer]
+          - button "Download as Markdown" [ref=f3e532] [cursor=pointer]
+        - paragraph [ref=f3e533]
+  - contentinfo [ref=f3e534]:
+    - generic [ref=f3e535]:
+      - heading "Contact" [level=2] [ref=f3e536]
+      - paragraph [ref=f3e537]: "For questions about the workshop or this material, contact the lead organiser:"
+      - paragraph [ref=f3e538]:
+        - strong [ref=f3e539]: Maryam Bandukda
+        - text: —
+        - link "m.bandukda@ucl.ac.uk" [ref=f3e540] [cursor=pointer]:
+          - /url: mailto:m.bandukda@ucl.ac.uk
+      - paragraph [ref=f3e541]:
+        - link "Back to the workshop page" [ref=f3e542] [cursor=pointer]:
+          - /url: index.html
+      - generic [ref=f3e543]:
+        - paragraph [ref=f3e544]: Build 2026-10-24d · 22 scenarios, 4 testimony, 132 complications, 7 principles
+        - paragraph [ref=f3e545]: The scenarios and complications are composed for this workshop and do not describe specific studies or people. Co-creating a Trauma-Informed Accessibility Research Practice — a workshop at the 28th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2026), Porto (Vila Nova de Gaia), Portugal.
