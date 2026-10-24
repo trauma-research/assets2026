@@ -358,6 +358,29 @@
     a{color:#000;}
     .card{break-inside:avoid;}
   }
+  /* ---- Category colours: one per SAMHSA principle ---- */
+  [data-cat="0"]{--cat:#0072B2;}
+  [data-cat="1"]{--cat:#E69F00;}
+  [data-cat="2"]{--cat:#009E73;}
+  [data-cat="3"]{--cat:#CC79A7;}
+  [data-cat="4"]{--cat:#D55E00;}
+  [data-cat="5"]{--cat:#6A3D9A;}
+  .card[data-cat]{border-top:8px solid var(--cat);}
+  .pc[data-cat]{box-shadow:inset 6px 0 0 var(--cat);}
+  .cat-label{
+    margin:0 0 .4rem;font-size:.8rem;font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:.45rem;
+  }
+  .cat-label::before{content:"";width:.8rem;height:.8rem;border-radius:50%;background:var(--cat);flex:none;}
+  .ugc-tag{
+    display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;
+    border:1px solid currentColor;border-radius:4px;padding:0 .3rem;margin-right:.25rem;
+  }
+  .ugcform{margin-top:.75rem;border-top:1px dashed var(--line);padding-top:.6rem;}
+  .ugcform label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;}
+  .ugcrow{display:flex;gap:.4rem;}
+  .ugcrow input{flex:1;min-width:0;}
+  .ugcform .hint{font-size:.8rem;margin:.3rem 0 0;color:var(--ink-soft);}
 </style>
 </head>
 <body>
@@ -396,7 +419,7 @@
       <form class="form" id="setupForm" novalidate>
         <div class="field">
           <label for="playerCount">Number of players</label>
-          <p class="hint" id="h-count">Two to six. With two players you each play two complications a round.</p>
+          <p class="hint" id="h-count">Two to six. Everyone plays one complication a round.</p>
           <select id="playerCount" aria-describedby="h-count">
             <option value="2">2 players</option>
             <option value="3">3 players</option>
@@ -470,7 +493,7 @@
       <p class="vh" aria-live="polite" id="announce"></p>
 
       <div class="cover">
-        <h3>Lifecycle covered &mdash; <span id="dealtCount">0 of 22</span> scenarios played</h3>
+        <h3>Lifecycle covered &mdash; <span id="dealtCount">0 of 30</span> scenarios played</h3>
         <ul class="phases" id="phases"></ul>
       </div>
     </div>
@@ -495,7 +518,7 @@
 
   <section id="deck">
     <h2>The whole deck</h2>
-    <p class="section-note">Twenty-two scenarios, four testimony cards, six complications for each scenario (plus any you add), seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
+    <p class="section-note">Thirty dilemmas in six categories, four testimony cards, twenty complications for each dilemma (plus any you add), seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
     <h3>Add your own complication</h3>
     <p class="section-note">Write one complication for a specific dilemma. It joins that dilemma's cards on this device and is dealt whenever that dilemma is played. You can remove cards you added, but not the printed ones.</p>
     <form class="form" id="compForm" novalidate>
@@ -630,211 +653,731 @@ var ICONS={
 };
 
 var SCENARIOS=[
- {t:"The disclosure",x:"A participant in a study about navigation aids begins describing an assault that happened while using one. It is not what you are studying. The recorder is running.",p:"Data collection",i:"recorder",
-  q:["Do you stop the recording, and who decides?","What happens to the account if it stays in the data?","What does this person need in the next ten minutes, and in the next week?"]},
- {t:"The enthusiastic yes",x:"A participant with an intellectual disability agrees to everything you propose, warmly, including things you can tell they have not understood.",p:"Consent",i:"ticks",
-  q:["What would show you the consent is real rather than agreeable?","Who else could help establish it, and what does involving them cost?","At what point does proceeding become your decision rather than theirs?"]},
- {t:"The gatekeeper",x:"A disability charity will give you access to participants, but wants to review your findings before publication and to sit in on interviews.",p:"Recruitment",i:"door",
-  q:["Which of the two requests is negotiable, and which is not?","What do participants lose if the organisation is in the room?","What do you lose if you walk away from the access?"]},
- {t:"The third transcript",x:"Your research assistant has transcribed three interviews about domestic abuse this week and has gone quiet in supervision.",p:"Analysis",i:"pages",
-  q:["Whose job is it to notice, and what should have been in place in week one?","What can you change this week without making it about them?","What would you have wanted, in that post?"]},
- {t:"The identifying quote",x:"Your most powerful quote is also the most identifying. Removing the detail removes the point.",p:"Dissemination",i:"quote",
-  q:["Who gets to make this call, and did they agree to make it?","What would you ask the participant now, and is asking itself a burden?","What is actually lost if the quote simply goes?"]},
- {t:"The threshold",x:"A participant describes a current situation that may meet your institution's safeguarding threshold. They told you in confidence and asked you explicitly not to act.",p:"Data collection",i:"threshold",
-  q:["What did your consent form actually promise about the limits of confidentiality?","Who do you speak to first, and what do you tell the participant?","What should have been said at the start so this was not a surprise?"]},
- {t:"The late withdrawal",x:"A participant withdraws after analysis is complete and the paper is under review. Their data shaped the themes.",p:"Analysis",i:"withdraw",
-  q:["What did you promise about withdrawal, and by when?","Can a theme be unmade? What do you tell your co-authors?","What would an honest footnote say?"]},
- {t:"The session that becomes something else",x:"Your co-design workshop turns into a support group. The participants want that. Your funder wants design outputs.",p:"Data collection",i:"diverge",
-  q:["Which do you serve, and who decides?","Is the shift a failure of the method or a finding in itself?","What goes in the report?"]},
- {t:"The returning participant",x:"Someone who took part two years ago emails asking what happened to the study, and whether anything actually changed.",p:"Aftercare",i:"envelope",
-  q:["What is the honest answer, and can you give it?","What would have made this email unnecessary?","Who owns contact with participants after a project closes?"]},
- {t:"The squeezed timeline",x:"Ethics took four months. The funded period did not move. Recruitment now has to happen in three weeks.",p:"Recruitment",i:"squeeze",
-  q:["What gets cut first under this pressure, and what should?","Which corners are recoverable later, and which are not?","Who absorbs the shortfall: you, the assistant, or the participants?"]},
- {t:"Reviewer 2",x:"A reviewer says your trauma-informed protocol made the study methodologically weak, because you did not probe.",p:"Dissemination",i:"bubble",
-  q:["Is the reviewer partly right?","How do you evidence that restraint was a method and not an omission?","What would the field need so this is not a reviewable weakness?"]},
- {t:"The journalist",x:"A reporter wants to cover your findings and to interview a participant directly.",p:"Dissemination",i:"mic",
-  q:["Do you pass the request on, and does passing it on count as pressure?","What does the participant need to know in order to answer freely?","What is your obligation after the piece runs?"]}
+ {c:0,t:"The lone visit",x:"A follow-up interview is at the participant's home, in an area your team has been warned about. You are going alone, and the only person who knows the address is the participant.",p:"Data collection",i:"door",
+  q:["Who needs to know where you are, and when should they expect to hear from you?","What would make this visit safe enough to go ahead with, and what would make it not?","What would you do if the participant asked you to leave?"]},
+ {c:0,t:"The stop word",x:"The participant agreed a stop word at the start. Partway through an account of violence, they say it, and you stop. Later they ask to continue, saying they do not want to waste your time.",p:"Data collection",i:"threshold",
+  q:["How should a stop word work when the person is still in the middle of the memory?","What does 'continue' mean when the person may be trying to please you?","What should happen before the next session?"]},
+ {c:0,t:"The group that turns",x:"In a focus group, one participant begins shouting at another about how a relative treated them. The others are watching the facilitator.",p:"Data collection",i:"bubble",
+  q:["What is your first responsibility to the person who was shouted at?","What ground rules were agreed, and did anyone enforce them?","What do you owe the person who was shouting?"]},
+ {c:0,t:"The support line closes",x:"After a session, a participant is distressed. The information sheet lists a helpline, but it closes at 5pm. It is 6pm and the participant is still on the phone with you.",p:"Aftercare",i:"envelope",
+  q:["What support can you give in the next hour, and what can you not give?","What should the aftercare plan have listed as an alternative?","Who else should know about this session, and what should they know?"]},
+ {c:0,t:"The waiting room",x:"Your recruitment session is held at a community service. A participant realises the person who harmed them works in the building, and is waiting in the same corridor.",p:"Recruitment",i:"ic_room",
+  q:["Who chose this venue, and did they know who works there?","What does the participant need to feel able to leave?","How would you check safety before the next session at this site?"]},
+ {c:1,t:"The amended consent",x:"Two years in, the study adds sharing of recordings with a partner organisation. Participants who joined before the change were never asked again.",p:"Consent",i:"ticks",
+  q:["What did the original consent promise, and what does the amendment change?","How would you tell earlier participants, and what would you ask of them?","What is the honest reason the change was made?"]},
+ {c:1,t:"Fourteen unnamed partners",x:"A participant asks who can access their recordings. The answer, in the consent form, is 'our research partners'. There are fourteen of them, and none are named.",p:"Data collection",i:"pages",
+  q:["What does a participant need to know to decide whether to trust this?","Which of the partners could be named now, and which cannot?","What would a useful answer look like in plain language?"]},
+ {c:1,t:"The findings the funder dislikes",x:"The data contradict what the funder expected. Their programme officer asks you to 'frame the findings more positively' before the report goes out.",p:"Dissemination",i:"squeeze",
+  q:["What is the difference between framing and changing what the data says?","What did you promise participants about how their words would be reported?","Who should see the original findings alongside any reframing?"]},
+ {c:1,t:"The backup that cannot be cleared",x:"The privacy notice promised deletion two years after the study. The recordings are also in a university backup that cannot be cleared on a per-study basis.",p:"Aftercare",i:"withdraw",
+  q:["What did participants actually agree to, and what can you truthfully promise now?","Who decides whether a backup counts as storage?","What would you tell a participant who asks you to delete their data?"]},
+ {c:1,t:"The quote that was tidied",x:"Before sending transcripts back for checking, a research assistant 'cleaned up' a participant's grammar and removed swearing. The participant approved a version they did not say.",p:"Analysis",i:"quote",
+  q:["What counts as a faithful transcript, and who decides?","Would the participant have approved the original if asked?","How should changes be recorded and shown?"]},
+ {c:2,t:"The unpaid peer researcher",x:"A peer researcher with lived experience is recruited to the team. Their pay covers travel expenses only, while the team's research assistants are on a salary.",p:"Recruitment",i:"door",
+  q:["Why does peer expertise get paid less than other expertise?","What would fair payment look like within the grant?","What does this arrangement signal to participants?"]},
+ {c:2,t:"The peer who knows the participant",x:"The peer researcher is asked to interview someone from their own support group. Both of them know details the interview could bring out.",p:"Data collection",i:"mic",
+  q:["What boundaries does the peer researcher need, and who will hold them?","What do participants lose or gain from a shared community link?","Who can step in if the connection becomes a conflict?"]},
+ {c:2,t:"The peer who carries it",x:"The peer researcher is the person everyone brings the hardest moments to, in sessions and in corridors. Nobody has asked how they are doing.",p:"Analysis",i:"ic_overwhelm",
+  q:["What support does peer labour need that other labour does not?","How is the emotional work recognised in workload?","What would you change first?"]},
+ {c:2,t:"The group wants the findings first",x:"A community support group asks to see the findings before the university does. The university's ethics approval says results go to the funder first.",p:"Dissemination",i:"diverge",
+  q:["Whose findings are these, and who gets them first?","What would it take to change the order of release?","What would the group do with an early version?"]},
+ {c:2,t:"Thanked in the acknowledgments",x:"The peer co-author did the recruitment, ran half the sessions and shaped the themes. The paper's acknowledgements list them as 'consultation'.",p:"Dissemination",i:"pages",
+  q:["What does authorship recognise, and what does it hide?","Did the peer co-author agree to this wording?","What would fair credit look like in the paper and in the record?"]},
+ {c:3,t:"Whose question",x:"The community partner wanted to ask how families cope with services. The funder's call is about 'effective interventions', and the grant has been reframed to match.",p:"Recruitment",i:"squeeze",
+  q:["Who set the question, and who gained from the reframing?","What does the partner lose if the question changes?","Can the partner still say no?"]},
+ {c:3,t:"The advisory board's lunch",x:"The community advisory board meets monthly, gives advice on the protocol, and receives a sandwich lunch. Members have asked for expenses, which the budget does not cover.",p:"Recruitment",i:"envelope",
+  q:["What does this board get out of the relationship?","What would a fair arrangement cost, and who should pay?","What does the current arrangement tell members about their role?"]},
+ {c:3,t:"The protocol that came first",x:"The study protocol and consent form were finalised before the community partner was consulted. They now ask for changes that would require a new ethics submission.",p:"Consent",i:"ic_rigid",
+  q:["Which parts of the protocol were ever open to change?","Who should have been in the room when it was written?","What would a co-designed protocol look like at this stage?"]},
+ {c:3,t:"The authors of the fieldwork",x:"Community members ran the fieldwork, took the notes and translated the transcripts. The paper is written by the university team alone.",p:"Dissemination",i:"pages",
+  q:["Who is the paper written for, and who wrote it?","What contributions would you need to name to be accurate?","What would a joint write-up require from both sides?"]},
+ {c:3,t:"The professor takes the notes",x:"A co-design session is facilitated by a professor who also takes the notes. Participants defer to them, and the notes record their own wording more than participants'.",p:"Data collection",i:"ic_circle",
+  q:["Who holds the pen, and what does that do to the conversation?","How could the notes be shared back before they are used?","What would a shared facilitation role look like?"]},
+ {c:4,t:"Take part, but not withdraw",x:"Participants can join an interview or a workshop, but the information sheet does not say they can stop and have their data removed afterwards.",p:"Consent",i:"ticks",
+  q:["What choices are actually on offer here?","What would an informed choice look like before taking part?","Who decided which options to include?"]},
+ {c:4,t:"The easy-read form on the day",x:"The easy-read consent form for a participant with a learning disability arrives by post the morning of the interview, after the person has already travelled to campus.",p:"Consent",i:"envelope",
+  q:["When should accessible materials be ready, and who checks?","What choice does a person have once they have travelled?","What would a fair process look like, from first contact?"]},
+ {c:4,t:"The critique that gets cut",x:"A journal editor asks for a participant's sharpest criticism of local services to be removed to shorten the paper. The rest of the account stays in.",p:"Dissemination",i:"quote",
+  q:["Whose voice is shortened, and who decides what counts as too long?","Would the participant agree to the cut?","What would you need to say to the editor?"]},
+ {c:4,t:"The scale that decides",x:"Participants rate their wellbeing on a scale. A low score moves them into a 'high-need' group and out of the group discussions they asked to join.",p:"Data collection",i:"pages",
+  q:["What does the score decide, and who explained that to participants?","Can a person opt into the group despite the score?","What else should count as a reason to take part?"]},
+ {c:4,t:"The parent who signs",x:"A young person wants to be interviewed about their experience of school exclusion. Only a parent has been asked to sign the consent form, and the parent says no.",p:"Consent",i:"ic_child",
+  q:["Whose consent counts, and whose voice is missing?","What does the young person's refusal or agreement mean here?","What would a process that includes both look like?"]},
+ {c:5,t:"The questionnaire from elsewhere",x:"A trauma questionnaire validated on a general population is used with Indigenous participants. Several items have no equivalent in their language or in their way of talking about harm.",p:"Analysis",i:"pages",
+  q:["Whose norms does this measure carry?","What would culturally grounded measurement require, and who should design it?","What do you do with results you already have?"]},
+ {c:5,t:"Last time they came",x:"A community has been studied before by a team that took its stories, published them and never returned. Potential participants ask why they should trust you.",p:"Recruitment",i:"door",
+  q:["What history does this community have with research, and do you know it?","What can you offer that does not depend on trust you have not earned?","What would you say to someone who refuses?"]},
+ {c:5,t:"The gendered interview",x:"A woman who has been sexually assaulted asks not to be interviewed by a man. The team has only men available for the next round of interviews.",p:"Data collection",i:"ic_room",
+  q:["What would it take to honour the request, and what does the team currently offer?","Who decides whether a request is 'reasonable'?","What does the schedule say about whose needs come first?"]},
+ {c:5,t:"The word that does not travel",x:"The translated term for abuse in the interview guide does not carry the meaning people use. The interpreter softens it, and participants answer a different question.",p:"Data collection",i:"ic_literal",
+  q:["Who checked the translation, and with whom?","What would a participant mean by the term they use, and how would you find out?","How would you know the interpreter is changing the meaning?"]},
+ {c:5,t:"The codebook's label",x:"The codebook includes a code, carried over from a previous paper, that calls a community 'high risk'. Several participants from that community are coded with it.",p:"Analysis",i:"bubble",
+  q:["Where did this label come from, and who benefits from it?","What would be lost by removing it, and what would be gained?","How should the codebook record a change of this kind?"]}
 ];
 
 // Each dilemma has its own complications, in the same order as SCENARIOS.
 // A table is dealt from the dilemma it is playing, so every card in hand
 // answers that dilemma. Cards added from the library are kept on this device.
 var SCEN_COMPS=[
- [ // 0 The disclosure
-  "Your recorder has been off for twenty minutes.",
-  "The participant has told this to no one else, and says so.",
-  "Your protocol has no step for a disclosure in the middle of a session.",
-  "The participant joined on the promise that the study was about navigation aids.",
-  "Your co-interviewer has already left the room.",
-  "The participant asks you to keep this out of the transcript, and you cannot promise that."
+ [
+  "The address is not on the calendar, and nobody else has it.",
+  "Your phone has no signal in the street where the participant lives.",
+  "The participant's partner is expected to be at home.",
+  "You arrive ten minutes early and the street is empty.",
+  "The check-in call is scheduled for after the visit.",
+  "The participant has been drinking and wants to talk about the worst night.",
+  "The recorder battery is almost flat and there is no spare.",
+  "The team's safety protocol has not been updated since the last incident.",
+  "Your co-researcher has been pulled onto another project this week.",
+  "The participant offers you a lift home from a stranger's car.",
+  "The participant's neighbour keeps looking through the window.",
+  "You have no way to leave the house quickly from this room.",
+  "The participant is expecting a longer visit than your schedule allows.",
+  "The visit overruns, and the next appointment is across town.",
+  "Nobody has told the participant that you are a researcher and not a support worker.",
+  "The participant has a dog that reacts when the door opens.",
+  "There is no lone-working policy that covers home visits.",
+  "The participant asks you to stay for dinner.",
+  "The participant mentions the person who harmed them is coming round later.",
+  "You have been asked to take a second, unplanned visit the same afternoon."
  ],
- [ // 1 The enthusiastic yes
-  "It is happening through an interpreter, in a language you do not speak.",
-  "The participant's support worker answers every question first.",
-  "The participant has done three studies this year and knows what you want to hear.",
-  "Your consent form is a twelve-page PDF, sent the night before.",
-  "Their carer has been speaking for them, and nobody has asked them directly.",
-  "You have already told them the study is going to help people like them."
+ [
+  "The participant cannot find the stop word in the moment.",
+  "The stop word was agreed in the consent meeting, six weeks ago.",
+  "The recording keeps running after the participant says it.",
+  "The interviewer has already moved on to the next question.",
+  "The participant apologises, and says it's fine to carry on.",
+  "The stop word is an English word the participant does not use.",
+  "The interview is in a second language, and the signal was lost in translation.",
+  "The participant's support worker is not in the room.",
+  "You promised a full account for the study's first paper.",
+  "The participant's voice drops and they start over from the beginning.",
+  "Your next interview is booked straight after this one.",
+  "The participant has told you that stopping always makes things worse.",
+  "The debrief leaflet is in a drawer you cannot reach from the room.",
+  "The interviewer keeps nodding, which the participant reads as permission.",
+  "The stop signal was never shown to the co-interviewer.",
+  "The participant says they 'just need to get through it'.",
+  "The transcript will be read by three people who were not present.",
+  "The question sheet says 'tell me everything' in bold.",
+  "The participant asks you not to write any of this down.",
+  "The interview has already run for ninety minutes."
  ],
- [ // 2 The gatekeeper
-  "The charity's chief executive has already told the funder the results will be favourable.",
-  "Your access depends on one staff member who controls the participant list.",
-  "The charity has a clause that lets it withdraw participants at any point.",
-  "Participants have no way of knowing the charity is in the room.",
-  "Two of the people you want to recruit have complained about this charity before.",
-  "The charity has asked for your interview guide, and it has already been changed."
- ],
- [ // 3 The third transcript
-  "The assistant is the only person who has listened to all three recordings.",
-  "Nobody has checked in with the assistant since the first transcript.",
-  "The assistant is a student, and their own supervisor is not on the project.",
-  "The transcripts sit in a shared folder that everyone on the team can open.",
-  "The assistant has been working from home, alone, with no one to call.",
-  "The interviews were held in a room you chose, without the participants' support workers."
- ],
- [ // 4 The identifying quote
-  "The participant is the only person in the district who matches that description.",
-  "The quote names a service that is the only one of its kind in the area.",
-  "The participant has already said the quote is the best thing they said.",
-  "The publisher requires the full transcript as supplementary data.",
-  "The participant's family has read the draft and recognised the story.",
-  "The quote is the only evidence for the theme, so the theme goes if the quote goes."
- ],
- [ // 5 The threshold
-  "The consent form promised confidentiality without exception.",
-  "The participant is also a colleague, and has access to your records.",
-  "Your institution's safeguarding policy has changed since you wrote the protocol.",
-  "The participant is a parent, and the children are named in what they said.",
-  "You are the only person on the project who knows the participant's name.",
-  "The participant's own safety plan says the opposite of what the threshold requires."
- ],
- [ // 6 The late withdrawal
-  "The consent form says data can be withdrawn at any time, but gives no deadline.",
-  "Two of your themes are built mostly on this participant's account.",
-  "The paper has been submitted, and the reviewers have already read the quote.",
-  "The participant withdraws by email to a generic inbox that is not checked for a week.",
-  "Your co-authors have already agreed the themes in a workshop.",
-  "The participant wants their data deleted and their voice kept in the paper."
- ],
- [ // 7 The session that becomes something else
-  "The funder's milestone is a prototype, due next month.",
-  "The participants arrived expecting a support group, not a design workshop.",
+ [
+  "Two participants have a history that nobody on the team knows about.",
   "The facilitator is also the participants' key worker.",
-  "Only you are taking notes, and you have been asked to stop.",
-  "The group has asked for a standing weekly slot, which the budget does not cover.",
-  "A participant discloses a crisis, and the room looks to you to respond."
+  "The ground rules were agreed in writing but never read aloud.",
+  "The shouting participant is the only one who has spoken so far.",
+  "The room has no door that closes.",
+  "Participants have been asked to share stories in pairs without any warning.",
+  "The co-facilitator is taking a phone call in the corridor.",
+  "The recording captures the shouting but not the moment it started.",
+  "Someone has brought a relative who is not part of the study.",
+  "The topic moved from policy to a named perpetrator in one sentence.",
+  "Participants are sitting closer to the door than to each other.",
+  "Your next group is waiting outside the room.",
+  "Nobody has a plan for a participant who leaves in tears.",
+  "The shouting participant is a peer researcher on the team.",
+  "The group was scheduled for ninety minutes and ran into a fourth hour.",
+  "There is no break between the difficult topics.",
+  "The participant who was shouted at is the only one of their background.",
+  "Facilitators disagree about whether to intervene.",
+  "Someone has started filming on their phone.",
+  "The participants were told the session would be about services, not violence."
  ],
- [ // 8 The returning participant
-  "There is no contact address left for the study, only a personal email.",
-  "The project website was taken down when funding ended.",
-  "The findings were published, but never sent back to participants.",
-  "The participant wants a full written summary, which was never promised.",
-  "The research team has moved on, and the participant does not know who to ask.",
-  "No aftercare was budgeted, and never was."
+ [
+  "The helpline's out-of-hours number is not on the sheet.",
+  "The participant has already called the helpline once today.",
+  "You have no phone number for the participant's GP.",
+  "The participant does not want anyone else contacted.",
+  "Your supervisor is on a flight until tomorrow.",
+  "The participant says the helpline has never helped.",
+  "The emergency number on the sheet belongs to a service in another city.",
+  "The participant has been left alone at home since the session.",
+  "You have a session booked with another participant at 7pm.",
+  "The aftercare fund was cut in the spring.",
+  "The participant asks you to just listen, and not to refer them.",
+  "The debrief was rushed because of a late start.",
+  "The participant has mentioned thoughts of ending their life.",
+  "The consent form said the team would follow up 'as needed', without defining it.",
+  "The sheet is only in English and the participant reads Portuguese.",
+  "Your university's out-of-hours line is unstaffed on Fridays.",
+  "The participant has been given the number three times and never used it.",
+  "The session recording is still running in your bag.",
+  "The participant's last appointment with their key worker was cancelled.",
+  "You have not written the session notes yet."
  ],
- [ // 9 The squeezed timeline
-  "Funding ends in six weeks.",
-  "Your ethics approval needs an amendment before recruitment can start.",
-  "The recruitment partner is on holiday for the whole window.",
-  "The only trained interviewer has been moved to another project.",
-  "The participants you need are being contacted by three other studies this month.",
-  "The team has agreed to shorten the debrief, because there is no time for it."
+ [
+  "The perpetrator's name is on the reception board.",
+  "The participant was not told where the session was taking place.",
+  "The corridor is the only route to the toilets.",
+  "Staff at the front desk are the participant's former colleagues.",
+  "There is no separate room for participants to wait in.",
+  "The session is booked in the same building as the service's case reviews.",
+  "The participant arrives early and sits where they can see the entrance.",
+  "Reception has no record of who is visiting that day.",
+  "Your recruitment poster was put up by the service, not by you.",
+  "The lift is out of order and the participant needs the stairs.",
+  "The participant has come with a friend who also knows the service.",
+  "The venue's booking was made by an administrator who never met the team.",
+  "The participant has to sign in with their full name at reception.",
+  "The room is on the top floor with a single fire exit.",
+  "There is a CCTV camera pointed at the waiting area.",
+  "Your team was told the building was 'neutral ground'.",
+  "The participant has to walk past the person who harmed them to leave.",
+  "The service's manager asks to sit in on the session.",
+  "No one from the service knows the study is taking place.",
+  "The next participant is already waiting in the corridor."
  ],
- [ // 10 Reviewer 2
-  "The journal's word limit means the method section will be cut to a paragraph.",
-  "Your PI has already written the abstract, and it says what you will find.",
-  "The reviewer is one of the authors of a study you critique.",
-  "You did not record why you held back, so there is nothing to show them.",
-  "The venue prizes effect sizes over reflexivity.",
-  "Two other reviewers have rejected similar protocols this year."
+ [
+  "The amendment was approved after most participants had finished.",
+  "Earlier participants signed a form that no longer matches the study.",
+  "The participant information sheet is a PDF that is hard to read on a phone.",
+  "Participants were told about the change in a newsletter.",
+  "The partner organisation has already received some of the data.",
+  "Some participants have moved away and cannot be reached.",
+  "The original consent form promised the data would stay within the university.",
+  "One participant has died since they were interviewed.",
+  "The change is described with the word 'enhancement' and nothing else.",
+  "The ethics board was told it was a minor update.",
+  "Participants would have to reply by post to opt out.",
+  "The research team did not discuss the change with the community advisory board.",
+  "The partner organisation is one that participants criticised in their interviews.",
+  "The new sharing agreement has no end date.",
+  "The consent process for earlier participants relied on a verbal summary only.",
+  "The participant who asked about it was told to 'contact the team'.",
+  "The change was made without a new privacy impact assessment.",
+  "The co-investigator who approved the change has since left the project.",
+  "There are no records showing who was told about the change and when.",
+  "The participant thinks they already agreed to this in the original interview."
  ],
- [ // 11 The journalist
-  "The participant has already agreed to a phone call with the journalist.",
-  "Your press office approved the request before you were asked.",
-  "The journalist has a deadline tomorrow and has already drafted the headline.",
-  "The piece will name the participant's area, which is small enough to identify them.",
-  "Your consent form does not mention the media at all.",
-  "A campaign group has picked up the story and has its own agenda."
+ [
+  "The partner list was last updated before the funding was confirmed.",
+  "Some partners are companies that the team has never met.",
+  "The consent form uses 'partners' as a catch-all for anyone with access.",
+  "The participant asks how long each partner can keep the data.",
+  "The data sharing agreements are still in draft.",
+  "The partner list is in an appendix that participants are never shown.",
+  "One partner is a commercial transcription service based overseas.",
+  "The participant's recordings have already been sent to a partner for analysis.",
+  "The team does not know which partners still have copies.",
+  "The partners include a government department whose remit overlaps the findings.",
+  "The question is asked in a language the form was never translated into.",
+  "The lead researcher is on leave until after the data protection deadline.",
+  "The partner list changed twice during the study.",
+  "Participants were asked to consent before the partners were known.",
+  "The answer depends on a contract nobody on the team has read.",
+  "The consent form uses the phrase 'may be shared' with no further explanation.",
+  "The participant is a researcher and knows what the answer should have been.",
+  "Some partners are funded by the same body that commissioned the study.",
+  "The partner names would identify the service the participant attended.",
+  "The participant asks for their recording to be deleted from all partners."
  ],
- [ // 12 Asked again
-  "The participant's first interview was recorded, and they have not heard it since.",
-  "The follow-up is run by a different researcher, who has not read the first transcript.",
-  "The participant's circumstances have changed, and you only learned that from a friend.",
-  "Your protocol has no stopping rule for follow-up sessions.",
-  "They agreed to the follow-up at the end of the first study, when it was hard to say no.",
-  "The follow-up asks the same questions, with more detail, as before."
+ [
+  "The programme officer's email uses the word 'messaging' several times.",
+  "The findings are due in next week's board pack.",
+  "The original findings are already in a draft circulated to the team.",
+  "The funder's report template has a box for 'positive outcomes' only.",
+  "A co-author wants to soften the same findings to protect the relationship.",
+  "The participants were told their words would be reported 'as they said them'.",
+  "The funder has paid for the next phase and wants a favourable first report.",
+  "The data show a service failing participants, and the service is the funder's partner.",
+  "The reframed version drops two of the four themes.",
+  "The team has agreed the findings verbally but not in writing.",
+  "A journalist has asked for early access to the same findings.",
+  "The programme officer copied in the dean.",
+  "The participants' quotes are attached to the report as evidence.",
+  "There is no record of the original analysis decisions.",
+  "The funder's brief says findings must 'support the service model'.",
+  "The report deadline is the same week as the participant feedback meeting.",
+  "The research assistant who coded the data is leaving the team.",
+  "A reviewer has already praised the earlier draft's findings in a letter.",
+  "The funder says the reframing is 'just editorial'.",
+  "The team has a grant renewal that depends on this report."
  ],
- [ // 13 The storytelling circle
-  "The ethics board has never approved a method without audio recording.",
-  "Nobody on the team is from the community this is about.",
-  "The partner wants its own volunteers to facilitate, unpaid.",
-  "A participant has asked for the circle to be closed to everyone but women.",
-  "The circle is in a building with security staff on the door.",
-  "Your funder requires a published transcript within a month of the session."
+ [
+  "The backup policy keeps copies for seven years by default.",
+  "The IT team says per-study deletion would take months.",
+  "The privacy notice does not mention backups at all.",
+  "The participant asks for proof of deletion.",
+  "Some recordings were copied to a laptop that has since been replaced.",
+  "The original storage contract has no clause about deletion.",
+  "The data were copied for a secondary analysis nobody told participants about.",
+  "The participant's name is still in a folder title.",
+  "The deletion request was logged in an email nobody actioned.",
+  "The backup restore is used by another project that holds the same files.",
+  "The team's data steward is part-time and not on this project.",
+  "The recordings are on a drive that the department will not wipe without a signed request.",
+  "The participant was promised deletion 'at the end of the study', with no date.",
+  "Other participants' recordings sit in the same backup.",
+  "The backup is in a region the consent form does not mention.",
+  "Two datasets share one file name and it is unclear which is which.",
+  "The participant's partner also took part in the study.",
+  "Deletion would remove data that the paper's reviewers have asked to check.",
+  "The study's ethics approval ended two years ago.",
+  "The research team has changed three times since the recordings were made."
  ],
- [ // 14 You, after the sixth interview
-  "You are the only person on the team with lived experience of this, and nobody knows.",
-  "You are two hours from the end of the last day of fieldwork.",
-  "Your supervisor is on leave for the rest of the term.",
-  "Your recordings are on a personal laptop, and you have been transcribing at night.",
-  "The next interview is booked for tomorrow morning, with no gap.",
-  "You are due to present these findings at a conference next week."
+ [
+  "The assistant believed the participant would have wanted the swearing removed.",
+  "The participant has already approved the summary of their interview.",
+  "The transcript was checked by the assistant alone.",
+  "The version that went back to the participant has no timestamps.",
+  "The original audio file was overwritten during the clean-up.",
+  "The participant's dialect was treated as an error.",
+  "The changes were never recorded in the version history.",
+  "The participant asks why their words sound like someone else's.",
+  "The quote has been used in a grant report already.",
+  "The clean-up was done to make the transcript easier to code.",
+  "The participant's name is spelled differently in the approved copy.",
+  "The participant did not read the transcript, only the summary.",
+  "The change removed a sentence that contradicted the main theme.",
+  "The team has a style guide that asks for 'clean verbatim'.",
+  "The assistant has moved to another project and cannot explain the edits.",
+  "The audio is in a language the coder does not speak fluently.",
+  "The participant was told the transcript would be verbatim.",
+  "Two transcripts from the same participant were edited differently.",
+  "Coding has already started on the cleaned version.",
+  "Nobody has a copy of the original file that can be checked."
  ],
- [ // 15 Ethics says no
-  "Your ethics approval does not cover this.",
-  "The board's next meeting is six weeks away.",
-  "Your co-design partners have already promised the community a start date.",
-  "The board requires a named list of participants before recruitment starts.",
-  "The protocol template has no field for drop-in participation.",
-  "Most of your participants read a language other than the one the consent form is written in."
+ [
+  "The grant budget has no line for peer researcher salaries.",
+  "The peer researcher is asked to work the same hours as the paid team.",
+  "The job advert describes the role as 'voluntary'.",
+  "The peer researcher is the only person on the team who has been through the experience.",
+  "Their expenses are paid in arrears, after three months.",
+  "The peer researcher has a benefits review that a payment could affect.",
+  "The team's induction does not mention peer roles at all.",
+  "The peer researcher is introduced as a 'community volunteer' in the ethics form.",
+  "Their name is missing from the study's staff list.",
+  "They are asked to present on the study at a conference, unpaid.",
+  "The peer researcher is the person participants ask for when they are upset.",
+  "The university's HR process will take six weeks to sign off a contract.",
+  "Their training is delivered in a room with no accessible toilet.",
+  "No one has discussed what happens if the peer researcher needs time off.",
+  "The team is paid overtime for evening sessions; the peer researcher is not.",
+  "The peer researcher has been asked to 'represent the community' in every meeting.",
+  "The funder's reporting asks for numbers of volunteers, not staff.",
+  "The peer researcher's workload was not reduced when their caring duties increased.",
+  "The peer researcher's contract is for two months but the study runs for two years.",
+  "The team's welcome pack does not include the peer researcher's role."
  ],
- [ // 16 The child who tells the room
-  "The participant is a child, and a parent is in the room.",
-  "The group is sitting in a circle, and nobody can leave without being seen.",
-  "The facilitator is the only adult the children have met today.",
-  "The disclosure is about someone else in the room.",
-  "The group's recording is in a shared cloud folder with other teams.",
-  "The session is running late, and the parents are waiting outside."
+ [
+  "The participant is someone the peer researcher knows from a group they both attend.",
+  "The peer researcher has already heard the participant's story informally.",
+  "The participant asks the peer researcher to keep the interview confidential from the group.",
+  "The peer researcher's own experience overlaps with the participant's.",
+  "The interview is in the community centre where both of them volunteer.",
+  "The participant asks the peer researcher for advice on their own situation.",
+  "Other group members will know the interview happened.",
+  "The peer researcher is not yet trained in boundary-setting.",
+  "The participant has an open safeguarding concern with the group leader.",
+  "The peer researcher is asked to write the summary for the team.",
+  "The team has no protocol for a researcher who knows a participant.",
+  "The participant is uncomfortable being interviewed by someone they see socially.",
+  "The peer researcher's name is on the group's flyer as a contact.",
+  "The interview takes place the day after a painful group meeting.",
+  "The participant asks the peer researcher whether they will tell the others.",
+  "The peer researcher has not decided whether they can keep the story separate.",
+  "The participant is a parent the peer researcher is helping through a court process.",
+  "The team wants the peer researcher to recruit more people from the same group.",
+  "The consent form does not mention the peer researcher's personal connection.",
+  "The participant chooses the peer researcher specifically, and does not want to say why."
  ],
- [ // 17 Whose story is it
-  "The participants already call the stories theirs, and have said so in public.",
-  "The ethics board has no route for community co-authorship.",
-  "The participant wants to be named, credited, and quoted in full.",
-  "Participants signed consent forms before anyone discussed authorship.",
-  "The organisation wants the stories published under its name, not the participants'.",
-  "The anonymised stories are the only record of the campaign's history."
+ [
+  "The peer researcher is always the one who picks up the phone after a difficult session.",
+  "The team's supervision is scheduled for the same day as the sessions.",
+  "The peer researcher is asked to debrief everyone else after each interview.",
+  "The peer researcher is the only one who takes the calls from participants at night.",
+  "Their own supervisor is not trained in peer support.",
+  "The team's shared inbox is full of messages addressed to the peer researcher.",
+  "They are asked to 'check in' on a colleague who is struggling.",
+  "Their caring responsibilities have grown during the study.",
+  "They have not had a day off since the first recruitment session.",
+  "They are asked to make the cakes for every team meeting.",
+  "They are the only person who recognises the signs of distress in participants.",
+  "The team does not have an agreed way to refer participants on.",
+  "They are told the work is 'really rewarding' whenever they raise concerns.",
+  "Their emotional load is not written into the workplan.",
+  "They are the first person the team calls when something goes wrong.",
+  "They have stopped attending their own support group to cover sessions.",
+  "The participants ask only for them, and it's not clear why.",
+  "They have written reflective notes that nobody has read.",
+  "Their performance review focuses on recruitment numbers.",
+  "The research assistant has started copying their approach without credit."
  ],
- [ // 18 The screen goes dark
-  "It is a video call and you cannot see the room.",
-  "You have no way to reach the participant except one email address.",
-  "The participant is alone at home, and has no support worker listed.",
-  "The consent form says nothing about what happens if the call drops.",
-  "The recording has stopped, and the notes from the call are yours alone.",
-  "The neglect involves a named service, and you know some of its staff."
+ [
+  "The ethics approval names the funder as the first recipient of results.",
+  "The group has been meeting weekly and has a clear plan for the findings.",
+  "The university's press office has a standard embargo.",
+  "The group has already started drafting its own report.",
+  "The funder has asked for the findings in advance of the group.",
+  "The group's coordinator has promised a local newspaper an exclusive.",
+  "The team's data-sharing agreement doesn't cover community groups.",
+  "The findings include criticism of a service the group relies on.",
+  "A member of the group is also a participant whose data could be identified.",
+  "The team has not yet agreed which findings are final.",
+  "The group wants a version with direct quotes, which needs more checks.",
+  "The release order was agreed in a meeting that not all members attended.",
+  "The group is worried that the university will publish first and claim the work.",
+  "The funder's logo is on every slide the team has prepared.",
+  "The group has asked for the raw data, not just the summary.",
+  "The university's policy says embargoes last six months.",
+  "The group's funding ends before the university's report is due.",
+  "The team's lead has already promised a presentation to the funder.",
+  "Some members of the group were never interviewed and want a say.",
+  "The group has asked the team to explain what 'early' means."
  ],
- [ // 19 The room itself
-  "The room is borrowed, and the next group is waiting outside.",
-  "The building has security staff who ask for names at the door.",
-  "The room has a window facing a car park with cameras.",
-  "The participant was told it would be a friendly community space.",
-  "The only seat with arm support faces the door.",
-  "Your recorder sits on a table in the middle of the room, in plain sight."
+ [
+  "The journal's template has a fixed authorship policy with no 'contributor' category.",
+  "The peer co-author has not yet approved the wording of the paper.",
+  "The paper was submitted before the co-author was asked.",
+  "The co-author's name is on the grant but not on the paper.",
+  "The acknowledgments were written by the lead author alone.",
+  "The co-author did not take part in writing the analysis section.",
+  "The co-author's contract ended before the paper was drafted.",
+  "The reviewers asked for the list of contributors and got a single name.",
+  "The co-author's affiliation is listed as a support group, not a university.",
+  "The paper's contribution statement uses the word 'consultation' throughout.",
+  "The co-author was not paid for the time spent on the analysis.",
+  "The co-author is not sure they want their name on a paper about trauma.",
+  "The paper was presented at a conference without the co-author present.",
+  "The co-author's quotes were used without credit in the discussion.",
+  "The lead author decided who would appear as an author in the final draft.",
+  "The co-author was given a draft at 11pm the night before submission.",
+  "A co-author in another country cannot be contacted this month.",
+  "The co-author's role was described as 'helpful' in an email.",
+  "The paper has already been cited without the co-author's name.",
+  "The team does not have a written authorship agreement."
  ],
- [ // 20 Say exactly what happened
-  "The colleague who interrupted is the lead on the project.",
-  "The interview guide asks about feelings in every second question.",
-  "Nobody has told the participant that their story can be told in other ways.",
-  "The colleague was trained in a method that does not allow for metaphor.",
-  "The participant has been asked this kind of question in a previous study.",
-  "The interview was booked as ninety minutes, and it ended at twenty."
+ [
+  "The original proposal was co-written with a community organisation.",
+  "The partner's name was removed from the funding application's summary.",
+  "The reframed question is what the funder's panel wanted to hear.",
+  "The partner was not on the panel that reviewed the reframing.",
+  "The new question has a shorter timeline and a smaller budget.",
+  "The partner's staff are being asked to deliver the intervention, not study it.",
+  "The revised aim drops the families' own priorities.",
+  "The funder requires a 'measurable intervention' by month six.",
+  "The partner was told the change was 'tidying up the wording'.",
+  "The original question came from a family support group the partner runs.",
+  "The reframing helps the university's league table position.",
+  "The partner has no formal say in the grant's terms.",
+  "The funder's programme manager now chairs the study's steering group.",
+  "The partner's board only meets quarterly and has not reviewed the change.",
+  "The families have not been asked whether they recognise the new question.",
+  "The partner is told that a 'no' would put the funding at risk.",
+  "The new question makes the partner's service the subject of evaluation.",
+  "The change was agreed by email over the summer holidays.",
+  "The partner's name is on the proposal but not on the revised version.",
+  "The study team has already told the funder the new question is 'agreed'."
  ],
- [ // 21 The pace they need
-  "The funder has a reporting date that cannot move.",
-  "Two participants have already been recruited and are waiting to hear back.",
-  "The participants have been displaced twice, and their contact details keep changing.",
-  "The relationship-building budget was cut in the last round of costings.",
-  "The community partner says the first meeting has to happen in person, and nobody has the travel budget.",
-  "A participant's immigration appointment has moved into the same week."
+ [
+  "The grant has no line for advisory board expenses.",
+  "The board's chair has asked for a stipend for the year.",
+  "Board members travel two hours to attend and claim only a sandwich.",
+  "The minutes show that the team's suggestions are noted but not acted on.",
+  "Two members have left the board because of unpaid travel costs.",
+  "The board meets in a room the members have to book through a university porter.",
+  "The advice from the board is used as evidence of 'community involvement' in the bid.",
+  "Board members are not given the draft protocol before meetings.",
+  "The research team set the agenda and the board receives it on the day.",
+  "A member has asked for their lived experience to be recognised with a payment.",
+  "The board's advice was ignored on consent wording and nobody explained why.",
+  "A board member has a disability that the venue does not accommodate.",
+  "The team has no policy on paying members of advisory groups.",
+  "The next funding round asks for evidence of paid community partnership.",
+  "Board members are invited to a workshop with no notice of its purpose.",
+  "The research assistant who runs the board has been reassigned.",
+  "Members are thanked in the report but not in the budget.",
+  "The board's name appears on the website under 'community partners'.",
+  "The university's finance system will not process payments under £50.",
+  "Board members have asked for a written summary of what changed because of their advice."
+ ],
+ [
+  "The ethics submission was finalised in March and the partner was consulted in May.",
+  "The consent form has been translated, but not reviewed by the community.",
+  "The partner suggests a change to the recruitment criteria that excludes some people.",
+  "A new version would need a second round of ethics review.",
+  "The protocol's timeline assumes no changes before recruitment.",
+  "The partner is told the protocol is 'standard for the ethics committee'.",
+  "The data collection tool was validated before the partner saw it.",
+  "The team has committed to recruitment dates with the funder.",
+  "The partner has asked for a community review of the consent form.",
+  "The partner's suggestions were sent as a tracked-changes document no one has opened.",
+  "The protocol says 'participants will be recruited through X' and X has since closed.",
+  "The incentive amount was set without consulting the community.",
+  "The study's risk assessment was written without input from the partner.",
+  "The ethics committee's conditions include a fixed interview length.",
+  "The team's lead says changes now would delay the study by a year.",
+  "The partner was given the protocol as a PDF with no summary.",
+  "The partner has a proposal for a different method that the team dismissed.",
+  "The community's own consent process is more relational than the one in the form.",
+  "The partner's staff have been asked to sign the study's confidentiality agreement.",
+  "The protocol was written in the passive voice, so nobody can see who decided what."
+ ],
+ [
+  "The community team took the notes, but the university team wrote the analysis.",
+  "The paper's author list was agreed before the fieldwork ended.",
+  "The community translators are credited only in the methods section.",
+  "The fieldwork notes were stored on a university laptop only.",
+  "The community members were paid as 'data collectors', not researchers.",
+  "The lead author has never met the community team in person.",
+  "The paper uses the community's words, but not their names.",
+  "The community team has not seen the final draft.",
+  "The journal's word limit means their contribution is cut to one sentence.",
+  "The university's guidelines do not provide for non-academic authors.",
+  "The community team was not asked which contribution they wanted recognised.",
+  "The community team ran the sessions in their own language, and the paper is in English only.",
+  "The paper's abstract describes the fieldwork without any mention of the team.",
+  "The research team's grant pays for dissemination, not for community co-authorship.",
+  "The community team has asked for a joint presentation at the conference.",
+  "The author order was decided by seniority.",
+  "The community team's contract ended the month before submission.",
+  "Their names were in the grant but removed from the ethics application.",
+  "The paper's reviewers have asked who did the fieldwork.",
+  "The team is unsure whether community members can be authors under the journal's policy."
+ ],
+ [
+  "The professor has run co-design sessions for twenty years and is used to leading them.",
+  "Participants are being asked to speak after the professor has summarised the last point.",
+  "The notes are typed live on the professor's laptop, visible to everyone.",
+  "Participants stop speaking whenever the professor starts writing.",
+  "The professor's notes use their own phrasing, not the participants'.",
+  "The participants were not told who would take the notes.",
+  "The session is in the professor's office, with the professor's chair at the head of the table.",
+  "The professor interrupts a participant to 'clarify' what they meant.",
+  "The notes are kept by the professor and not shared until the paper is written.",
+  "A participant asks to see the notes and is told it would 'take too long'.",
+  "The session plan was written by the professor alone.",
+  "The professor's PhD student is in the room but has been asked to stay quiet.",
+  "The professor is the only person who has the consent forms.",
+  "The notes record only the professor's summaries of the discussion.",
+  "The participants have been asked to 'build on' the professor's earlier model.",
+  "Participants are seated in a row facing the screen.",
+  "The professor has a reputation that makes the group reluctant to disagree.",
+  "The session feedback form is written by the professor and sent to the professor.",
+  "The team has no co-facilitator from the community.",
+  "The professor's notes are used as the official record in the ethics report."
+ ],
+ [
+  "The information sheet says 'you can stop at any time' but says nothing about data.",
+  "The workshop is in a format the participants cannot easily leave.",
+  "Participants are asked to sign a single form covering all sessions.",
+  "The withdrawal form asks for a reason before it is processed.",
+  "Participants' names are needed to withdraw, and the team does not track names.",
+  "The recording of the workshop is already in the shared drive.",
+  "The team says withdrawal is 'not practical' after analysis begins.",
+  "The participant has not been told how to withdraw at all.",
+  "The consent process was a single page signed in the lobby.",
+  "The workshop is the only way to take part in the study.",
+  "The participants were told the workshop would not be recorded, and it was.",
+  "The participants can choose a time slot but not the topic.",
+  "Choosing not to join the group means losing the payment.",
+  "The team does not allow participants to bring a support person to the session.",
+  "The participant asks what happens to their voice on the video, and nobody can say.",
+  "The consent form is 'optional' in the sense that payment depends on signing.",
+  "The participant is told they can leave the room but not the study.",
+  "The team's ethics application says withdrawal is available only before data collection ends.",
+  "No one has explained what 'anonymised' means in the sessions.",
+  "The workshop output will be published before withdrawal deadlines pass."
+ ],
+ [
+  "The easy-read version was prepared by a designer who never met the participant.",
+  "The posted form is sent second class and arrives the morning of the interview.",
+  "The participant has travelled two hours and cannot go home without losing the day's fare.",
+  "The easy-read form is a single page of dense text with no images.",
+  "There is no one on the team who knows the participant's communication needs.",
+  "The consent conversation is scheduled for the same slot as the interview.",
+  "The participant's support worker is not allowed in the room.",
+  "The form has been photocopied in black and white, so the icons are unreadable.",
+  "The participant asks questions the form does not answer.",
+  "The team was told the participant 'does not need' an easy-read form.",
+  "The participant's carer has been asked to sign on their behalf.",
+  "The interview room has no quiet space to re-read the form.",
+  "The form asks for a signature but the participant prefers a verbal yes.",
+  "The easy-read form was only prepared after the participant complained.",
+  "The participant is expected to read the form while the recording is already running.",
+  "The team doesn't have a template for alternative formats.",
+  "The participant has to decline in front of the researcher if they change their mind.",
+  "The form does not explain how the data will be stored in a format they can understand.",
+  "The team's accessibility officer is on leave for the week.",
+  "The participant has said that everyone 'treats them like a form'."
+ ],
+ [
+  "The editor's word limit is set at 6,000 words.",
+  "The critique is the most striking quote in the transcript.",
+  "The paper's reviewers praised the critique in their first comments.",
+  "The participant has not seen the proposed cut.",
+  "The editor's note says 'harsh criticism of services is not the focus here'.",
+  "The critique names a service the authors work with.",
+  "The cut would remove the only description of the service from the participant's view.",
+  "The paper's abstract already summarises the critique in one line.",
+  "The participant's critique is the reason the paper was written.",
+  "The editor has asked for the cut by Friday.",
+  "The critique is in the appendix, which the editor has said is optional.",
+  "Other participants made similar points and are not quoted.",
+  "The journal's policy asks for the 'most balanced' version of each account.",
+  "The authors have a grant report due with the same quote in it.",
+  "The participant's account is the only one from their community.",
+  "The critique would identify the participant's workplace.",
+  "The cut would also remove the participant's description of what helped.",
+  "The journal has no process for participants to comment on edits.",
+  "The authors have agreed the cut to get the paper published this year.",
+  "The participant has said they want their critique heard, even if it is harsh."
+ ],
+ [
+  "The score cut-off was chosen by the team after the data were collected.",
+  "Participants were not told that the score affects group access.",
+  "The scale was designed for a clinical population, not this community.",
+  "The score is recorded on the participant's file and shared with the partner.",
+  "The group's places are limited, and the low scorers are the only ones who are turned away.",
+  "A participant's score changed between two sessions with no explanation.",
+  "The scale has a question about 'trusting others' that participants find offensive.",
+  "The group discussion is the reason the participant joined the study.",
+  "The team uses the score as the main outcome in the report.",
+  "The scale has been translated but not validated in the participant's language.",
+  "The participant was told the scale was 'just a conversation starter'.",
+  "The group facilitator has not been told about the scores.",
+  "The score determines eligibility for a payment.",
+  "Participants can see their own score but not the cut-off.",
+  "The team's data dashboard displays scores by name.",
+  "The participant asks to be placed in the group anyway and is told it is not possible.",
+  "The score contradicts what the participant said in the interview.",
+  "The participants were asked to rate themselves on a 1–10 scale with no labels.",
+  "The team has no process for appealing a score.",
+  "The participant's score was seen by a colleague in the corridor."
+ ],
+ [
+  "The young person is sixteen and is legally able to consent to research in some settings.",
+  "The consent form asks only for a parent's signature.",
+  "The school has agreed to the study, and the school's permission was treated as enough.",
+  "The parent is in a dispute with the young person about the exclusion.",
+  "The young person has already told the school what happened.",
+  "The young person asked to be interviewed without their parent present.",
+  "The parent refuses but the young person says they still want to take part.",
+  "The school has offered to send the young person's notes to the team.",
+  "The ethics committee's guidance on this age group is unclear.",
+  "The young person has not been given an information sheet of their own.",
+  "The parent is also a participant in another part of the study.",
+  "The young person's social worker has a different view.",
+  "The school's permission letter was signed by a governor, not the head teacher.",
+  "The parent says they do not trust researchers after an earlier experience.",
+  "The young person has a learning difficulty and needs a quiet place to talk.",
+  "The team's safeguarding policy requires a named adult in the room.",
+  "The young person has asked for the interview to happen at the community centre.",
+  "The parent wants a copy of everything the young person says.",
+  "The young person's file is shared between three services.",
+  "The school exclusion itself is the topic the parent wants kept private."
+ ],
+ [
+  "The questionnaire's norms were set on a sample with no Indigenous participants.",
+  "Several items use concepts with no direct equivalent in the participants' language.",
+  "The scoring rules assume a Western model of symptoms.",
+  "The team has already scored the first twenty questionnaires.",
+  "The funder requires the measure for comparison with an earlier study.",
+  "Participants find the questions about 'shame' confusing or unhelpful.",
+  "The questionnaire asks about 'family' in a way that excludes extended kin.",
+  "The community has an existing framework for talking about harm that the questionnaire ignores.",
+  "The item on 'trust in authorities' is read by participants as a question about the police.",
+  "The translation was done by a team with no community members.",
+  "The questionnaire was designed for individuals and the community talks about collective harm.",
+  "Elders in the community were not consulted on the measure.",
+  "The team has no validated alternative in the participants' language.",
+  "The questionnaire's cut-off suggests most participants need referral.",
+  "The results will be used in a policy report with no community context.",
+  "The team has no budget to design a new measure.",
+  "The participants ask what the measure is for, and nobody can tell them.",
+  "The questionnaire includes a question about religion without explaining why.",
+  "The measure has been used in a previous study that the community was harmed by.",
+  "The team's analysis plan was written before the community was consulted."
+ ],
+ [
+  "A previous project published the community's stories and never sent findings back.",
+  "The community's leaders were not told about this study until the recruitment letter arrived.",
+  "A local newspaper ran a story about the previous study without consent.",
+  "Several families were promised a summary and never received one.",
+  "The researchers from the earlier study still work at the same university.",
+  "The earlier study's consent form was in English only.",
+  "Some participants remember being asked the same questions a decade ago.",
+  "The community has a strong oral tradition and a short memory for written promises.",
+  "The team cannot find any record of what was returned to the earlier participants.",
+  "A community member asks whether the team has been trained in their history.",
+  "The recruitment flyer uses a logo the community associates with the earlier study.",
+  "The community centre has refused to host any further research.",
+  "The team's introduction describes the community as 'hard to reach'.",
+  "The team has no local partner in place yet.",
+  "Participants ask who will own the stories and who will be paid.",
+  "A family asks for their earlier interview to be destroyed before anything else happens.",
+  "The team's plan to 'build trust' involves two visits and a leaflet.",
+  "The previous study's findings are still cited in local policy documents.",
+  "The team wants to recruit through the same gatekeepers as the earlier study.",
+  "The community has asked the team to explain what is different this time, and the team cannot answer."
+ ],
+ [
+  "The team has two male interviewers and one female interviewer, who is on leave.",
+  "The request was made by phone and was not written down.",
+  "The schedule has been fixed for six weeks with no flexibility.",
+  "The interviewer assigned is a man who was introduced at the consent meeting.",
+  "The team has a policy that gender matching is 'not possible in practice'.",
+  "The participant's family says a man should not be in the room.",
+  "The participant is asked to explain the request in front of the interviewer.",
+  "The team does not have a female interviewer trained in trauma-informed methods.",
+  "The room has a glass wall onto the corridor, with men walking past.",
+  "The participant was told the request would be considered and then not answered.",
+  "The participant's previous experience was with a male officer.",
+  "A male colleague offers to 'swap' with a woman, without asking her.",
+  "The consent form does not say the interviewer's name or gender.",
+  "The team's risk assessment does not consider gendered interviewer effects.",
+  "The female interviewer is asked to take the sessions with the most distressing topics.",
+  "The participant asks if a female colleague can sit in, and the team says it would be 'odd'.",
+  "The team has a sign-up sheet and the request is noted in pencil.",
+  "The participant's trust was built with a female researcher who has since left.",
+  "The participant is asked to choose between a delay and a male interviewer.",
+  "The interview slot is the only one that works for the participant's childcare."
+ ],
+ [
+  "The interpreter is a family member of someone in the community.",
+  "The interview guide was translated by a contractor who never spoke with participants.",
+  "The word the team uses is also the name of a government programme.",
+  "The interpreter has been asked to shorten long answers.",
+  "The interpreter softens the term for abuse to 'a bad time'.",
+  "Participants use a different term when speaking to each other.",
+  "The guide's wording has been back-translated, but only by one person.",
+  "The interpreter is not paid for the time spent preparing.",
+  "The participant corrects the interpreter, but the interpreter's version is recorded.",
+  "The team does not have a glossary of the terms it uses.",
+  "The participant asks what the question means and the interpreter explains a different thing.",
+  "The interpreter's language is a regional dialect the participant does not use.",
+  "The team cannot check the translation because nobody else on the team speaks the language.",
+  "The participant's answer is written in English in the transcript without a note.",
+  "The interpreter has been trained in medical interpreting, not research.",
+  "The question sounds like a clinical assessment in translation.",
+  "The participants answer more freely when the interpreter is not present.",
+  "The translation was done before the first pilot interview.",
+  "The word is used in the community for a crime, not a harm.",
+  "The participant asks the team to use the community's own term, which is not in the guide."
+ ],
+ [
+  "The 'high-risk' code was carried over from a study published fifteen years ago.",
+  "Several participants from the community are coded with the label.",
+  "The label is in the codebook's header, so it appears in every coded excerpt.",
+  "The label has been used in a funding application already.",
+  "Removing it means redoing the coding for twelve transcripts.",
+  "The codebook's author has left and cannot be asked.",
+  "The label is used by a local council to justify services.",
+  "The label was added to describe a pattern in a different population.",
+  "The coding team has interpreted the label in three different ways.",
+  "The label appears in the findings chapter as a headline finding.",
+  "A participant reads the codebook and recognises their own community.",
+  "The team wants to keep the label for comparison with the earlier study.",
+  "The label is not defined anywhere in the codebook.",
+  "The team has no policy on removing outdated codes.",
+  "The label has been applied to excerpts about the participants' strengths.",
+  "The coding software will not let the team rename the code without resetting it.",
+  "The label shapes which excerpts get counted as 'important'.",
+  "The research assistant who coded it has already written it up.",
+  "The journal's reviewers have praised the label as a clear finding.",
+  "The community partner has not seen the codebook yet."
  ]
 ];
 
@@ -843,11 +1386,12 @@ var COMPLICATIONS=[];
 var COMP_SCEN=[];       // dilemma index for each card
 var COMP_OFF=[];        // true once a card the player added has been removed
 var SCEN_IDX=[];        // dilemma index -> card indices
+var COMP_UGC=[];        // true for cards a player wrote on their card, pending manual validation
 var CUSTOM_START=0;     // cards from this index on were added by players
-var CUSTOM_KEY='miw-custom';
+var CUSTOM_KEY='miw-custom-v2';
 
 function addComp(t,s){
-  COMPLICATIONS.push(t); COMP_SCEN.push(s); COMP_OFF.push(false);
+  COMPLICATIONS.push(t); COMP_SCEN.push(s); COMP_OFF.push(false); COMP_UGC.push(false);
   var idx=COMPLICATIONS.length-1;
   SCEN_IDX[s].push(idx);
   return idx;
@@ -865,13 +1409,14 @@ function buildComplications(){
   CUSTOM_START=COMPLICATIONS.length;
   readCustom().forEach(function(c){
     if(c && typeof c.t==='string' && SCENARIOS[c.s]){
-      var idx=addComp(c.t,c.s); COMP_OFF[idx]=!!c.off;
+      var idx=addComp(c.t,c.s); COMP_OFF[idx]=!!c.off; COMP_UGC[idx]=!!c.ugc;
     }
   });
 }
-function addCustom(s,t){
+function addCustom(s,t,ugc){
   var idx=addComp(t,s);
-  var list=readCustom(); list.push({s:s,t:t,off:false}); writeCustom(list);
+  COMP_UGC[idx]=!!ugc;
+  var list=readCustom(); list.push({s:s,t:t,off:false,ugc:!!ugc}); writeCustom(list);
   return idx;
 }
 function removeCustom(idx){
@@ -913,10 +1458,18 @@ var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function pad(n){return String(n).padStart(2,'0');}
 function $(id){return document.getElementById(id);}
 
+function ugcForm(pi){
+  return '<form class="ugcform" data-ugc="'+pi+'" novalidate>'+
+    '<label for="ugc-'+pi+'">Your own complication</label>'+
+    '<div class="ugcrow"><input type="text" id="ugc-'+pi+'" autocomplete="off">'+
+    '<button type="submit" class="act ghost small">Add</button></div>'+
+    '<p class="hint">This will be checked by a moderator.</p></form>';
+}
+
 function compCard(ci){
   var custom=ci>=CUSTOM_START, off=COMP_OFF[ci];
-  return '<article class="card comp'+(off?' removed':'')+'"><div class="card-head">'+
-    '<span class="kind">'+(custom?'Added by you':'Complication')+'</span><span class="num">'+pad(ci+1)+'</span></div>'+
+  return '<article class="card comp'+(off?' removed':'')+'" data-cat="'+SCENARIOS[COMP_SCEN[ci]].c+'"><div class="card-head">'+
+    '<span class="kind">'+(COMP_UGC[ci]?'UGC':custom?'Added by you':'Complication')+'</span><span class="num">'+pad(ci+1)+'</span></div>'+
     '<p class="text">'+esc(COMPLICATIONS[ci])+'</p>'+
     (custom&&!off?'<button type="button" class="act ghost small" data-rm="'+ci+'">Remove from library</button>':'')+
     (off?'<p class="hint">Removed. It will not be dealt again.</p>':'')+'</article>';
@@ -928,9 +1481,9 @@ function renderBrowse(){
   document.querySelectorAll('#browse details.scenlib[open]').forEach(function(d){open[d.getAttribute('data-s')]=true;});
   $('browse').innerHTML=
     '<h3 class="group-title">Scenarios</h3><div class="deckgrid">'+
-    SCENARIOS.map(function(s,i){return '<article class="card scen"><div class="card-head">'+
+    SCENARIOS.map(function(s,i){return '<article class="card scen" data-cat="'+s.c+'"><div class="card-head">'+
       '<span class="kind">Scenario</span><span class="num">'+pad(i+1)+'</span></div>'+svg(s.i)+
-      '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p></article>';}).join('')+
+      '<p class="cat-label">'+esc(PRINCIPLES[s.c].n)+'</p><p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p></article>';}).join('')+
     '</div><h3 class="group-title">Complications, by dilemma</h3>'+
     SCENARIOS.map(function(s,si){
       return '<details class="scenlib" data-s="'+si+'"'+(open[si]?' open':'')+'><summary>'+pad(si+1)+
@@ -959,118 +1512,7 @@ var NEW_ICONS={
  "ic_literal": "<path d=\"M6 24c8-16 14 10 22-4\"/><path d=\"M54 36H34M34 36l6-4M34 36l6 4\"/><path d=\"M54 46H34M34 46l6-4M34 46l6 4\"/>",
  "ic_pace": "<circle cx=\"20\" cy=\"30\" r=\"13\"/><path d=\"M20 30v-8M20 30h6\"/><path d=\"M40 20h14M40 30h10M40 40h6\"/>"
 };
-var NEW_SCEN=[
- {
-  "t": "Asked again",
-  "x": "A participant who spoke warmly about your first study agrees to the follow-up, then becomes distressed. Revisiting it has brought back what they thought they had processed.",
-  "p": "Data collection",
-  "i": "ic_followup",
-  "q": [
-   "How do you assess the risk of re-traumatisation in follow-up or longitudinal work?",
-   "What do you owe someone you are re-approaching about the same thing?",
-   "What change to timing, content or method would have helped here?"
-  ]
- },
- {
-  "t": "The storytelling circle",
-  "x": "A community partner proposes a storytelling circle for women with experience of gender-based violence. Your institution requires audio recording and signed consent. They do not want to sign anything.",
-  "p": "Consent",
-  "i": "ic_circle",
-  "q": [
-   "What would trauma-informed consent actually look like here?",
-   "Which of the institutional requirements is a rule, and which is a habit?",
-   "Whose knowledge practice is being asked to bend, and why that one?"
-  ]
- },
- {
-  "t": "You, after the sixth interview",
-  "x": "Repeated interviews with young people who were forcibly displaced. The work matters and you are overwhelmed after every session. You will not raise it with your supervisor, and there is nothing in place if you did.",
-  "p": "Analysis",
-  "i": "ic_overwhelm",
-  "q": [
-   "What would make this work sustainable, and whose job is it to build that?",
-   "What stops you telling your supervisor?",
-   "What would trauma-informed supervision look like in practice?"
-  ]
- },
- {
-  "t": "Ethics says no",
-  "x": "Your co-design partners want drop-in participation and a method that can flex. The ethics board requires fixed inclusion criteria, consent in advance, and a formal data protocol.",
-  "p": "Recruitment",
-  "i": "ic_rigid",
-  "q": [
-   "How do you argue for flexibility in the board's own language?",
-   "Which of these constraints is genuinely immovable?",
-   "What compromise is not available, and who pays for that?"
-  ]
- },
- {
-  "t": "The child who tells the room",
-  "x": "A child in a participatory group session tells everyone something distressing. You do not know whether to intervene, report, or let it pass, or what to write down afterwards.",
-  "p": "Data collection",
-  "i": "ic_child",
-  "q": [
-   "What is your immediate responsibility, in the next sixty seconds?",
-   "What does safeguarding look like here without overriding the child?",
-   "What gets documented, and who ends up reading it?"
-  ]
- },
- {
-  "t": "Whose story is it",
-  "x": "A grassroots organisation wants to co-own and publish the stories collected with them. Your ethics board requires everything anonymised and access restricted.",
-  "p": "Dissemination",
-  "i": "ic_ownership",
-  "q": [
-   "Who decided that anonymity was the protective option here?",
-   "What would co-ownership need to look like in the protocol?",
-   "Who gains from restriction, and who loses?"
-  ]
- },
- {
-  "t": "The screen goes dark",
-  "x": "A remote interview. They begin describing medical neglect, their voice goes, and the call ends. They do not come back. You have an email address and no follow-up plan.",
-  "p": "Data collection",
-  "i": "ic_darkscreen",
-  "q": [
-   "What do you do in the next hour, and what do you deliberately avoid?",
-   "What should the consent process have said about following up?",
-   "What do you need, having sat through that?"
-  ]
- },
- {
-  "t": "The room itself",
-  "x": "Fluorescent light, blank walls, security on the door. Your participant says it reminds them of the offices where they were treated badly. They stay, and afterwards they stop replying.",
-  "p": "Data collection",
-  "i": "ic_room",
-  "q": [
-   "What does this building say before anyone speaks?",
-   "Where else could this have happened, and who decided it would not?",
-   "Whose convenience chose the room?"
-  ]
- },
- {
-  "t": "Say exactly what happened",
-  "x": "A participant describes a family trauma in proverbs and metaphor. A colleague interrupts: can you tell me exactly what happened, were you scared, how did that make you feel. The interview ends early.",
-  "p": "Data collection",
-  "i": "ic_literal",
-  "q": [
-   "Whose idea of disclosure is being enforced in that question?",
-   "What would the team have needed to know beforehand, and from whom?",
-   "What does probing for feeling assume about how people tell the truth?"
-  ]
- },
- {
-  "t": "The pace they need",
-  "x": "Participants who have been displaced need time before they will tell you anything, and reschedule often. Your funder wants findings this quarter.",
-  "p": "Recruitment",
-  "i": "ic_pace",
-  "q": [
-   "What does relationship-building actually cost, in weeks and in money?",
-   "How would you put that to the funder in terms they accept?",
-   "What is the honest minimum below which you should not start?"
-  ]
- }
-];
+var NEW_SCEN=[];
 var TESTIMONY=[
  {
   "t": "I didn't know it would go this deep",
@@ -1147,7 +1589,7 @@ function shuffled(n){
   return a;
 }
 function handSize(p){return p>=5?2:3;}
-function playCount(p){return p===2?2:1;}
+function playCount(){return 1;}
 
 function newGame(count,names){
   var i,players=[];
@@ -1215,7 +1657,7 @@ function nextRound(){
 }
 
 function allLocked(){
-  var need=playCount(G.players.length),i;
+  var need=playCount(),i;
   for(i=0;i<G.players.length;i++){
     if(G.players[i].locked.length!==need && !G.players[i].passed){return false;}
   }
@@ -1224,7 +1666,7 @@ function allLocked(){
 
 function toggleLock(pi,ci){
   if(G.phase!=='play'){return;}
-  var p=G.players[pi],need=playCount(G.players.length);
+  var p=G.players[pi],need=playCount();
   var at=p.locked.indexOf(ci);
   if(at!==-1){p.locked.splice(at,1);}
   else if(p.locked.length<need){p.locked.push(ci);}
@@ -1309,8 +1751,8 @@ function saveFlip(fix,prIdx){
 
 function seatCard(pi,ci,state){
   var c=COMPLICATIONS[ci];
-  return '<button type="button" class="pc '+state+'" data-p="'+pi+'" data-c="'+ci+'"'+
-    (state==='locked'?' aria-pressed="true"':' aria-pressed="false"')+'>'+esc(c)+'</button>';
+  return '<button type="button" class="pc '+state+'" data-p="'+pi+'" data-c="'+ci+'" data-cat="'+SCENARIOS[COMP_SCEN[ci]].c+'"'+
+    (state==='locked'?' aria-pressed="true"':' aria-pressed="false"')+'>'+(COMP_UGC[ci]?'<span class="ugc-tag">UGC</span> ':'')+esc(c)+'</button>';
 }
 
 function renderTable(){
@@ -1323,21 +1765,21 @@ function renderTable(){
   if(G.phase==='testimony'){ renderTestimony(); return; }
   var s=SCENARIOS[G.scenario];
   $('scenarioSlot').innerHTML=
-    '<article class="card scen big-scen"><div class="card-head"><span class="kind">Dilemma</span>'+
+    '<article class="card scen big-scen" data-cat="'+s.c+'"><div class="card-head"><span class="kind">Dilemma</span>'+
     '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span>'+
     '<button type="button" class="swap" data-swap="dilemma"'+
     ((G.phase!=='play'||G.scenPool.length===0)?' disabled':'')+
     ' aria-label="Swap this dilemma for another not yet played" title="Swap this dilemma">'+SWAP_ICON+'</button></div>'+svg(s.i)+
-    '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
+    '<p class="cat-label">'+esc(PRINCIPLES[s.c].n)+'</p><p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
     (G.phase==='reveal'||G.phase==='flip'
       ? '<details class="stall"><summary>If the round stalls</summary><ul>'+
         s.q.map(function(q){return '<li>'+esc(q)+'</li>';}).join('')+'</ul></details>'
       : '')+
     '</article>';
 
-  var need=playCount(G.players.length);
+  var need=playCount();
   var txt={
-    play:'Everyone choose '+(need===2?'two complications':'one complication')+' to make this worse. Your choice stays hidden until everyone has locked in.',
+    play:'Everyone choose one complication to make this worse. Your choice stays hidden until everyone has locked in.',
     reveal:'One sentence each: how does yours make this worse, and for whom? Then point on three and tally the votes \u2014 you may not vote for your own card.',
     tie:'Tied. The Dealer, '+G.players[G.dealer].name+', taps the winning card.',
     flip:'Agree one sentence as a table, and file it in the library under the principle it serves.',
@@ -1376,6 +1818,7 @@ function renderTable(){
       (isDealer?' <span class="chip">Dealer</span>':'')+'</span>'+
       '<span class="tally" title="Worst cards played">'+p.won+'</span></div>'+
       '<div class="pcards">'+cards+'</div>'+
+      (G.phase==='play'&&!p.passed?ugcForm(pi):'')+
       (G.phase==='play'
         ? '<button type="button" class="passbtn" data-pass="'+pi+'">'+
           (p.passed?'Re-join':'Pass')+'</button>'
@@ -1488,7 +1931,7 @@ function sessionMarkdown(){
     }
     out+='### Round '+l.round+' — '+SCENARIOS[l.scenario].t+' ('+l.phase+')\n\n';
     out+='- **Scenario:** '+SCENARIOS[l.scenario].x+'\n';
-    out+='- **Worst complication (voted by the table):** '+l.comps.map(function(c){return COMPLICATIONS[c];}).join(' + ')+'\n';
+    out+='- **Worst complication (voted by the table):** '+l.comps.map(function(c){return COMPLICATIONS[c]+(COMP_UGC[c]?' (UGC)':'');}).join(' + ')+'\n';
     out+='- **Played by:** '+l.winner+'\n';
     out+='- **Fix agreed by the table:** '+l.fix+'\n';
     out+='- **Principle:** '+PRINCIPLES[l.principle].n+'\n\n';
@@ -1510,7 +1953,7 @@ function sessionMarkdown(){
 
 /* ---------- persistence ---------- */
 // v2: hands are dealt per dilemma, so saves from the old deal would show mismatched cards.
-var GAME_KEY='miw-game-v2';
+var GAME_KEY='miw-game-v3';
 function saveGame(){try{localStorage.setItem(GAME_KEY,JSON.stringify(G));}catch(e){}}
 function loadGame(){
   try{
@@ -1560,6 +2003,19 @@ $('seats').addEventListener('click',function(e){
 $('scenarioSlot').addEventListener('click',function(e){
   var b=e.target.closest?e.target.closest('[data-swap="dilemma"]'):null;
   if(b){swapDilemma();}
+});
+
+$('seats').addEventListener('submit',function(e){
+  var f=e.target;
+  if(!f.classList||!f.classList.contains('ugcform')){return;}
+  e.preventDefault();
+  var pi=parseInt(f.getAttribute('data-ugc'),10);
+  var t=f.querySelector('input').value.trim();
+  if(!t){say('Write the complication before adding it.');return;}
+  var idx=addCustom(G.scenario,t,true);
+  G.players[pi].hand.push(idx);
+  saveGame(); renderTable();
+  say(G.players[pi].name+' added a UGC complication to their hand.');
 });
 
 $('revealBtn').addEventListener('click',function(){
