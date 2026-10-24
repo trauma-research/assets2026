@@ -116,6 +116,14 @@
   }
   .card.scen{border-top:3px solid var(--bright);}
   .card.comp{border-top:3px solid var(--green);}
+  .card.comp.removed{opacity:.55;}
+  .scenlib{margin:0 0 1rem;}
+  .scenlib > summary{
+    cursor:pointer;font-family:"Fraunces",Georgia,serif;font-weight:600;color:var(--purple);
+    font-size:1.08rem;min-height:2.75rem;display:flex;align-items:center;gap:.5rem;
+  }
+  .scenlib > summary .cnt{font-family:inherit;font-size:.85rem;color:var(--ink-soft);}
+  .scenlib .card.comp .act{margin-top:.6rem;}
   .card.pers{border-top:3px solid var(--purple);}
   .card-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.9rem;}
   .head-right{display:flex;align-items:center;gap:.6rem;}
@@ -487,7 +495,24 @@
 
   <section id="deck">
     <h2>The whole deck</h2>
-    <p class="section-note">Twenty-two scenarios, four testimony cards, sixteen complications, seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
+    <p class="section-note">Twenty-two scenarios, four testimony cards, six complications for each scenario (plus any you add), seven principles and six personas. The printed version is A5, double-sided, and prints on an office duplex printer without trimming: <a href="activity1-card-deck-A5.pdf">download the print-ready deck (PDF)</a>.</p>
+    <h3>Add your own complication</h3>
+    <p class="section-note">Write one complication for a specific dilemma. It joins that dilemma's cards on this device and is dealt whenever that dilemma is played. You can remove cards you added, but not the printed ones.</p>
+    <form class="form" id="compForm" novalidate>
+      <div class="field">
+        <label for="c-scen">Which dilemma is it for?</label>
+        <select id="c-scen"></select>
+      </div>
+      <div class="field">
+        <label for="c-text">Your complication</label>
+        <p class="hint" id="h-comp">One sentence that would make this dilemma worse.</p>
+        <input type="text" id="c-text" autocomplete="off" aria-describedby="h-comp">
+      </div>
+      <div class="controls" style="margin:0">
+        <button class="act" type="submit">Add to the library</button>
+      </div>
+    </form>
+    <p class="vh" aria-live="polite" id="compAnnounce"></p>
     <div id="browse"></div>
   </section>
 
@@ -631,24 +656,235 @@ var SCENARIOS=[
   q:["Do you pass the request on, and does passing it on count as pressure?","What does the participant need to know in order to answer freely?","What is your obligation after the piece runs?"]}
 ];
 
-var COMPLICATIONS=[
- "The participant is a child, and a parent is in the room.",
- "You are the only person on the team with lived experience of this, and nobody knows.",
- "It is happening through an interpreter, in a language you do not speak.",
- "Funding ends in six weeks.",
- "Your ethics approval does not cover this.",
- "The participant is also a colleague.",
- "It is a video call and you cannot see the room.",
- "No aftercare was budgeted, and never was.",
- "Your PI has already written the abstract, and it says what you will find.",
- "The participant has done three studies this year and knows what you want to hear.",
- "Your recorder has been off for twenty minutes.",
- "The participant's support worker answers every question first.",
- "The room is borrowed, and the next group is waiting outside.",
- "The participant wants to be named, credited, and quoted in full.",
- "You are two hours from the end of the last day of fieldwork.",
- "Nobody on the team is from the community this is about."
+// Each dilemma has its own complications, in the same order as SCENARIOS.
+// A table is dealt from the dilemma it is playing, so every card in hand
+// answers that dilemma. Cards added from the library are kept on this device.
+var SCEN_COMPS=[
+ [ // 0 The disclosure
+  "Your recorder has been off for twenty minutes.",
+  "The participant has told this to no one else, and says so.",
+  "Your protocol has no step for a disclosure in the middle of a session.",
+  "The participant joined on the promise that the study was about navigation aids.",
+  "Your co-interviewer has already left the room.",
+  "The participant asks you to keep this out of the transcript, and you cannot promise that."
+ ],
+ [ // 1 The enthusiastic yes
+  "It is happening through an interpreter, in a language you do not speak.",
+  "The participant's support worker answers every question first.",
+  "The participant has done three studies this year and knows what you want to hear.",
+  "Your consent form is a twelve-page PDF, sent the night before.",
+  "Their carer has been speaking for them, and nobody has asked them directly.",
+  "You have already told them the study is going to help people like them."
+ ],
+ [ // 2 The gatekeeper
+  "The charity's chief executive has already told the funder the results will be favourable.",
+  "Your access depends on one staff member who controls the participant list.",
+  "The charity has a clause that lets it withdraw participants at any point.",
+  "Participants have no way of knowing the charity is in the room.",
+  "Two of the people you want to recruit have complained about this charity before.",
+  "The charity has asked for your interview guide, and it has already been changed."
+ ],
+ [ // 3 The third transcript
+  "The assistant is the only person who has listened to all three recordings.",
+  "Nobody has checked in with the assistant since the first transcript.",
+  "The assistant is a student, and their own supervisor is not on the project.",
+  "The transcripts sit in a shared folder that everyone on the team can open.",
+  "The assistant has been working from home, alone, with no one to call.",
+  "The interviews were held in a room you chose, without the participants' support workers."
+ ],
+ [ // 4 The identifying quote
+  "The participant is the only person in the district who matches that description.",
+  "The quote names a service that is the only one of its kind in the area.",
+  "The participant has already said the quote is the best thing they said.",
+  "The publisher requires the full transcript as supplementary data.",
+  "The participant's family has read the draft and recognised the story.",
+  "The quote is the only evidence for the theme, so the theme goes if the quote goes."
+ ],
+ [ // 5 The threshold
+  "The consent form promised confidentiality without exception.",
+  "The participant is also a colleague, and has access to your records.",
+  "Your institution's safeguarding policy has changed since you wrote the protocol.",
+  "The participant is a parent, and the children are named in what they said.",
+  "You are the only person on the project who knows the participant's name.",
+  "The participant's own safety plan says the opposite of what the threshold requires."
+ ],
+ [ // 6 The late withdrawal
+  "The consent form says data can be withdrawn at any time, but gives no deadline.",
+  "Two of your themes are built mostly on this participant's account.",
+  "The paper has been submitted, and the reviewers have already read the quote.",
+  "The participant withdraws by email to a generic inbox that is not checked for a week.",
+  "Your co-authors have already agreed the themes in a workshop.",
+  "The participant wants their data deleted and their voice kept in the paper."
+ ],
+ [ // 7 The session that becomes something else
+  "The funder's milestone is a prototype, due next month.",
+  "The participants arrived expecting a support group, not a design workshop.",
+  "The facilitator is also the participants' key worker.",
+  "Only you are taking notes, and you have been asked to stop.",
+  "The group has asked for a standing weekly slot, which the budget does not cover.",
+  "A participant discloses a crisis, and the room looks to you to respond."
+ ],
+ [ // 8 The returning participant
+  "There is no contact address left for the study, only a personal email.",
+  "The project website was taken down when funding ended.",
+  "The findings were published, but never sent back to participants.",
+  "The participant wants a full written summary, which was never promised.",
+  "The research team has moved on, and the participant does not know who to ask.",
+  "No aftercare was budgeted, and never was."
+ ],
+ [ // 9 The squeezed timeline
+  "Funding ends in six weeks.",
+  "Your ethics approval needs an amendment before recruitment can start.",
+  "The recruitment partner is on holiday for the whole window.",
+  "The only trained interviewer has been moved to another project.",
+  "The participants you need are being contacted by three other studies this month.",
+  "The team has agreed to shorten the debrief, because there is no time for it."
+ ],
+ [ // 10 Reviewer 2
+  "The journal's word limit means the method section will be cut to a paragraph.",
+  "Your PI has already written the abstract, and it says what you will find.",
+  "The reviewer is one of the authors of a study you critique.",
+  "You did not record why you held back, so there is nothing to show them.",
+  "The venue prizes effect sizes over reflexivity.",
+  "Two other reviewers have rejected similar protocols this year."
+ ],
+ [ // 11 The journalist
+  "The participant has already agreed to a phone call with the journalist.",
+  "Your press office approved the request before you were asked.",
+  "The journalist has a deadline tomorrow and has already drafted the headline.",
+  "The piece will name the participant's area, which is small enough to identify them.",
+  "Your consent form does not mention the media at all.",
+  "A campaign group has picked up the story and has its own agenda."
+ ],
+ [ // 12 Asked again
+  "The participant's first interview was recorded, and they have not heard it since.",
+  "The follow-up is run by a different researcher, who has not read the first transcript.",
+  "The participant's circumstances have changed, and you only learned that from a friend.",
+  "Your protocol has no stopping rule for follow-up sessions.",
+  "They agreed to the follow-up at the end of the first study, when it was hard to say no.",
+  "The follow-up asks the same questions, with more detail, as before."
+ ],
+ [ // 13 The storytelling circle
+  "The ethics board has never approved a method without audio recording.",
+  "Nobody on the team is from the community this is about.",
+  "The partner wants its own volunteers to facilitate, unpaid.",
+  "A participant has asked for the circle to be closed to everyone but women.",
+  "The circle is in a building with security staff on the door.",
+  "Your funder requires a published transcript within a month of the session."
+ ],
+ [ // 14 You, after the sixth interview
+  "You are the only person on the team with lived experience of this, and nobody knows.",
+  "You are two hours from the end of the last day of fieldwork.",
+  "Your supervisor is on leave for the rest of the term.",
+  "Your recordings are on a personal laptop, and you have been transcribing at night.",
+  "The next interview is booked for tomorrow morning, with no gap.",
+  "You are due to present these findings at a conference next week."
+ ],
+ [ // 15 Ethics says no
+  "Your ethics approval does not cover this.",
+  "The board's next meeting is six weeks away.",
+  "Your co-design partners have already promised the community a start date.",
+  "The board requires a named list of participants before recruitment starts.",
+  "The protocol template has no field for drop-in participation.",
+  "Most of your participants read a language other than the one the consent form is written in."
+ ],
+ [ // 16 The child who tells the room
+  "The participant is a child, and a parent is in the room.",
+  "The group is sitting in a circle, and nobody can leave without being seen.",
+  "The facilitator is the only adult the children have met today.",
+  "The disclosure is about someone else in the room.",
+  "The group's recording is in a shared cloud folder with other teams.",
+  "The session is running late, and the parents are waiting outside."
+ ],
+ [ // 17 Whose story is it
+  "The participants already call the stories theirs, and have said so in public.",
+  "The ethics board has no route for community co-authorship.",
+  "The participant wants to be named, credited, and quoted in full.",
+  "Participants signed consent forms before anyone discussed authorship.",
+  "The organisation wants the stories published under its name, not the participants'.",
+  "The anonymised stories are the only record of the campaign's history."
+ ],
+ [ // 18 The screen goes dark
+  "It is a video call and you cannot see the room.",
+  "You have no way to reach the participant except one email address.",
+  "The participant is alone at home, and has no support worker listed.",
+  "The consent form says nothing about what happens if the call drops.",
+  "The recording has stopped, and the notes from the call are yours alone.",
+  "The neglect involves a named service, and you know some of its staff."
+ ],
+ [ // 19 The room itself
+  "The room is borrowed, and the next group is waiting outside.",
+  "The building has security staff who ask for names at the door.",
+  "The room has a window facing a car park with cameras.",
+  "The participant was told it would be a friendly community space.",
+  "The only seat with arm support faces the door.",
+  "Your recorder sits on a table in the middle of the room, in plain sight."
+ ],
+ [ // 20 Say exactly what happened
+  "The colleague who interrupted is the lead on the project.",
+  "The interview guide asks about feelings in every second question.",
+  "Nobody has told the participant that their story can be told in other ways.",
+  "The colleague was trained in a method that does not allow for metaphor.",
+  "The participant has been asked this kind of question in a previous study.",
+  "The interview was booked as ninety minutes, and it ended at twenty."
+ ],
+ [ // 21 The pace they need
+  "The funder has a reporting date that cannot move.",
+  "Two participants have already been recruited and are waiting to hear back.",
+  "The participants have been displaced twice, and their contact details keep changing.",
+  "The relationship-building budget was cut in the last round of costings.",
+  "The community partner says the first meeting has to happen in person, and nobody has the travel budget.",
+  "A participant's immigration appointment has moved into the same week."
+ ]
 ];
+
+// Flat card list. A card is identified everywhere by its index here.
+var COMPLICATIONS=[];
+var COMP_SCEN=[];       // dilemma index for each card
+var COMP_OFF=[];        // true once a card the player added has been removed
+var SCEN_IDX=[];        // dilemma index -> card indices
+var CUSTOM_START=0;     // cards from this index on were added by players
+var CUSTOM_KEY='miw-custom';
+
+function addComp(t,s){
+  COMPLICATIONS.push(t); COMP_SCEN.push(s); COMP_OFF.push(false);
+  var idx=COMPLICATIONS.length-1;
+  SCEN_IDX[s].push(idx);
+  return idx;
+}
+function readCustom(){
+  try{var v=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]'); return Array.isArray(v)?v:[];}
+  catch(e){return [];}
+}
+function writeCustom(list){try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(list));}catch(e){}}
+function buildComplications(){
+  SCEN_COMPS.forEach(function(list,s){
+    SCEN_IDX[s]=[];
+    list.forEach(function(t){addComp(t,s);});
+  });
+  CUSTOM_START=COMPLICATIONS.length;
+  readCustom().forEach(function(c){
+    if(c && typeof c.t==='string' && SCENARIOS[c.s]){
+      var idx=addComp(c.t,c.s); COMP_OFF[idx]=!!c.off;
+    }
+  });
+}
+function addCustom(s,t){
+  var idx=addComp(t,s);
+  var list=readCustom(); list.push({s:s,t:t,off:false}); writeCustom(list);
+  return idx;
+}
+function removeCustom(idx){
+  COMP_OFF[idx]=true;
+  var list=readCustom(), t=COMPLICATIONS[idx], s=COMP_SCEN[idx];
+  for(var i=0;i<list.length;i++){
+    if(list[i].t===t && list[i].s===s && !list[i].off){list[i].off=true;break;}
+  }
+  writeCustom(list);
+}
+function activeFor(s){
+  return SCEN_IDX[s].filter(function(i){return !COMP_OFF[i];});
+}
 
 var PERSONAS=[
  {r:"Primary researcher",o:"Holds the relationship with participants and makes the decisions in the room.",
@@ -677,17 +913,30 @@ var SWAP_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function pad(n){return String(n).padStart(2,'0');}
 function $(id){return document.getElementById(id);}
 
+function compCard(ci){
+  var custom=ci>=CUSTOM_START, off=COMP_OFF[ci];
+  return '<article class="card comp'+(off?' removed':'')+'"><div class="card-head">'+
+    '<span class="kind">'+(custom?'Added by you':'Complication')+'</span><span class="num">'+pad(ci+1)+'</span></div>'+
+    '<p class="text">'+esc(COMPLICATIONS[ci])+'</p>'+
+    (custom&&!off?'<button type="button" class="act ghost small" data-rm="'+ci+'">Remove from library</button>':'')+
+    (off?'<p class="hint">Removed. It will not be dealt again.</p>':'')+'</article>';
+}
+
 function renderBrowse(){
+  // keep any dilemma the reader has open open after a re-render
+  var open={};
+  document.querySelectorAll('#browse details.scenlib[open]').forEach(function(d){open[d.getAttribute('data-s')]=true;});
   $('browse').innerHTML=
     '<h3 class="group-title">Scenarios</h3><div class="deckgrid">'+
     SCENARIOS.map(function(s,i){return '<article class="card scen"><div class="card-head">'+
       '<span class="kind">Scenario</span><span class="num">'+pad(i+1)+'</span></div>'+svg(s.i)+
       '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p></article>';}).join('')+
-    '</div><h3 class="group-title">Complications</h3><div class="deckgrid">'+
-    COMPLICATIONS.map(function(c,i){return '<article class="card comp"><div class="card-head">'+
-      '<span class="kind">Complication</span><span class="num">'+pad(i+1)+'</span></div>'+
-      '<p class="text">'+esc(c)+'</p></article>';}).join('')+
-    '</div><h3 class="group-title">Whose view?</h3><div class="deckgrid">'+
+    '</div><h3 class="group-title">Complications, by dilemma</h3>'+
+    SCENARIOS.map(function(s,si){
+      return '<details class="scenlib" data-s="'+si+'"'+(open[si]?' open':'')+'><summary>'+pad(si+1)+
+        ' &middot; '+esc(s.t)+' <span class="cnt">'+activeFor(si).length+'</span></summary>'+
+        '<div class="deckgrid">'+SCEN_IDX[si].map(compCard).join('')+'</div></details>';}).join('')+
+    '<h3 class="group-title">Whose view?</h3><div class="deckgrid">'+
     PERSONAS.map(function(p,i){return '<article class="card pers"><div class="card-head">'+
       '<span class="kind">Persona</span><span class="num">'+pad(i+1)+'</span></div>'+
       '<h3>'+esc(p.r)+'</h3><p class="text">'+esc(p.o)+'</p><ul class="hold">'+
@@ -863,6 +1112,7 @@ var TESTIMONY=[
 
 for(var _k in NEW_ICONS){ICONS[_k]=NEW_ICONS[_k];}
 for(var _i=0;_i<NEW_SCEN.length;_i++){SCENARIOS.push(NEW_SCEN[_i]);}
+buildComplications();
 
 var PRINCIPLES=[
  {n:"Safety",
@@ -904,31 +1154,24 @@ function newGame(count,names){
   for(i=0;i<count;i++){
     players.push({name:(names[i]&&names[i].trim())||('Player '+(i+1)),hand:[],locked:[],won:0});
   }
-  G={players:players,scenPool:shuffled(SCENARIOS.length),compPool:shuffled(COMPLICATIONS.length),
-     compDiscard:[],round:0,dealer:0,scenario:null,played:null,winner:null,
+  G={players:players,scenPool:shuffled(SCENARIOS.length),round:0,dealer:0,
+     scenario:null,played:null,winner:null,
      phase:'play',log:[],playedScenarios:[],testPool:shuffled(TESTIMONY.length),
      testimony:null};
-  for(i=0;i<players.length;i++){refill(players[i]);}
   nextRound();
 }
 
-function drawComp(){
-  if(G.compPool.length===0){
-    G.compPool=G.compDiscard;
-    G.compDiscard=[];
-    for(var j=G.compPool.length-1;j>0;j--){
-      var k=Math.floor(Math.random()*(j+1)),t=G.compPool[j];G.compPool[j]=G.compPool[k];G.compPool[k]=t;
-    }
-  }
-  return G.compPool.length?G.compPool.pop():null;
+function shuffleArr(a){
+  var b=a.slice(),j,k,t;
+  for(j=b.length-1;j>0;j--){k=Math.floor(Math.random()*(j+1));t=b[j];b[j]=b[k];b[k]=t;}
+  return b;
 }
-function refill(p){
-  var want=handSize(G?G.players.length:5);
-  while(p.hand.length<want){
-    var c=drawComp();
-    if(c===null){break;}
-    p.hand.push(c);
-  }
+// Each dilemma deals every player a fresh hand, drawn only from that dilemma's cards.
+function dealRound(){
+  var want=handSize(G.players.length);
+  G.players.forEach(function(p){
+    p.hand=shuffleArr(activeFor(G.scenario)).slice(0,want);
+  });
 }
 
 function nextRound(){
@@ -951,6 +1194,7 @@ function nextRound(){
   G.testimony=null;
   G.scenario=G.scenPool.pop();
   G.playedScenarios.push(G.scenario);
+  dealRound();
   G.phase='play';
   saveGame(); renderTable(); renderCoverage();
   say('Round '+G.round+'. '+SCENARIOS[G.scenario].t+'. '+G.players[G.dealer].name+' is dealing.');
@@ -1041,16 +1285,7 @@ function saveFlip(fix,prIdx){
     round:G.round, scenario:G.scenario, phase:SCENARIOS[G.scenario].p,
     winner:w.name, comps:w.locked.slice(), fix:fix, principle:prIdx
   });
-  // spent cards go to the discard; everyone draws back up
-  for(var i=0;i<G.players.length;i++){
-    var p=G.players[i];
-    for(var j=0;j<p.locked.length;j++){
-      var at=p.hand.indexOf(p.locked[j]);
-      if(at!==-1){p.hand.splice(at,1); G.compDiscard.push(p.locked[j]);}
-    }
-    p.locked=[]; p.passed=false;
-    refill(p);
-  }
+  for(var i=0;i<G.players.length;i++){G.players[i].locked=[]; G.players[i].passed=false;}
   G.dealer=(G.dealer+1)%G.players.length;
   saveGame(); renderMap();
   nextRound();
@@ -1257,10 +1492,12 @@ function sessionMarkdown(){
 }
 
 /* ---------- persistence ---------- */
-function saveGame(){try{localStorage.setItem('miw-game',JSON.stringify(G));}catch(e){}}
+// v2: hands are dealt per dilemma, so saves from the old deal would show mismatched cards.
+var GAME_KEY='miw-game-v2';
+function saveGame(){try{localStorage.setItem(GAME_KEY,JSON.stringify(G));}catch(e){}}
 function loadGame(){
   try{
-    var raw=localStorage.getItem('miw-game');
+    var raw=localStorage.getItem(GAME_KEY);
     if(!raw){return false;}
     var v=JSON.parse(raw);
     if(!v||!v.players||!v.players.length){return false;}
@@ -1283,7 +1520,7 @@ $('setupForm').addEventListener('submit',function(e){
 
 $('newGameBtn').addEventListener('click',function(){
   G=null;
-  try{localStorage.removeItem('miw-game');}catch(e){}
+  try{localStorage.removeItem(GAME_KEY);}catch(e){}
   $('tablePanel').hidden=true;
   $('setupPanel').hidden=false;
   renderMap();
@@ -1389,7 +1626,34 @@ if(loadGame()){
   renderTable(); renderCoverage(); renderMap();
   say('Picked up where you left off, round '+G.round+'.');
 }
+fillCompSelect();
 renderBrowse();
+
+/* ---------- add your own complication ---------- */
+function fillCompSelect(){
+  $('c-scen').innerHTML=SCENARIOS.map(function(s,i){
+    return '<option value="'+i+'">'+pad(i+1)+' — '+esc(s.t)+'</option>';}).join('');
+}
+
+$('compForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var t=$('c-text').value.trim();
+  if(!t){$('compAnnounce').textContent='Write the complication before adding it.';$('c-text').focus();return;}
+  var s=parseInt($('c-scen').value,10);
+  addCustom(s,t);
+  $('c-text').value='';
+  renderBrowse();
+  $('compAnnounce').textContent='Added to '+SCENARIOS[s].t+'. It will be dealt when that dilemma is played.';
+  $('c-text').focus();
+});
+
+$('browse').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('[data-rm]'):null;
+  if(!b){return;}
+  removeCustom(parseInt(b.getAttribute('data-rm'),10));
+  renderBrowse();
+  $('compAnnounce').textContent='Removed from the library.';
+});
 
 /* ---------- Activity 2: rule builder ---------- */
 var rules=[];
