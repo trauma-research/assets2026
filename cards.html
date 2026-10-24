@@ -1173,6 +1173,20 @@ function dealRound(){
     p.hand=shuffleArr(activeFor(G.scenario)).slice(0,want);
   });
 }
+// Swap the dilemma on the table for another one not yet played. The one put down
+// goes back into the pool, and every hand is redealt for the new dilemma.
+function swapDilemma(){
+  if(G.phase!=='play'||G.scenPool.length===0){return;}
+  var k=Math.floor(Math.random()*G.scenPool.length);
+  var next=G.scenPool[k];
+  G.scenPool[k]=G.scenario;
+  G.scenario=next;
+  G.playedScenarios[G.playedScenarios.length-1]=next;
+  G.players.forEach(function(p){p.locked=[];});
+  dealRound();
+  saveGame(); renderTable(); renderCoverage();
+  say('Swapped. Now: '+SCENARIOS[next].t+'. Everyone has a new hand.');
+}
 
 function nextRound(){
   if(G.scenPool.length===0){
@@ -1310,7 +1324,10 @@ function renderTable(){
   var s=SCENARIOS[G.scenario];
   $('scenarioSlot').innerHTML=
     '<article class="card scen big-scen"><div class="card-head"><span class="kind">Dilemma</span>'+
-    '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span></div>'+svg(s.i)+
+    '<span class="num">'+pad(G.scenario+1)+'/'+SCENARIOS.length+'</span>'+
+    '<button type="button" class="swap" data-swap="dilemma"'+
+    ((G.phase!=='play'||G.scenPool.length===0)?' disabled':'')+
+    ' aria-label="Swap this dilemma for another not yet played" title="Swap this dilemma">'+SWAP_ICON+'</button></div>'+svg(s.i)+
     '<p class="phase">'+esc(s.p)+'</p><h3>'+esc(s.t)+'</h3><p class="text">'+esc(s.x)+'</p>'+
     (G.phase==='reveal'||G.phase==='flip'
       ? '<details class="stall"><summary>If the round stalls</summary><ul>'+
@@ -1538,6 +1555,11 @@ $('seats').addEventListener('click',function(e){
   var pi=parseInt(t.getAttribute('data-p'),10);
   if(G.phase==='play'){toggleLock(pi,parseInt(t.getAttribute('data-c'),10));}
   else if(G.phase==='tie'){declareWorst(pi);}
+});
+
+$('scenarioSlot').addEventListener('click',function(e){
+  var b=e.target.closest?e.target.closest('[data-swap="dilemma"]'):null;
+  if(b){swapDilemma();}
 });
 
 $('revealBtn').addEventListener('click',function(){
