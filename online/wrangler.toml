@@ -10,6 +10,14 @@ ALLOWED_ORIGINS = "https://trauma-research.github.io,http://127.0.0.1:8768,http:
 name = "ROOMS"
 class_name = "GameRoom"
 
+[[durable_objects.bindings]]
+name = "CONTENT"
+class_name = "ContentStore"
+
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["GameRoom"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["ContentStore"]

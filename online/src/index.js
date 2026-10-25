@@ -97,7 +97,13 @@ function newRoom(code, hostToken) {
     tallyCounts: null,
     winnerId: null,
     lastMitigation: null,
+    sharedUGC: [],
   };
+}
+
+// Player-written cards from earlier tables, kept across rooms.
+function contentStore(env) {
+  return env.CONTENT.get(env.CONTENT.idFromName("shared"));
 }
 
 export class GameRoom {
@@ -122,6 +128,8 @@ export class GameRoom {
       const { code, hostToken } = await request.json();
       if (await this.load()) return new Response("Room exists.", { status: 409 });
       this.room = newRoom(code, hostToken);
+      const shared = await contentStore(this.env).fetch("https://content/list");
+      this.room.sharedUGC = await shared.json();
       await this.save();
       return new Response("ok");
     }
@@ -155,7 +163,19 @@ export class GameRoom {
     const problem = this.act(who, msg);
     if (problem) return this.send(ws, { type: "error", message: problem });
     await this.save();
+    if (msg.type === "close") await this.publishUGC();
     this.broadcast();
+  }
+
+  async publishUGC() {
+    const r = this.room;
+    if (!r.ugc.length) return;
+    const items = r.ugc.map((c) => ({ ...c, table: r.code }));
+    try {
+      await contentStore(this.env).fetch("https://content/add", { method: "POST", body: JSON.stringify(items) });
+    } catch {
+      // The session file still holds the cards, so a failed publish is not fatal.
+    }
   }
 
   async webSocketClose(ws) {
@@ -181,6 +201,7 @@ export class GameRoom {
     }
     // New player: only while the lobby is open.
     const name = typeof msg.name === "string" ? msg.name.trim() : "";
+    if (r.phase === "closed") return this.send(ws, { type: "error", message: "This game is closed." });
     if (r.phase !== "lobby") return this.send(ws, { type: "error", message: "This game has already started." });
     if (!name || name.length > MAX_NAME) return this.send(ws, { type: "error", message: `Enter a name (up to ${MAX_NAME} characters).` });
     if (r.players.length >= MAX_PLAYERS) return this.send(ws, { type: "error", message: "This room is full." });
@@ -210,7 +231,15 @@ export class GameRoom {
     const me = who.role === "player" ? r.players.find((p) => p.id === who.playerId) : null;
     const isHost = who.role === "host";
 
+    if (r.phase === "closed" && msg.type !== "close") return "This game is closed.";
+
     switch (msg.type) {
+      case "close":
+        if (!isHost) return "Only the host can close the game.";
+        if (r.phase === "closed") return "The game is already closed.";
+        r.phase = "closed";
+        return null;
+
       case "start":
         if (!isHost) return "Only the host can start the game.";
         if (r.phase !== "lobby") return "The game has already started.";
@@ -296,7 +325,7 @@ export class GameRoom {
         if (me.passed || me.skipped) return "You are out of this round.";
         const card = (r.hands[me.id] || []).find((c) => c.id === msg.cardId);
         if (!card) return "That card is not in your hand.";
-        me.locked = { id: card.id, text: card.text, ownerId: me.id };
+        me.locked = { id: card.id, text: card.text, ownerId: me.id, ugc: !!card.ugc };
         afterLock(r);
         return null;
       }
@@ -321,7 +350,8 @@ export class GameRoom {
         if (r.phase !== "lock" || r.dilemmaId === null) return "Complications can only be added during the lock-in stage.";
         const text = typeof msg.text === "string" ? msg.text.trim() : "";
         if (!text || text.length > MAX_COMPLICATION) return `Write a complication (up to ${MAX_COMPLICATION} characters).`;
-        const item = { id: `ugc-${Date.now()}-${randomHex(3)}`, text, dilemmaId: r.dilemmaId, ugc: true };
+        const dilemma = data.dilemmas.find((d) => d.id === r.dilemmaId);
+        const item = { id: `ugc-${Date.now()}-${randomHex(3)}`, text, dilemmaId: r.dilemmaId, dilemmaTitle: dilemma.title, dilemmaCategory: dilemma.category, dilemmaPhase: dilemma.phase, author: me.name, ugc: true };
         r.ugc.push(item);
         (r.hands[me.id] ||= []).push(item);
         return null;
@@ -395,7 +425,7 @@ function startRound(r) {
   r.dilemmaId = id;
   r.testimonyId = null;
   const pool = dilemma.complications.map((text, i) => ({ id: `d${id}-c${i + 1}`, text, ugc: false, dilemmaId: id }));
-  const ugc = r.ugc.filter((c) => c.dilemmaId === id);
+  const ugc = [...r.sharedUGC, ...r.ugc].filter((c, i, all) => c.dilemmaId === id && all.findIndex((x) => x.id === c.id) === i);
   const handSize = r.players.length >= 5 ? 2 : 3;
   r.players.forEach((p) => {
     r.hands[p.id] = shuffle([...pool, ...ugc]).slice(0, handSize);
@@ -488,7 +518,7 @@ function viewFor(r, who, online) {
     myVote: me?.voted ?? null,
     myReflection: me && r.reflections[me.id] ? r.reflections[me.id] : null,
     revealed: revealed && r.kind === "dilemma"
-      ? r.players.filter((p) => p.locked).map((p) => ({ ownerId: p.id, ownerName: p.name, text: p.locked.text }))
+      ? r.players.filter((p) => p.locked).map((p) => ({ ownerId: p.id, ownerName: p.name, text: p.locked.text, ugc: p.locked.ugc }))
       : [],
     tieCandidates: r.phase === "tie"
       ? r.tieCandidates.map((id) => ({ id, name: nameOf(id), text: r.players.find((p) => p.id === id)?.locked?.text ?? "" }))
@@ -501,5 +531,36 @@ function viewFor(r, who, online) {
       ? Object.entries(r.reflections).map(([id, v]) => ({ playerName: nameOf(id), text: v.text, principle: v.principle }))
       : null,
     lastMitigation: isHost ? r.lastMitigation : null,
+    // Every complication players have written this table, labelled as player-generated (UGC).
+    sharedComplications: isHost ? r.sharedUGC.length : null,
+    playerComplications: isHost
+      ? r.ugc.map((c) => ({ text: c.text, dilemmaTitle: c.dilemmaTitle, dilemmaCategory: c.dilemmaCategory, dilemmaPhase: c.dilemmaPhase, author: c.author }))
+      : null,
   };
+}
+
+// One store for all tables: every player-written card that has been published, de-duplicated.
+export class ContentStore {
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+    const items = (await this.ctx.storage.get("ugc")) ?? [];
+    if (url.pathname === "/list") return json(items, 200, {});
+    if (url.pathname === "/add" && request.method === "POST") {
+      const incoming = await request.json();
+      const seen = new Set(items.map((c) => `${c.dilemmaId}|${c.text.toLowerCase()}`));
+      for (const c of incoming) {
+        const key = `${c.dilemmaId}|${c.text.toLowerCase()}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        items.push({ id: c.id, text: c.text, dilemmaId: c.dilemmaId, dilemmaTitle: c.dilemmaTitle, dilemmaCategory: c.dilemmaCategory, dilemmaPhase: c.dilemmaPhase, author: c.author, table: c.table, ugc: true });
+      }
+      await this.ctx.storage.put("ugc", items);
+      return json({ total: items.length }, 200, {});
+    }
+    return json({ error: "Not found." }, 404, {});
+  }
 }

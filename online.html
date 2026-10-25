@@ -76,7 +76,7 @@ ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:8px 0;border-bot
 </section>
 
 <section id="roomView" class="hidden">
- <div class="section-head"><div><div class="eyebrow" id="roleLabel"></div><h2>Table <span id="roomCode"></span></h2><p class="small muted" id="shareLine"></p></div><div id="hostTools" class="actions hidden" style="margin-top:0"><button class="secondary" id="chooseFolderBtn">Choose save folder</button><span id="folderStatus" class="small muted" aria-live="polite"></span></div></div>
+ <div class="section-head"><div><div class="eyebrow" id="roleLabel"></div><h2>Table <span id="roomCode"></span></h2><p class="small muted" id="shareLine"></p></div><div id="hostTools" class="actions hidden" style="margin-top:0"><button class="secondary" id="chooseFolderBtn">Choose save folder</button><span id="folderStatus" class="small muted" aria-live="polite"></span><button class="danger hidden" id="closeGameBtn">Close game</button></div></div>
  <div id="status" class="status hidden" role="status" aria-live="polite"></div>
 
  <section id="joinPanel" class="panel hidden">
@@ -201,6 +201,7 @@ function render(){
   ? `Players join at ${location.origin}${location.pathname}?room=${view.code}`
   : `Playing as ${view.you?.name??""}`;
  $("#hostTools").classList.toggle("hidden",!isHost);
+ $("#closeGameBtn").classList.toggle("hidden",!isHost||view.phase==="closed");
  $("#joinPanel").classList.add("hidden");
 
  if(view.phase==="lobby"){
@@ -220,9 +221,9 @@ function render(){
 }
 
 function renderGame(isHost){
- $("#roundEyebrow").textContent=view.phase==="finished"?"Game complete":`Round ${view.round}`;
+ $("#roundEyebrow").textContent=view.phase==="closed"?"Game closed":view.phase==="finished"?"Game complete":`Round ${view.round}`;
  $("#deckLabel").textContent=`${view.deckLeft} dilemmas left in the deck`;
- $("#roundHeading").textContent=view.phase==="finished"?"All dilemmas have been played":
+ $("#roundHeading").textContent=view.phase==="closed"?"This game has ended":view.phase==="finished"?"All dilemmas have been played":
    view.kind==="testimony"?(view.testimony?.title||"Testimony round"):(view.dilemma?.title||"");
  $("#roundMeta").textContent=view.kind==="testimony"?"Testimony round · no complication cards":
    view.dilemma?`${view.dilemma.category} · ${view.dilemma.phase}`:"";
@@ -248,6 +249,7 @@ function renderSeats(isHost){
 
 function renderCard(){
  const area=$("#cardArea");
+ if(view.phase==="closed"){area.innerHTML="";return;}
  if(view.phase==="finished"){area.innerHTML=`<div class="scenario-card"><div class="scenario-body"><h2>That’s all the dilemmas.</h2><p>The library and session notes are kept by the host.</p></div></div>`;return;}
  if(view.kind==="testimony"&&view.testimony){
   area.innerHTML=`<div class="scenario-card"><div class="scenario-top"><div class="eyebrow">Testimony card · Round ${view.round}</div><h2>${esc(view.testimony.title)}</h2></div><div class="scenario-body"><blockquote style="margin:0;font-size:18px;line-height:1.6">“${esc(view.testimony.account)}”</blockquote><p class="small muted" style="margin-top:16px">Read the account aloud in full. No complication cards are used.</p>${prompts(view.testimony.prompts)}</div></div>`;
@@ -272,6 +274,12 @@ function renderActions(isHost){
  const parts=[];
  const phase=view.phase;
  const me=view.players.find(p=>p.id===view.you?.playerId);
+ if(phase==="closed"){
+  area.innerHTML=isHost
+   ? `<section class="panel"><h3>Game closed</h3><p class="sub">The session library was saved to this device. Start a new table when the group is ready.</p><div class="actions"><button data-act="newTable">Start a new game</button></div></section>`
+   : `<section class="panel"><h3>The host has closed this game</h3><p class="sub">Thank you for playing. The library is kept by the host.</p><p><a href="${esc(location.pathname)}">Start or join another table</a></p></section>`;
+  return;
+ }
 
  if(isHost) parts.push(hostPanel());
  if(!isHost && view.you) parts.push(playerPanel(me));
@@ -279,7 +287,7 @@ function renderActions(isHost){
 
  // Shared results once cards are on the table
  if(["reveal","tie","mitigation","between"].includes(phase)&&view.revealed.length){
-  parts.push(`<section class="panel"><h3>On the table</h3>${view.revealed.map(c=>`<div class="playing-card" style="margin-bottom:10px"><div class="cardtext">${esc(c.text)}</div><div class="meta">Played by ${esc(c.ownerName)}${view.tally?` · ${view.tally[c.ownerId]??0} vote(s)`:""}${view.winnerId===c.ownerId?" · worst card":""}</div></div>`).join("")}</section>`);
+  parts.push(`<section class="panel"><h3>On the table</h3>${view.revealed.map(c=>`<div class="playing-card" style="margin-bottom:10px"><div class="cardtext">${esc(c.text)}</div><div class="meta">${c.ugc?'<strong>Player-added (UGC)</strong> · ':""}Played by ${esc(c.ownerName)}${view.tally?` · ${view.tally[c.ownerId]??0} vote(s)`:""}${view.winnerId===c.ownerId?" · worst card":""}</div></div>`).join("")}</section>`);
  }
  area.innerHTML=parts.join("");
 }
@@ -367,6 +375,7 @@ document.addEventListener("click",async e=>{
  const b=e.target.closest("[data-act]");
  if(!b||b.disabled) return;
  const type=b.dataset.act;
+ if(type==="newTable"){createTable();return;}
  if(type==="finishTestimony"){
   if(!confirm("Finish the testimony round? The reflections will be filed to the library.")) return;
   await saveReflections();
@@ -449,10 +458,14 @@ function entryMarkdown(entry,savedAt){
   `# ${entry.kind==="mitigation"?"Mitigation":"Testimony reflection"}`,"",
   entry.text.trim(),""].join("\n");
 }
-async function saveEntry(entry){
- const savedAt=new Date();
- const name=`library-${savedAt.toISOString().replace(/[:.]/g,"-")}.md`;
- const md=entryMarkdown(entry,savedAt);
+// Every library entry is remembered per table, so the session file can include all of them.
+let libraryLog=[];
+function loadLibraryLog(){try{libraryLog=JSON.parse(localStorage.getItem("cgLibrary:"+roomCode)||"[]");}catch(e){libraryLog=[];}}
+function rememberEntry(entry){
+ libraryLog.push({...entry,savedAt:new Date().toISOString()});
+ try{localStorage.setItem("cgLibrary:"+roomCode,JSON.stringify(libraryLog));}catch(e){}
+}
+async function writeLibraryFile(name,md){
  if(folderHandle){
   try{
    if(await folderHandle.queryPermission({mode:"readwrite"})!=="granted"&&await folderHandle.requestPermission({mode:"readwrite"})!=="granted") throw new Error("no permission");
@@ -464,7 +477,54 @@ async function saveEntry(entry){
  const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+async function saveEntry(entry){
+ rememberEntry(entry);
+ const savedAt=new Date();
+ const name=`library-${savedAt.toISOString().replace(/[:.]/g,"-")}.md`;
+ await writeLibraryFile(name,entryMarkdown(entry,savedAt));
+}
+function sessionMarkdown(closedAt,complications){
+ const head=["---",`table: ${roomCode}`,`closed: ${closedAt.toISOString()}`,`entries: ${libraryLog.length}`,`player_added_complications: ${complications.length}`,"---","","# Common Ground session library",""];
+ if(!libraryLog.length) return [...head,"No library entries were saved in this session.",""].join("\n");
+ const body=libraryLog.map((e,i)=>{
+  const title=e.kind==="mitigation"?`Mitigation: ${e.dilemmaTitle??""}`:`Testimony reflection: ${e.testimonyTitle??""}`;
+  const lines=[`## ${i+1}. ${title}`,""];
+  if(e.round!==undefined) lines.push(`- Round: ${e.round}`);
+  if(e.winnerName) lines.push(`- Worst card played by: ${e.winnerName}`);
+  lines.push(`- Principles: ${(e.principleNames||[]).join("; ")}`,`- Saved: ${e.savedAt}`,"",e.text.trim(),"");
+  return lines.join("\n");
+ });
+ const ugc=complications.length
+  ? ["","## Player-added complications (UGC)","","Written by players during this table. Not part of the built-in cards.",""].concat(complications.map(c=>`- [UGC] ${c.text} (dilemma: ${c.dilemmaTitle}; added by ${c.author})`))
+  : [];
+ return [...head,...body,...ugc].join("\n");
+}
+// Player-written cards in content.md layout, for merging into content.md after review.
+function contentFileMarkdown(closedAt,complications){
+ const byDilemma=new Map();
+ complications.forEach(c=>{
+  if(!byDilemma.has(c.dilemmaTitle)) byDilemma.set(c.dilemmaTitle,{category:c.dilemmaCategory,phase:c.dilemmaPhase,items:[]});
+  byDilemma.get(c.dilemmaTitle).items.push(c);
+ });
+ const lines=["# Common Ground: player-written complications","",
+  `Added at table ${roomCode} on ${closedAt.toISOString()}. These cards are already available to new tables. Merge them into content.md when they have been reviewed.`,""];
+ byDilemma.forEach((d,title)=>{
+  lines.push(`### ${title}`,"",`- **Category:** ${d.category}`,`- **Phase:** ${d.phase}`,"","**Player-written complications**","");
+  d.items.forEach((c,i)=>lines.push(`${i+1}. ${c.text} _(added by ${c.author})_`));
+  lines.push("");
+ });
+ return lines.join("\n");
+}
+async function closeGame(){
+ if(!view||view.you?.role!=="host") return;
+ if(!confirm("Close this game? The session library will be saved to the folder, and players will be told the game has ended.")) return;
+ const closedAt=new Date();
+ await writeLibraryFile(`session-${roomCode}-${closedAt.toISOString().replace(/[:.]/g,"-")}.md`,sessionMarkdown(closedAt,view.playerComplications||[]));
+ if((view.playerComplications||[]).length) await writeLibraryFile(`content-ugc-${roomCode}-${closedAt.toISOString().replace(/[:.]/g,"-")}.md`,contentFileMarkdown(closedAt,view.playerComplications));
+ send({type:"close"});
+}
 $("#chooseFolderBtn").addEventListener("click",chooseFolder);
+$("#closeGameBtn").addEventListener("click",closeGame);
 
 // ---- Start ----
 (async function start(){
@@ -473,6 +533,7 @@ $("#chooseFolderBtn").addEventListener("click",chooseFolder);
  if(!hostToken) hostToken=localStorage.getItem("cgHost:"+roomCode)||"";
  if(hostToken) localStorage.setItem("cgHost:"+roomCode,hostToken);
  playerToken=localStorage.getItem("cgPlayer:"+roomCode);
+ loadLibraryLog();
  showOnly("roomView");
  connect();
 })();
