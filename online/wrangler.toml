@@ -1,0 +1,15 @@
+name = "common-ground-online"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# Pages origins allowed to create rooms and connect. Add a new origin here if the site moves.
+[vars]
+ALLOWED_ORIGINS = "https://trauma-research.github.io,http://127.0.0.1:8768,http://localhost:8768"
+
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "GameRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GameRoom"]
