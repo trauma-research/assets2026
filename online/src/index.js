@@ -278,6 +278,22 @@ export class GameRoom {
         r.phase = "reveal";
         return null;
 
+      case "swapDilemma": {
+        if (!isHost) return "Only the host can swap the dilemma.";
+        if (r.phase !== "lock" || r.dilemmaId === null) return "The dilemma can only be swapped during lock-in.";
+        if (!r.dilemmaDeck.length) return "There is no other dilemma to swap to.";
+        const next = r.dilemmaDeck.splice(Math.floor(Math.random() * r.dilemmaDeck.length), 1)[0];
+        r.dilemmaDeck.push(r.dilemmaId);
+        r.dilemmaId = next;
+        r.players.forEach((p) => {
+          p.locked = null;
+          p.voted = null;
+        });
+        dealHands(r, next);
+        afterLock(r);
+        return null;
+      }
+
       case "skipRound":
         if (!isHost) return "Only the host can end the round.";
         if (r.phase !== "ready") return "Nothing to end yet.";
@@ -421,17 +437,23 @@ function startRound(r) {
   }
 
   const id = r.dilemmaDeck.shift();
-  const dilemma = data.dilemmas.find((d) => d.id === id);
   r.dilemmaId = id;
   r.testimonyId = null;
+  dealHands(r, id);
+  r.phase = "lock";
+  return null;
+}
+
+// Every player gets a fresh hand: the dilemma's built-in cards plus player-written cards for it.
+function dealHands(r, id) {
+  const dilemma = data.dilemmas.find((d) => d.id === id);
   const pool = dilemma.complications.map((text, i) => ({ id: `d${id}-c${i + 1}`, text, ugc: false, dilemmaId: id }));
   const ugc = [...r.sharedUGC, ...r.ugc].filter((c, i, all) => c.dilemmaId === id && all.findIndex((x) => x.id === c.id) === i);
   const handSize = r.players.length >= 5 ? 2 : 3;
+  r.hands = {};
   r.players.forEach((p) => {
     r.hands[p.id] = shuffle([...pool, ...ugc]).slice(0, handSize);
   });
-  r.phase = "lock";
-  return null;
 }
 
 // Once nobody is still deciding, the table can reveal.

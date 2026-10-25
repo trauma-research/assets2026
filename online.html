@@ -64,7 +64,7 @@ ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:8px 0;border-bot
 <body>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
 <div class="shell">
-<header class="topbar"><div class="brand"><div><div class="eyebrow">Online table</div><strong>Common Ground</strong></div></div><span id="conn" class="small muted" aria-live="polite"></span></header>
+<header class="topbar"><div class="brand"><div><div class="eyebrow">Online table</div><strong>Common Ground</strong></div></div><div class="actions" style="margin-top:0;align-items:center"><span id="conn" class="small muted" aria-live="polite"></span><button class="secondary theme-toggle" id="themeToggle" type="button"></button></div></header>
 <main id="mainContent" tabindex="-1">
 
 <section id="startView" class="hidden">
@@ -76,7 +76,7 @@ ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:8px 0;border-bot
 </section>
 
 <section id="roomView" class="hidden">
- <div class="section-head"><div><div class="eyebrow" id="roleLabel"></div><h2>Table <span id="roomCode"></span></h2><p class="small muted" id="shareLine"></p></div><div id="hostTools" class="actions hidden" style="margin-top:0"><button class="secondary" id="chooseFolderBtn">Choose save folder</button><span id="folderStatus" class="small muted" aria-live="polite"></span><button class="danger hidden" id="closeGameBtn">Close game</button></div></div>
+ <div class="section-head"><div><div class="eyebrow" id="roleLabel"></div><h2>Table <span id="roomCode"></span></h2><p class="small muted" id="shareLine"></p></div><div id="hostTools" class="actions hidden" style="margin-top:0"><button class="secondary" id="chooseFolderBtn">Choose save folder</button><span id="folderStatus" class="small muted" aria-live="polite"></span><button class="secondary" id="howBtn">How to play</button><button class="danger hidden" id="closeGameBtn">Close game</button></div></div>
  <div id="status" class="status hidden" role="status" aria-live="polite"></div>
 
  <section id="joinPanel" class="panel hidden">
@@ -109,6 +109,15 @@ ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:8px 0;border-bot
 </main>
 <footer class="footer">Common Ground online · Cards are only shown to the player who holds them, until the table reveals.</footer>
 </div>
+<dialog id="howDialog" aria-labelledby="howDialogTitle"><div class="dialog-inner"><div class="section-head"><h2 id="howDialogTitle">How to run the table</h2><button type="button" class="secondary" id="closeHowBtn" aria-label="Close how to run the table">Close</button></div><div>
+<p><strong>1. Choose privately.</strong> Each player sees only their own hand on their own device. They lock in one complication, or pass.</p>
+<p><strong>2. Reveal together.</strong> When everyone has decided, reveal the cards. Read each one and discuss who it could harm and how.</p>
+<p><strong>3. Vote.</strong> Each player with a card on the table votes for the one that does the most damage. Nobody can vote for their own card. If the vote is tied, you choose.</p>
+<p><strong>4. Agree a mitigation.</strong> Write one practical change and file it under the principle or principles it serves.</p>
+<p><strong>Testimony rounds.</strong> Every fourth round, each player writes one reflection on their own device. You file them under principles when the round is finished.</p>
+<p><strong>Running the table.</strong> Skip anyone who is away. Swap the dilemma during lock-in if it does not suit the group. When the session is over, close the game to save the library and session notes to the folder.</p>
+<p>Anyone may pass. Do not ask people to share personal trauma; respect confidentiality; avoid graphic detail; and pause if the discussion becomes overwhelming.</p>
+</div></div></dialog>
 <script>
 const ONLINE_API="https://common-ground-online.fuellingdreams44.workers.dev";
 const $=s=>document.querySelector(s);
@@ -121,6 +130,20 @@ const roomCode=(params.get("room")||"").toUpperCase();
 let hostToken=params.get("host")||"";
 let playerToken=null;
 let ws=null, view=null, wantReconnect=true;
+const THEMES=[{id:"classic",name:"Classic"},{id:"forest",name:"Forest"},{id:"ocean",name:"Ocean"},{id:"sand",name:"Sand"}];
+function applyTheme(id){
+ const t=THEMES.find(x=>x.id===id)||THEMES[0];
+ if(t.id==="classic")document.documentElement.removeAttribute("data-theme");
+ else document.documentElement.setAttribute("data-theme",t.id);
+ $("#themeToggle").textContent="Theme: "+t.name;
+ return t.id;
+}
+let themeId=applyTheme((()=>{try{return localStorage.getItem("commonGroundTheme")||"classic";}catch(e){return "classic";}})());
+$("#themeToggle").addEventListener("click",()=>{
+ const next=THEMES[(THEMES.findIndex(x=>x.id===themeId)+1)%THEMES.length].id;
+ themeId=applyTheme(next);
+ try{localStorage.setItem("commonGroundTheme",themeId);}catch(e){}
+});
 const canPickFolder=typeof window.showDirectoryPicker==="function";
 let folderHandle=null;
 
@@ -301,7 +324,7 @@ function hostPanel(){
  if(phase==="lobby") return "";
  out.push(`<section class="panel"><h3>Host controls</h3>`);
  if(phase==="lock"){
-  out.push(`<p class="sub">Players are choosing privately. Skip anyone who is away or cannot take part this round.</p><div class="actions">${skipButtons()}${unskipButtons}</div>`);
+  out.push(`<p class="sub">Players are choosing privately. Skip anyone who is away or cannot take part this round.</p><div class="actions">${skipButtons()}${unskipButtons}<button class="secondary" data-act="swapDilemma">Swap dilemma</button></div>`);
  }
  if(phase==="ready"){
   const anyLocked=view.players.some(p=>p.hasLocked);
@@ -525,6 +548,10 @@ async function closeGame(){
 }
 $("#chooseFolderBtn").addEventListener("click",chooseFolder);
 $("#closeGameBtn").addEventListener("click",closeGame);
+const howDialog=$("#howDialog");
+$("#howBtn").addEventListener("click",()=>{if(typeof howDialog.showModal==="function")howDialog.showModal();else howDialog.setAttribute("open","");});
+$("#closeHowBtn").addEventListener("click",()=>{if(typeof howDialog.close==="function")howDialog.close();else howDialog.removeAttribute("open");});
+howDialog.addEventListener("click",e=>{if(e.target===howDialog)howDialog.close();});
 
 // ---- Start ----
 (async function start(){
